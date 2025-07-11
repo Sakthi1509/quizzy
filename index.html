@@ -3,8 +3,26 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="description" content="Test your Python skills with Quizzy! Timed quizzes, code-friendly format, and live results.">
+
+  <!-- 🔹 Open Graph Meta (Facebook, WhatsApp, etc.) -->
+  <meta property="og:title" content="Quizzy - The Quiz App">
+  <meta property="og:description" content="Test your skill">
+  <meta property="og:image" content="https://quizzy-009.web.app/game.png"> <!-- Replace with full image URL -->
+  <meta property="og:url" content="https://quizzy-009.web.app">
+  <meta property="og:type" content="website">
+
+  <!-- 🔹 Twitter Meta -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Quizzy - The Quiz App">
+  <meta name="twitter:description" content="Test your skill">
+  <meta name="twitter:image" content="https://quizzy-009.web.app/game.png"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quizzy - Professional Quiz App</title>
+    <title>Quizzy</title>
+    <!-- Light mode icon -->
+<link id="favicon" rel="icon" href="game.png">
+
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -311,9 +329,9 @@
         /* Auth Footer Links */
         .auth-footer {
             text-align: center;
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
+            
             border-top: 1px solid #f0f0f0;
+                       
         }
 
         .auth-footer a {
@@ -321,11 +339,13 @@
             font-weight: 500;
             text-decoration: none;
             transition: all 0.3s;
+            
         }
 
         .auth-footer a:hover {
-            text-decoration: underline;
             color: #3a56d4;
+                        text-decoration: none;
+
         }
 
         /* Terms Container */
@@ -371,6 +391,85 @@
         .quiz-details-modal .list-group-item-success {
             background-color: rgba(76, 175, 80, 0.1);
         }
+
+.explanation {
+    background-color: #f8f9fa;
+    border-left: 4px solid var(--primary-color);
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+}
+#auth-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}/* Add to your existing CSS */
+/* Code Block Styles */
+.code-container {
+    margin: 15px 0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.code-content {
+    font-family: 'Courier New', Courier, monospace;
+    white-space: pre;
+    tab-size: 4;
+    background-color: #f5f5f5;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+    min-height: 100px;
+}
+
+.code-display {
+    background-color: #282a36;
+    color: #f8f8f2;
+    padding: 15px;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 15px 0;
+}
+
+.code-display pre {
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+.language-select {
+    margin-right: 10px;
+}
+
+/* Syntax Highlighting Classes */
+.code-javascript { background-color: #282a36; }
+.code-python { background-color: #3572A5; color: white; }
+.code-java { background-color: #b07219; color: white; }
+.code-csharp { background-color: #178600; color: white; }
+.code-cpp { background-color: #f34b7d; color: white; }
+.code-php { background-color: #4F5D95; color: white; }
+.code-ruby { background-color: #701516; color: white; }
+
+/* Button Styles */
+.add-code-btn, .remove-code-btn {
+    margin-top: 5px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .code-content {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
     </style>
 </head>
 
@@ -380,9 +479,11 @@
 
     <div id="app-container">
         <!-- Auth Screens -->
-        <div id="auth-container" class="auth-container">
+        <div id="auth-container" class="auth-container">                    <h2 class="mb-4 text-center">PKN College Dept Of IT </h2>
+
             <ul class="nav nav-tabs auth-tabs" id="authTabs" role="tablist">
                 <li class="nav-item" role="presentation">
+                    
                     <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login-form"
                         type="button" role="tab">Login</button>
                 </li>
@@ -394,7 +495,6 @@
 
             <div class="tab-content">
                 <div class="tab-pane fade show active auth-form" id="login-form" role="tabpanel">
-                    <h2 class="mb-4 text-center">Welcome Back!</h2>
                     <div class="mb-3">
                         <label for="login-email" class="form-label">Email</label>
                         <input type="email" class="form-control" id="login-email" placeholder="Enter your email">
@@ -414,7 +514,6 @@
                 </div>
 
                 <div class="tab-pane fade auth-form" id="register-form" role="tabpanel">
-                    <h2 class="mb-4 text-center">Create Account</h2>
                     <div class="mb-3">
                         <label for="register-name" class="form-label">Name</label>
                         <input type="text" class="form-control" id="register-name" placeholder="Enter your name">
@@ -480,7 +579,13 @@
                 <div id="reset-success" class="text-success mt-2 text-center"></div>
             </div>
         </div>
-
+        <!-- Add this inside your auth-container div, after the tab-content div -->
+<div id="auth-loading" class="text-center hidden">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Processing...</p>
+</div>
 
         <!-- Teacher Dashboard -->
         <div id="teacher-dashboard" class="container mt-4 hidden">
@@ -629,1259 +734,1408 @@
     <!-- Replace your toastr script with this -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script>
-        // Firebase Configuration and Initialization
-        const firebaseConfig = {
-            apiKey: "AIzaSyDPf30guBLIarjbA530onMtfDubnF1S4HA",
-            authDomain: "quizzy-009.firebaseapp.com",
-            projectId: "quizzy-009",
-            storageBucket: "quizzy-009.appspot.com",
-            messagingSenderId: "404889113357",
-            appId: "1:404889113357:web:50c112295fff6ea3935644",
-            databaseURL: "https://quizzy-009-default-rtdb.firebaseio.com/"
-        };
+    // Firebase Configuration and Initialization
+    const firebaseConfig = {
+        apiKey: "AIzaSyDPf30guBLIarjbA530onMtfDubnF1S4HA",
+        authDomain: "quizzy-009.firebaseapp.com",
+        projectId: "quizzy-009",
+        storageBucket: "quizzy-009.appspot.com",
+        messagingSenderId: "404889113357",
+        appId: "1:404889113357:web:50c112295fff6ea3935644",
+        databaseURL: "https://quizzy-009-default-rtdb.firebaseio.com/"
+    };
 
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const database = firebase.database();
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const database = firebase.database();
 
-        // Initialize Bootstrap components
-        const authTabs = new bootstrap.Tab(document.getElementById('login-tab'));
-        const quizCreationModal = new bootstrap.Modal(document.getElementById('quiz-creation-modal'));
-        const viewResultsModal = new bootstrap.Modal(document.getElementById('viewResultsModal'));
+    // Initialize Bootstrap components
+    const authTabs = new bootstrap.Tab(document.getElementById('login-tab'));
+    const quizCreationModal = new bootstrap.Modal(document.getElementById('quiz-creation-modal'));
+    const viewResultsModal = new bootstrap.Modal(document.getElementById('viewResultsModal'));
 
-        // Toastr configuration
-        toastr.options = {
-            "closeButton": true,
-            "progressBar": true,
-            "positionClass": "toast-top-right",
-            "preventDuplicates": true,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000"
-        };
+    // Toastr configuration
+    toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": true,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000"
+    };
 
-        // DOM Elements
-        const authContainer = document.getElementById('auth-container');
-        const loginTab = document.getElementById('login-tab');
-        const registerTab = document.getElementById('register-tab');
-        const loginForm = document.getElementById('login-form');
-        const registerForm = document.getElementById('register-form');
-        const forgotPasswordForm = document.getElementById('forgot-password-form');
-        const loginBtn = document.getElementById('login-btn');
-        const registerBtn = document.getElementById('register-btn');
-        const forgotPasswordBtn = document.getElementById('forgot-password-btn');
-        const resetPasswordBtn = document.getElementById('reset-password-btn');
-        const backToLoginBtn = document.getElementById('back-to-login-btn');
-        const loginEmail = document.getElementById('login-email');
-        const loginPassword = document.getElementById('login-password');
-        const registerName = document.getElementById('register-name');
-        const registerEmail = document.getElementById('register-email');
-        const registerPassword = document.getElementById('register-password');
-        const registerRole = document.getElementById('register-role');
-        const resetEmail = document.getElementById('reset-email');
-        const loginError = document.getElementById('login-error');
-        const registerError = document.getElementById('register-error');
-        const resetError = document.getElementById('reset-error');
-        const resetSuccess = document.getElementById('reset-success');
-        const studentTerms = document.getElementById('student-terms');
-        const acceptTerms = document.getElementById('accept-terms');
+    // DOM Elements
+    const authContainer = document.getElementById('auth-container');
+    const loginTab = document.getElementById('login-tab');
+    const registerTab = document.getElementById('register-tab');
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const forgotPasswordForm = document.getElementById('forgot-password-form');
+    const loginBtn = document.getElementById('login-btn');
+    const registerBtn = document.getElementById('register-btn');
+    const forgotPasswordBtn = document.getElementById('forgot-password-btn');
+    const resetPasswordBtn = document.getElementById('reset-password-btn');
+    const backToLoginBtn = document.getElementById('back-to-login-btn');
+    const loginEmail = document.getElementById('login-email');
+    const loginPassword = document.getElementById('login-password');
+    const registerName = document.getElementById('register-name');
+    const registerEmail = document.getElementById('register-email');
+    const registerPassword = document.getElementById('register-password');
+    const registerRole = document.getElementById('register-role');
+    const resetEmail = document.getElementById('reset-email');
+    const loginError = document.getElementById('login-error');
+    const registerError = document.getElementById('register-error');
+    const resetError = document.getElementById('reset-error');
+    const resetSuccess = document.getElementById('reset-success');
+    const studentTerms = document.getElementById('student-terms');
+    const acceptTerms = document.getElementById('accept-terms');
+    const authLoading = document.getElementById('auth-loading');
+    const teacherDashboard = document.getElementById('teacher-dashboard');
+    const studentDashboard = document.getElementById('student-dashboard');
+    const logoutBtn = document.getElementById('logout-btn');
+    const studentLogoutBtn = document.getElementById('student-logout-btn');
+    const createQuizBtn = document.getElementById('create-quiz-btn');
+    const quizList = document.getElementById('quiz-list');
+    const quizLinkInput = document.getElementById('quiz-link-input');
+    const joinQuizBtn = document.getElementById('join-quiz-btn');
+    const studentQuizList = document.getElementById('student-quiz-list');
 
-        const teacherDashboard = document.getElementById('teacher-dashboard');
-        const studentDashboard = document.getElementById('student-dashboard');
-        const logoutBtn = document.getElementById('logout-btn');
-        const studentLogoutBtn = document.getElementById('student-logout-btn');
-        const createQuizBtn = document.getElementById('create-quiz-btn');
-        const quizList = document.getElementById('quiz-list');
-        const quizLinkInput = document.getElementById('quiz-link-input');
-        const joinQuizBtn = document.getElementById('join-quiz-btn');
-        const studentQuizList = document.getElementById('student-quiz-list');
+    const quizTitle = document.getElementById('quiz-title');
+    const quizDescription = document.getElementById('quiz-description');
+    const quizSessionEnd = document.getElementById('quiz-session-end');
+    const questionsContainer = document.getElementById('questions-container');
+    const addQuestionBtn = document.getElementById('add-question-btn');
+    const saveQuizBtn = document.getElementById('save-quiz-btn');
 
-        const quizTitle = document.getElementById('quiz-title');
-        const quizDescription = document.getElementById('quiz-description');
-        const quizSessionEnd = document.getElementById('quiz-session-end');
-        const questionsContainer = document.getElementById('questions-container');
-        const addQuestionBtn = document.getElementById('add-question-btn');
-        const saveQuizBtn = document.getElementById('save-quiz-btn');
+    const quizTakingContainer = document.getElementById('quiz-taking-container');
+    const quizTakingTitle = document.getElementById('quiz-taking-title');
+    const quizTimer = document.getElementById('quiz-timer');
+    const timeDisplay = document.getElementById('time-display');
+    const quizDescriptionDisplay = document.getElementById('quiz-description-display');
+    const quizQuestionsContainer = document.getElementById('quiz-questions-container');
+    const submitQuizBtn = document.getElementById('submit-quiz-btn');
+    const prevQuestionBtn = document.getElementById('prev-question-btn');
+    const nextQuestionBtn = document.getElementById('next-question-btn');
+    const questionProgress = document.getElementById('question-progress');
+    const questionIndicator = document.getElementById('question-indicator');
 
-        const quizTakingContainer = document.getElementById('quiz-taking-container');
-        const quizTakingTitle = document.getElementById('quiz-taking-title');
-        const quizTimer = document.getElementById('quiz-timer');
-        const timeDisplay = document.getElementById('time-display');
-        const quizDescriptionDisplay = document.getElementById('quiz-description-display');
-        const quizQuestionsContainer = document.getElementById('quiz-questions-container');
-        const submitQuizBtn = document.getElementById('submit-quiz-btn');
-        const prevQuestionBtn = document.getElementById('prev-question-btn');
-        const nextQuestionBtn = document.getElementById('next-question-btn');
-        const questionProgress = document.getElementById('question-progress');
-        const questionIndicator = document.getElementById('question-indicator');
+    const quizResultsContainer = document.getElementById('quiz-results-container');
+    const resultsSummary = document.getElementById('results-summary');
+    const resultsDetails = document.getElementById('results-details');
+    const backToDashboardBtn = document.getElementById('back-to-dashboard-btn');
+    const modalResultsContent = document.getElementById('modal-results-content');
 
-        const quizResultsContainer = document.getElementById('quiz-results-container');
-        const resultsSummary = document.getElementById('results-summary');
-        const resultsDetails = document.getElementById('results-details');
-        const backToDashboardBtn = document.getElementById('back-to-dashboard-btn');
-        const modalResultsContent = document.getElementById('modal-results-content');
+    // Global Variables
+    let currentUser = null;
+    let currentUserRole = null;
+    let currentQuizId = null;
+    let quizTimerInterval = null;
+    let timeLeft = 0;
+    let userAnswers = {};
+    let currentQuestionIndex = 0;
+    let quizQuestions = [];
+    let questionTimers = {};
+    let quizStartTime = 0;
 
-        // Global Variables
-        let currentUser = null;
-        let currentUserRole = null;
-        let currentQuizId = null;
-        let quizTimerInterval = null;
-        let timeLeft = 0;
-        let userAnswers = {};
-        let currentQuestionIndex = 0;
-        let quizQuestions = [];
-        let questionTimers = {};
+    // Set default session end time (24 hours from now)
+    const now = new Date();
+    now.setHours(now.getHours() + 24);
+    const formattedDateTime = now.toISOString().slice(0, 16);
+    quizSessionEnd.value = formattedDateTime;
 
-        // Set default session end time (24 hours from now)
-        const now = new Date();
-        now.setHours(now.getHours() + 24);
-        const formattedDateTime = now.toISOString().slice(0, 16);
-        quizSessionEnd.value = formattedDateTime;
+    // Event Listeners
+    registerRole.addEventListener('change', (e) => {
+        if (e.target.value === 'student') {
+            studentTerms.classList.remove('hidden');
+        } else {
+            studentTerms.classList.add('hidden');
+        }
+    });
 
-        // Event Listeners
-        registerRole.addEventListener('change', (e) => {
-            if (e.target.value === 'student') {
-                studentTerms.classList.remove('hidden');
+    loginBtn.addEventListener('click', loginUser);
+    registerBtn.addEventListener('click', registerUser);
+    forgotPasswordBtn.addEventListener('click', () => {
+        loginForm.classList.add('hidden');
+        registerForm.classList.add('hidden');
+        forgotPasswordForm.classList.remove('hidden');
+    });
+    resetPasswordBtn.addEventListener('click', resetPassword);
+    backToLoginBtn.addEventListener('click', () => {
+        forgotPasswordForm.classList.add('hidden');
+        loginForm.classList.remove('hidden');
+    });
+    logoutBtn.addEventListener('click', logoutUser);
+    studentLogoutBtn.addEventListener('click', logoutUser);
+    createQuizBtn.addEventListener('click', () => quizCreationModal.show());
+    addQuestionBtn.addEventListener('click', addQuestion);
+    saveQuizBtn.addEventListener('click', saveQuiz);
+    joinQuizBtn.addEventListener('click', joinQuiz);
+    submitQuizBtn.addEventListener('click', submitQuiz);
+    prevQuestionBtn.addEventListener('click', showPreviousQuestion);
+    nextQuestionBtn.addEventListener('click', showNextQuestion);
+    backToDashboardBtn.addEventListener('click', backToDashboard);
+
+    // Functions
+    function showToast(type, message, title = '') {
+        switch (type) {
+            case 'success':
+                toastr.success(message, title);
+                break;
+            case 'error':
+                toastr.error(message, title);
+                break;
+            case 'info':
+                toastr.info(message, title);
+                break;
+            case 'warning':
+                toastr.warning(message, title);
+                break;
+            default:
+                toastr.info(message, title);
+        }
+    }
+
+   function loginUser() {
+    const email = loginEmail.value.trim();
+    const password = loginPassword.value.trim();
+
+    if (!email || !password) {
+        showToast('error', 'Please fill in all fields');
+        return;
+    }
+
+    // Show loading spinner
+    authLoading.classList.remove('hidden');
+    loginBtn.disabled = true;
+
+    auth.signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            return database.ref('users/' + userCredential.user.uid).once('value');
+        })
+        .then((snapshot) => {
+            const userData = snapshot.val();
+            currentUserRole = userData.role;
+            currentUser = auth.currentUser;
+
+            if (currentUserRole === 'teacher') {
+                showTeacherDashboard();
+                loadTeacherQuizzes();
             } else {
-                studentTerms.classList.add('hidden');
+                showStudentDashboard();
+                loadStudentQuizzes();
             }
+
+            authContainer.classList.add('hidden');
+            showToast('success', 'Login successful!');
+        })
+        .catch((error) => {
+            showToast('error', error.message);
+        })
+        .finally(() => {
+            // Hide loading spinner regardless of success/error
+            authLoading.classList.add('hidden');
+            loginBtn.disabled = false;
         });
+}
 
-        loginBtn.addEventListener('click', loginUser);
-        registerBtn.addEventListener('click', registerUser);
-        forgotPasswordBtn.addEventListener('click', () => {
-            loginForm.classList.add('hidden');
-            registerForm.classList.add('hidden');
-            forgotPasswordForm.classList.remove('hidden');
+    function registerUser() {
+    const name = registerName.value.trim();
+    const email = registerEmail.value.trim();
+    const password = registerPassword.value.trim();
+    const role = registerRole.value;
+
+    if (!name || !email || !password) {
+        showToast('error', 'Please fill in all fields');
+        return;
+    }
+
+    if (password.length < 6) {
+        showToast('error', 'Password should be at least 6 characters');
+        return;
+    }
+
+    if (role === 'student' && !acceptTerms.checked) {
+        showToast('error', 'You must accept the terms and conditions');
+        return;
+    }
+
+    // Show loading spinner
+    authLoading.classList.remove('hidden');
+    registerBtn.disabled = true;
+
+    auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            return database.ref('users/' + userCredential.user.uid).set({
+                name: name,
+                email: email,
+                role: role,
+                createdAt: firebase.database.ServerValue.TIMESTAMP
+            });
+        })
+        .then(() => {
+            return auth.signInWithEmailAndPassword(email, password);
+        })
+        .then((userCredential) => {
+            currentUserRole = role;
+            currentUser = auth.currentUser;
+
+            if (role === 'teacher') {
+                showTeacherDashboard();
+            } else {
+                showStudentDashboard();
+            }
+
+            authContainer.classList.add('hidden');
+            showToast('success', 'Registration successful!');
+        })
+        .catch((error) => {
+            showToast('error', error.message);
+        })
+        .finally(() => {
+            // Hide loading spinner regardless of success/error
+            authLoading.classList.add('hidden');
+            registerBtn.disabled = false;
         });
-        resetPasswordBtn.addEventListener('click', resetPassword);
-        backToLoginBtn.addEventListener('click', () => {
-            forgotPasswordForm.classList.add('hidden');
-            loginForm.classList.remove('hidden');
+}
+    function resetPassword() {
+    const email = resetEmail.value.trim();
+
+    if (!email) {
+        showToast('error', 'Please enter your email');
+        return;
+    }
+
+    // Show loading spinner
+    authLoading.classList.remove('hidden');
+    resetPasswordBtn.disabled = true;
+
+    auth.sendPasswordResetEmail(email)
+        .then(() => {
+            showToast('success', 'Password reset email sent. Please check your inbox.');
+        })
+        .catch((error) => {
+            showToast('error', error.message);
+        })
+        .finally(() => {
+            // Hide loading spinner
+            authLoading.classList.add('hidden');
+            resetPasswordBtn.disabled = false;
         });
-        logoutBtn.addEventListener('click', logoutUser);
-        studentLogoutBtn.addEventListener('click', logoutUser);
-        createQuizBtn.addEventListener('click', () => quizCreationModal.show());
-        addQuestionBtn.addEventListener('click', addQuestion);
-        saveQuizBtn.addEventListener('click', saveQuiz);
-        joinQuizBtn.addEventListener('click', joinQuiz);
-        submitQuizBtn.addEventListener('click', submitQuiz);
-        prevQuestionBtn.addEventListener('click', showPreviousQuestion);
-        nextQuestionBtn.addEventListener('click', showNextQuestion);
-        backToDashboardBtn.addEventListener('click', backToDashboard);
+}
+    function logoutUser() {
+        auth.signOut()
+            .then(() => {
+                currentUser = null;
+                currentUserRole = null;
+                authContainer.classList.remove('hidden');
+                teacherDashboard.classList.add('hidden');
+                studentDashboard.classList.add('hidden');
+                quizTakingContainer.classList.add('hidden');
+                quizResultsContainer.classList.add('hidden');
 
-        // Functions
-        function showToast(type, message, title = '') {
-            switch (type) {
-                case 'success':
-                    toastr.success(message, title);
-                    break;
-                case 'error':
-                    toastr.error(message, title);
-                    break;
-                case 'info':
-                    toastr.info(message, title);
-                    break;
-                case 'warning':
-                    toastr.warning(message, title);
-                    break;
-                default:
-                    toastr.info(message, title);
-            }
-        }
+                // Reset form fields
+                loginEmail.value = '';
+                loginPassword.value = '';
+                registerName.value = '';
+                registerEmail.value = '';
+                registerPassword.value = '';
+                resetEmail.value = '';
 
-        function loginUser() {
-            const email = loginEmail.value.trim();
-            const password = loginPassword.value.trim();
+                // Clear any errors
+                loginError.textContent = '';
+                registerError.textContent = '';
+                resetError.textContent = '';
+                resetSuccess.textContent = '';
 
-            if (!email || !password) {
-                showToast('error', 'Please fill in all fields');
-                return;
-            }
+                // Show login tab by default
+                authTabs.show();
+            })
+            .catch((error) => {
+                showToast('error', 'Logout error: ' + error.message);
+            });
+    }
 
-            auth.signInWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    return database.ref('users/' + userCredential.user.uid).once('value');
-                })
-                .then((snapshot) => {
-                    const userData = snapshot.val();
-                    currentUserRole = userData.role;
-                    currentUser = auth.currentUser;
+    function showTeacherDashboard() {
+        teacherDashboard.classList.remove('hidden');
+        studentDashboard.classList.add('hidden');
+        quizTakingContainer.classList.add('hidden');
+        quizResultsContainer.classList.add('hidden');
+    }
 
-                    if (currentUserRole === 'teacher') {
-                        showTeacherDashboard();
-                        loadTeacherQuizzes();
-                    } else {
-                        showStudentDashboard();
-                        loadStudentQuizzes();
-                    }
+    function showStudentDashboard() {
+        studentDashboard.classList.remove('hidden');
+        teacherDashboard.classList.add('hidden');
+        quizTakingContainer.classList.add('hidden');
+        quizResultsContainer.classList.add('hidden');
+    }
 
-                    authContainer.classList.add('hidden');
-                    showToast('success', 'Login successful!');
-                })
-                .catch((error) => {
-                    showToast('error', error.message);
-                });
-        }
-
-        function registerUser() {
-            const name = registerName.value.trim();
-            const email = registerEmail.value.trim();
-            const password = registerPassword.value.trim();
-            const role = registerRole.value;
-
-            if (!name || !email || !password) {
-                showToast('error', 'Please fill in all fields');
-                return;
-            }
-
-            if (password.length < 6) {
-                showToast('error', 'Password should be at least 6 characters');
-                return;
-            }
-
-            if (role === 'student' && !acceptTerms.checked) {
-                showToast('error', 'You must accept the terms and conditions');
-                return;
-            }
-
-            auth.createUserWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    return database.ref('users/' + userCredential.user.uid).set({
-                        name: name,
-                        email: email,
-                        role: role,
-                        createdAt: firebase.database.ServerValue.TIMESTAMP
-                    });
-                })
-                .then(() => {
-                    return auth.signInWithEmailAndPassword(email, password);
-                })
-                .then((userCredential) => {
-                    currentUserRole = role;
-                    currentUser = auth.currentUser;
-
-                    if (role === 'teacher') {
-                        showTeacherDashboard();
-                    } else {
-                        showStudentDashboard();
-                    }
-
-                    authContainer.classList.add('hidden');
-                    showToast('success', 'Registration successful!');
-                })
-                .catch((error) => {
-                    showToast('error', error.message);
-                });
-        }
-
-        function resetPassword() {
-            const email = resetEmail.value.trim();
-
-            if (!email) {
-                showToast('error', 'Please enter your email');
-                return;
-            }
-
-            auth.sendPasswordResetEmail(email)
-                .then(() => {
-                    showToast('success', 'Password reset email sent. Please check your inbox.');
-                })
-                .catch((error) => {
-                    showToast('error', error.message);
-                });
-        }
-
-        function logoutUser() {
-            auth.signOut()
-                .then(() => {
-                    currentUser = null;
-                    currentUserRole = null;
-                    authContainer.classList.remove('hidden');
-                    teacherDashboard.classList.add('hidden');
-                    studentDashboard.classList.add('hidden');
-                    quizTakingContainer.classList.add('hidden');
-                    quizResultsContainer.classList.add('hidden');
-
-                    // Reset form fields
-                    loginEmail.value = '';
-                    loginPassword.value = '';
-                    registerName.value = '';
-                    registerEmail.value = '';
-                    registerPassword.value = '';
-                    resetEmail.value = '';
-
-                    // Clear any errors
-                    loginError.textContent = '';
-                    registerError.textContent = '';
-                    resetError.textContent = '';
-                    resetSuccess.textContent = '';
-
-                    // Show login tab by default
-                    authTabs.show();
-                })
-                .catch((error) => {
-                    showToast('error', 'Logout error: ' + error.message);
-                });
-        }
-
-        function showTeacherDashboard() {
-            teacherDashboard.classList.remove('hidden');
-            studentDashboard.classList.add('hidden');
-            quizTakingContainer.classList.add('hidden');
-            quizResultsContainer.classList.add('hidden');
-        }
-
-        function showStudentDashboard() {
-            studentDashboard.classList.remove('hidden');
-            teacherDashboard.classList.add('hidden');
-            quizTakingContainer.classList.add('hidden');
-            quizResultsContainer.classList.add('hidden');
-        }
-
-        function addQuestion() {
-            const questionId = Date.now();
-            const questionHtml = `
-                <div class="question-card" id="question-${questionId}">
-                    <div class="mb-3">
-                        <label for="question-text-${questionId}" class="form-label">Question</label>
-                        <input type="text" class="form-control" id="question-text-${questionId}" placeholder="Enter question text">
+    function addQuestion() {
+    const questionId = Date.now();
+    const questionHtml = `
+        <div class="question-card" id="question-${questionId}">
+            <div class="mb-3">
+                <label for="question-text-${questionId}" class="form-label">Question</label>
+                <textarea class="form-control" id="question-text-${questionId}" rows="4" placeholder="Enter question text"></textarea>
+                <button class="btn btn-sm btn-outline-secondary mt-2 add-code-btn" data-question="${questionId}">
+                    <i class="fas fa-code"></i> Add Code Block
+                </button>
+                <div id="code-container-${questionId}" class="hidden mt-3">
+                    <label class="form-label">Code Content</label>
+                    <textarea class="form-control code-content" rows="8" placeholder="Enter code here..." data-question="${questionId}"></textarea>
+                    <div class="d-flex mt-2">
+                        <select class="form-select language-select" style="width: 150px" data-question="${questionId}">
+                            <option value="javascript">JavaScript</option>
+                            <option value="python">Python</option>
+                            <option value="java">Java</option>
+                            <option value="csharp">C#</option>
+                            <option value="cpp">C++</option>
+                            <option value="php">PHP</option>
+                            <option value="ruby">Ruby</option>
+                        </select>
+                        <button class="btn btn-sm btn-outline-danger ms-2 remove-code-btn" data-question="${questionId}">
+                            <i class="fas fa-times"></i> Remove
+                        </button>
                     </div>
-                    
-                    <div class="mb-3">
-                        <label class="form-label">Options</label>
-                        <div id="options-container-${questionId}">
-                            <div class="option-container">
-                                <input type="radio" name="correct-answer-${questionId}" value="0" checked>
-                                <input type="text" class="form-control" placeholder="Option 1">
-                                <button class="remove-btn remove-option-btn">&times;</button>
-                            </div>
-                            <div class="option-container">
-                                <input type="radio" name="correct-answer-${questionId}" value="1">
-                                <input type="text" class="form-control" placeholder="Option 2">
-                                <button class="remove-btn remove-option-btn">&times;</button>
-                            </div>
-                        </div>
-                        <button class="btn btn-sm btn-outline-primary add-option-btn mt-2" data-question="${questionId}">+ Add Option</button>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="question-time-${questionId}" class="form-label">Time Limit (seconds)</label>
-                        <input type="number" class="form-control" id="question-time-${questionId}" value="30" min="10">
-                    </div>
-                    
-                    <button class="btn btn-sm btn-outline-danger remove-question-btn" data-question="${questionId}">Remove Question</button>
                 </div>
-            `;
-
-            questionsContainer.insertAdjacentHTML('beforeend', questionHtml);
-
-            document.querySelector(`[data-question="${questionId}"].add-option-btn`).addEventListener('click', addOption);
-            document.querySelector(`[data-question="${questionId}"].remove-question-btn`).addEventListener('click', removeQuestion);
-
-            const removeOptionBtns = document.querySelectorAll(`#question-${questionId} .remove-option-btn`);
-            removeOptionBtns.forEach(btn => {
-                btn.addEventListener('click', removeOption);
-            });
-        }
-
-        function addOption(e) {
-            const questionId = e.target.getAttribute('data-question');
-            const optionsContainer = document.getElementById(`options-container-${questionId}`);
-            const optionCount = optionsContainer.children.length;
-
-            if (optionCount >= 6) {
-                showToast('error', 'Maximum 6 options allowed per question');
-                return;
-            }
-
-            const optionHtml = `
-                <div class="option-container">
-                    <input type="radio" name="correct-answer-${questionId}" value="${optionCount}">
-                    <input type="text" class="form-control" placeholder="Option ${optionCount + 1}">
-                    <button class="remove-btn remove-option-btn">&times;</button>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Options</label>
+                <div id="options-container-${questionId}">
+                    <div class="option-container">
+                        <input type="radio" name="correct-answer-${questionId}" value="0" checked>
+                        <input type="text" class="form-control" placeholder="Option 1">
+                        <button class="remove-btn remove-option-btn">&times;</button>
+                    </div>
+                    <div class="option-container">
+                        <input type="radio" name="correct-answer-${questionId}" value="1">
+                        <input type="text" class="form-control" placeholder="Option 2">
+                        <button class="remove-btn remove-option-btn">&times;</button>
+                    </div>
                 </div>
-            `;
+                <button class="btn btn-sm btn-outline-primary add-option-btn mt-2" data-question="${questionId}">+ Add Option</button>
+            </div>
+            
+            <div class="mb-3">
+                <label for="question-explanation-${questionId}" class="form-label">Explanation</label>
+                <textarea class="form-control" id="question-explanation-${questionId}" rows="2" placeholder="Add explanation for this question"></textarea>
+            </div>
+            
+            <div class="mb-3">
+                <label for="question-time-${questionId}" class="form-label">Time Limit (seconds)</label>
+                <input type="number" class="form-control" id="question-time-${questionId}" value="30" min="10">
+            </div>
+            
+            <button class="btn btn-sm btn-outline-danger remove-question-btn" data-question="${questionId}">Remove Question</button>
+        </div>
+    `;
 
-            optionsContainer.insertAdjacentHTML('beforeend', optionHtml);
-            optionsContainer.lastElementChild.querySelector('.remove-option-btn').addEventListener('click', removeOption);
+    questionsContainer.insertAdjacentHTML('beforeend', questionHtml);
+
+    // Add event listeners
+    document.querySelector(`[data-question="${questionId}"].add-code-btn`).addEventListener('click', toggleCodeBlock);
+    document.querySelector(`[data-question="${questionId}"].remove-code-btn`).addEventListener('click', toggleCodeBlock);
+    document.querySelector(`[data-question="${questionId}"].add-option-btn`).addEventListener('click', addOption);
+    document.querySelector(`[data-question="${questionId}"].remove-question-btn`).addEventListener('click', removeQuestion);
+
+    // Add event listeners for option remove buttons
+    const removeOptionBtns = document.querySelectorAll(`#question-${questionId} .remove-option-btn`);
+    removeOptionBtns.forEach(btn => {
+        btn.addEventListener('click', removeOption);
+    });
+}function toggleCodeBlock(e) {
+    const questionId = e.target.getAttribute('data-question');
+    const codeContainer = document.getElementById(`code-container-${questionId}`);
+    const addCodeBtn = document.querySelector(`[data-question="${questionId}"].add-code-btn`);
+    const removeCodeBtn = document.querySelector(`[data-question="${questionId}"].remove-code-btn`);
+
+    if (e.target === addCodeBtn) {
+        codeContainer.classList.remove('hidden');
+        addCodeBtn.classList.add('hidden');
+        // Focus on the code textarea when shown
+        codeContainer.querySelector('.code-content').focus();
+    } else {
+        codeContainer.classList.add('hidden');
+        addCodeBtn.classList.remove('hidden');
+        // Clear the code content when hidden
+        codeContainer.querySelector('.code-content').value = '';
+    }
+}
+
+    function addOption(e) {
+        const questionId = e.target.getAttribute('data-question');
+        const optionsContainer = document.getElementById(`options-container-${questionId}`);
+        const optionCount = optionsContainer.children.length;
+
+        if (optionCount >= 6) {
+            showToast('error', 'Maximum 6 options allowed per question');
+            return;
         }
 
-        function removeOption(e) {
-            const optionContainer = e.target.closest('.option-container');
-            const optionsContainer = optionContainer.parentElement;
+        const optionHtml = `
+            <div class="option-container">
+                <input type="radio" name="correct-answer-${questionId}" value="${optionCount}">
+                <input type="text" class="form-control" placeholder="Option ${optionCount + 1}">
+                <button class="remove-btn remove-option-btn">&times;</button>
+            </div>
+        `;
 
-            if (optionsContainer.children.length <= 2) {
-                showToast('error', 'Each question must have at least 2 options');
+        optionsContainer.insertAdjacentHTML('beforeend', optionHtml);
+        optionsContainer.lastElementChild.querySelector('.remove-option-btn').addEventListener('click', removeOption);
+    }
+
+    function removeOption(e) {
+        const optionContainer = e.target.closest('.option-container');
+        const optionsContainer = optionContainer.parentElement;
+
+        if (optionsContainer.children.length <= 2) {
+            showToast('error', 'Each question must have at least 2 options');
+            return;
+        }
+
+        const radioBtn = optionContainer.querySelector('input[type="radio"]');
+        if (radioBtn.checked) {
+            optionsContainer.firstElementChild.querySelector('input[type="radio"]').checked = true;
+        }
+
+        optionContainer.remove();
+
+        const optionContainers = optionsContainer.querySelectorAll('.option-container');
+        optionContainers.forEach((container, index) => {
+            container.querySelector('input[type="radio"]').value = index;
+        });
+    }
+
+    function removeQuestion(e) {
+        const questionId = e.target.getAttribute('data-question');
+        const questionElement = document.getElementById(`question-${questionId}`);
+
+        if (questionsContainer.children.length <= 1) {
+            showToast('error', 'Each quiz must have at least one question');
+            return;
+        }
+
+        questionElement.remove();
+    }
+
+    function saveQuiz() {
+    const title = quizTitle.value.trim();
+    const description = quizDescription.value.trim();
+    const sessionEnd = quizSessionEnd.value;
+
+    // Validation
+    if (!title) {
+        showToast('error', 'Please enter a quiz title');
+        return;
+    }
+
+    if (title.length > 100) {
+        showToast('error', 'Quiz title must be less than 100 characters');
+        return;
+    }
+
+    if (description.length > 500) {
+        showToast('error', 'Description must be less than 500 characters');
+        return;
+    }
+
+    // Validate session end date
+    const now = new Date();
+    const sessionEndDate = new Date(sessionEnd);
+    if (sessionEndDate <= now) {
+        showToast('error', 'Quiz end date must be in the future');
+        return;
+    }
+
+    const questions = [];
+    let totalTime = 0;
+    let isValid = true;
+
+    document.querySelectorAll('.question-card').forEach((questionCard, index) => {
+        const questionId = questionCard.id.split('-')[1];
+        const questionText = document.getElementById(`question-text-${questionId}`).value.trim();
+        const codeContainer = document.getElementById(`code-container-${questionId}`);
+        const timeLimit = parseInt(document.getElementById(`question-time-${questionId}`).value) || 30;
+        const explanation = document.getElementById(`question-explanation-${questionId}`).value.trim();
+
+        // Question validation
+        if (!questionText) {
+            showToast('error', `Please enter text for question ${index + 1}`);
+            isValid = false;
+            return;
+        }
+
+        const questionData = {
+            text: questionText,
+            options: [],
+            explanation: explanation,
+            timeLimit: timeLimit
+        };
+
+        // Add code block if exists
+        if (codeContainer && !codeContainer.classList.contains('hidden')) {
+            const codeContent = codeContainer.querySelector('.code-content').value.trim();
+            if (codeContent) {
+                questionData.code = codeContent;
+                questionData.language = codeContainer.querySelector('.language-select').value;
+            }
+        }
+
+        // Process options
+        const optionsContainers = questionCard.querySelectorAll('.option-container');
+        
+        optionsContainers.forEach((optionContainer, optionIndex) => {
+            const optionText = optionContainer.querySelector('input[type="text"]').value.trim();
+
+            if (!optionText) {
+                showToast('error', `Please enter text for option ${optionIndex + 1} in question ${index + 1}`);
+                isValid = false;
                 return;
             }
 
-            const radioBtn = optionContainer.querySelector('input[type="radio"]');
-            if (radioBtn.checked) {
-                optionsContainer.firstElementChild.querySelector('input[type="radio"]').checked = true;
-            }
-
-            optionContainer.remove();
-
-            const optionContainers = optionsContainer.querySelectorAll('.option-container');
-            optionContainers.forEach((container, index) => {
-                container.querySelector('input[type="radio"]').value = index;
+            const isCorrect = optionContainer.querySelector('input[type="radio"]').checked;
+            questionData.options.push({
+                text: optionText,
+                isCorrect: isCorrect
             });
+        });
+
+        if (!isValid) return;
+
+        // Validate options
+        if (questionData.options.length < 2) {
+            showToast('error', `Question ${index + 1} must have at least 2 options`);
+            isValid = false;
+            return;
         }
 
-        function removeQuestion(e) {
-            const questionId = e.target.getAttribute('data-question');
-            const questionElement = document.getElementById(`question-${questionId}`);
-
-            if (questionsContainer.children.length <= 1) {
-                showToast('error', 'Each quiz must have at least one question');
-                return;
-            }
-
-            questionElement.remove();
+        const hasCorrectAnswer = questionData.options.some(option => option.isCorrect);
+        if (!hasCorrectAnswer) {
+            showToast('error', `Please mark the correct answer for question ${index + 1}`);
+            isValid = false;
+            return;
         }
 
-        function saveQuiz() {
-            const title = quizTitle.value.trim();
-            const description = quizDescription.value.trim();
-            const sessionEnd = quizSessionEnd.value;
+        questions.push(questionData);
+        totalTime += timeLimit;
+    });
 
-            if (!title) {
-                showToast('error', 'Please enter a quiz title');
-                return;
-            }
+    if (!isValid) return;
 
-            const questions = [];
-            let totalTime = 0;
-            let isValid = true;
+    if (questions.length === 0) {
+        showToast('error', 'Please add at least one question to the quiz');
+        return;
+    }
 
-            document.querySelectorAll('.question-card').forEach((questionCard, index) => {
-                const questionId = questionCard.id.split('-')[1];
-                const questionText = document.getElementById(`question-text-${questionId}`).value.trim();
-                const timeLimit = parseInt(document.getElementById(`question-time-${questionId}`).value) || 30;
+    // Show loading state
+    saveQuizBtn.disabled = true;
+    saveQuizBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...';
 
-                if (!questionText) {
-                    showToast('error', `Please enter text for question ${index + 1}`);
-                    isValid = false;
-                    return;
-                }
+    const quizRef = database.ref('quizzes').push();
+    const quizId = quizRef.key;
 
-                const options = [];
-                const optionsContainers = questionCard.querySelectorAll('.option-container');
+    const quizData = {
+        title: title,
+        description: description,
+        questions: questions,
+        totalTime: totalTime,
+        sessionEnd: sessionEnd,
+        createdAt: firebase.database.ServerValue.TIMESTAMP,
+        createdBy: currentUser.uid,
+        createdByName: currentUser.displayName || 'Teacher',
+        hasCodeBlocks: questions.some(q => q.hasOwnProperty('code'))
+    };
 
-                optionsContainers.forEach((optionContainer, optionIndex) => {
-                    const optionText = optionContainer.querySelector('input[type="text"]').value.trim();
-
-                    if (!optionText) {
-                        showToast('error', `Please enter text for option ${optionIndex + 1} in question ${index + 1}`);
-                        isValid = false;
-                        return;
-                    }
-
-                    const isCorrect = optionContainer.querySelector('input[type="radio"]').checked;
-                    options.push({
-                        text: optionText,
-                        isCorrect: isCorrect
-                    });
-                });
-
-                if (!isValid) return;
-
-                if (options.length < 2) {
-                    showToast('error', `Question ${index + 1} must have at least 2 options`);
-                    isValid = false;
-                    return;
-                }
-
-                const hasCorrectAnswer = options.some(option => option.isCorrect);
-                if (!hasCorrectAnswer) {
-                    showToast('error', `Please mark the correct answer for question ${index + 1}`);
-                    isValid = false;
-                    return;
-                }
-
-                questions.push({
-                    text: questionText,
-                    options: options,
-                    timeLimit: timeLimit
-                });
-
-                totalTime += timeLimit;
-            });
-
-            if (!isValid) return;
-
-            if (questions.length === 0) {
-                showToast('error', 'Please add at least one question to the quiz');
-                return;
-            }
-
-            const quizRef = database.ref('quizzes').push();
-            const quizId = quizRef.key;
-
-            const quizData = {
+    // Save to Firebase
+    quizRef.set(quizData)
+        .then(() => {
+            return database.ref(`teacherQuizzes/${currentUser.uid}/${quizId}`).set({
                 title: title,
-                description: description,
-                questions: questions,
-                totalTime: totalTime,
-                sessionEnd: sessionEnd,
                 createdAt: firebase.database.ServerValue.TIMESTAMP,
-                createdBy: currentUser.uid,
-                createdByName: currentUser.displayName || 'Teacher'
-            };
+                attendanceCount: 0,
+                sessionEnd: sessionEnd,
+                hasCodeBlocks: quizData.hasCodeBlocks
+            });
+        })
+        .then(() => {
+            showToast('success', 'Quiz saved successfully!');
+            quizCreationModal.hide();
+            
+            // Reset form
+            quizTitle.value = '';
+            quizDescription.value = '';
+            questionsContainer.innerHTML = '';
+            
+            // Set default session end time (24 hours from now)
+            const now = new Date();
+            now.setHours(now.getHours() + 24);
+            const formattedDateTime = now.toISOString().slice(0, 16);
+            quizSessionEnd.value = formattedDateTime;
+            
+            loadTeacherQuizzes();
+        })
+        .catch((error) => {
+            showToast('error', 'Error saving quiz: ' + error.message);
+        })
+        .finally(() => {
+            saveQuizBtn.disabled = false;
+            saveQuizBtn.textContent = 'Save Quiz';
+        });
+}
 
-            quizRef.set(quizData)
-                .then(() => {
-                    return database.ref(`teacherQuizzes/${currentUser.uid}/${quizId}`).set({
-                        title: title,
-                        createdAt: firebase.database.ServerValue.TIMESTAMP,
-                        attendanceCount: 0,
-                        sessionEnd: sessionEnd
-                    });
-                })
-                .then(() => {
-                    showToast('success', 'Quiz saved successfully!');
-                    quizCreationModal.hide();
-                    loadTeacherQuizzes();
-                })
-                .catch((error) => {
-                    showToast('error', 'Error saving quiz: ' + error.message);
-                });
-        }
+    function loadTeacherQuizzes() {
+        database.ref(`teacherQuizzes/${currentUser.uid}`).once('value')
+            .then((snapshot) => {
+                const quizzes = snapshot.val();
+                quizList.innerHTML = '';
 
-        function loadTeacherQuizzes() {
-            database.ref(`teacherQuizzes/${currentUser.uid}`).once('value')
-                .then((snapshot) => {
-                    const quizzes = snapshot.val();
-                    quizList.innerHTML = '';
+                if (!quizzes) {
+                    quizList.innerHTML = '<div class="col-12"><div class="alert alert-info">You haven\'t created any quizzes yet.</div></div>';
+                    return;
+                }
 
-                    if (!quizzes) {
-                        quizList.innerHTML = '<div class="col-12"><div class="alert alert-info">You haven\'t created any quizzes yet.</div></div>';
-                        return;
-                    }
-
-                    Object.entries(quizzes).forEach(([quizId, quiz]) => {
-                        const quizElement = document.createElement('div');
-                        quizElement.className = 'col-md-6 col-lg-4';
-                        quizElement.innerHTML = `
-                    <div class="quiz-card card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">${quiz.title}</h5>
-                            <p class="card-text text-muted small">Created on ${new Date(quiz.createdAt).toLocaleDateString()}</p>
-                            <p class="card-text text-muted small">Session ends: ${new Date(quiz.sessionEnd).toLocaleString()}</p>
-                            <div class="d-flex justify-content-between small text-muted mb-2">
-                                <span>ID: ${quizId.substring(0, 6)}...</span>
-                                <span>Attendees: ${quiz.attendanceCount || 0}</span>
-                            </div>
-                            <div class="d-grid gap-2">
-                                <button class="btn btn-sm btn-outline-primary view-details-btn" data-quizid="${quizId}">View Details</button>
-                                <button class="btn btn-sm btn-outline-success share-quiz-btn" data-quizid="${quizId}">Share</button>
-                                <button class="btn btn-sm btn-outline-info view-attendance-btn" data-quizid="${quizId}">View Results</button>
+                Object.entries(quizzes).forEach(([quizId, quiz]) => {
+                    const quizElement = document.createElement('div');
+                    quizElement.className = 'col-md-6 col-lg-4';
+                    quizElement.innerHTML = `
+                        <div class="quiz-card card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">${quiz.title}</h5>
+                                <p class="card-text text-muted small">Created on ${new Date(quiz.createdAt).toLocaleDateString()}</p>
+                                <p class="card-text text-muted small">Session ends: ${new Date(quiz.sessionEnd).toLocaleString()}</p>
+                                <div class="d-flex justify-content-between small text-muted mb-2">
+                                    <span>ID: ${quizId.substring(0, 6)}...</span>
+                                    <span>Attendees: ${quiz.attendanceCount || 0}</span>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-sm btn-outline-primary view-details-btn" data-quizid="${quizId}">View Details</button>
+                                    <button class="btn btn-sm btn-outline-success share-quiz-btn" data-quizid="${quizId}">Share</button>
+                                    <button class="btn btn-sm btn-outline-info view-attendance-btn" data-quizid="${quizId}">View Results</button>
+                                </div>
                             </div>
                         </div>
+                    `;
+
+                    quizList.appendChild(quizElement);
+
+                    quizElement.querySelector('.view-details-btn').addEventListener('click', () => viewQuizDetails(quizId));
+                    quizElement.querySelector('.share-quiz-btn').addEventListener('click', () => shareQuiz(quizId));
+                    quizElement.querySelector('.view-attendance-btn').addEventListener('click', () => viewAttendance(quizId));
+                });
+            })
+            .catch((error) => {
+                showToast('error', 'Error loading quizzes: ' + error.message);
+            });
+    }
+
+    function viewQuizDetails(quizId) {
+        database.ref(`quizzes/${quizId}`).once('value')
+            .then((snapshot) => {
+                const quiz = snapshot.val();
+
+                // Create modal content
+                let modalContent = `
+                    <div class="modal-header">
+                        <h5 class="modal-title">${quiz.title}</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p class="mb-3">${quiz.description || 'No description provided'}</p>
+                        <p class="text-muted small mb-4">
+                            Total Questions: ${quiz.questions.length} | 
+                            Total Time: ${quiz.totalTime} seconds | 
+                            Session End: ${new Date(quiz.sessionEnd).toLocaleString()}
+                        </p>
+                        
+                        <div class="accordion" id="quizDetailsAccordion">
+                `;
+
+                // Add each question with its options
+                quiz.questions.forEach((question, index) => {
+                    const correctAnswerIndex = question.options.findIndex(option => option.isCorrect);
+
+                    modalContent += `
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading${index}">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" 
+                                    data-bs-target="#collapse${index}" aria-expanded="true" 
+                                    aria-controls="collapse${index}">
+                                    Question ${index + 1}: ${question.text}
+                                    <span class="ms-2 badge bg-secondary">${question.timeLimit}s</span>
+                                </button>
+                            </h2>
+                            <div id="collapse${index}" class="accordion-collapse collapse show" 
+                                aria-labelledby="heading${index}" data-bs-parent="#quizDetailsAccordion">
+                                <div class="accordion-body">
+                                    <ul class="list-group list-group-flush">
+                    `;
+
+                    question.options.forEach((option, optionIndex) => {
+                        const isCorrect = optionIndex === correctAnswerIndex;
+                        modalContent += `
+                            <li class="list-group-item ${isCorrect ? 'list-group-item-success' : ''}">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" ${isCorrect ? 'checked' : ''} disabled>
+                                    <label class="form-check-label ${isCorrect ? 'fw-bold' : ''}">
+                                        ${option.text}
+                                        ${isCorrect ? ' (Correct Answer)' : ''}
+                                    </label>
+                                </div>
+                            </li>
+                        `;
+                    });
+
+                    modalContent += `
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                modalContent += `
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 `;
 
-                        quizList.appendChild(quizElement);
+                // Update modal content
+                modalResultsContent.innerHTML = modalContent;
 
-                        quizElement.querySelector('.view-details-btn').addEventListener('click', () => viewQuizDetails(quizId));
-                        quizElement.querySelector('.share-quiz-btn').addEventListener('click', () => shareQuiz(quizId));
-                        quizElement.querySelector('.view-attendance-btn').addEventListener('click', () => viewAttendance(quizId));
+                // Show the modal
+                viewResultsModal.show();
+            })
+            .catch((error) => {
+                showToast('error', 'Error loading quiz details: ' + error.message);
+            });
+    }
+
+    function shareQuiz(quizId) {
+        const quizLink = `${window.location.origin}${window.location.pathname}?quiz=${quizId}`;
+        navigator.clipboard.writeText(quizLink)
+            .then(() => {
+                showToast('success', 'Quiz link copied to clipboard!');
+            })
+            .catch(() => {
+                prompt('Copy this link to share with your students:', quizLink);
+            });
+    }
+
+    function viewAttendance(quizId) {
+        // Get quiz details to know total questions
+        database.ref(`quizzes/${quizId}`).once('value')
+            .then((quizSnapshot) => {
+                const quiz = quizSnapshot.val();
+                const totalQuestions = quiz.questions.length;
+
+                // Get attendance records
+                return database.ref(`quizzes/${quizId}/attendance`).once('value')
+                    .then((attendanceSnapshot) => {
+                        const attendance = attendanceSnapshot.val();
+                        const attendanceList = document.getElementById('attendance-list');
+                        attendanceList.innerHTML = '';
+
+                        if (!attendance) {
+                            attendanceList.innerHTML = '<div class="alert alert-info">No students have taken this quiz yet.</div>';
+                            document.getElementById('total-students').textContent = 'Total: 0';
+                            document.getElementById('average-score').textContent = 'Avg: 0%';
+                            return;
+                        }
+
+                        const studentIds = Object.keys(attendance);
+                        document.getElementById('total-students').textContent = `Total: ${studentIds.length}`;
+
+                        // Get student results and user details
+                        const studentPromises = studentIds.map(studentId => {
+                            return Promise.all([
+                                database.ref(`users/${studentId}`).once('value'),
+                                database.ref(`studentResults/${studentId}/${quizId}`).once('value')
+                            ]);
+                        });
+
+                        return Promise.all(studentPromises)
+                            .then(results => {
+                                let totalScore = 0;
+                                let html = '<ul class="list-group">';
+
+                                results.forEach(([userSnapshot, resultSnapshot], index) => {
+                                    const student = userSnapshot.val();
+                                    const result = resultSnapshot.val();
+                                    const timestamp = attendance[studentIds[index]];
+
+                                    const score = result ? result.score : 0;
+                                    const percentage = Math.round((score / totalQuestions) * 100);
+                                    totalScore += percentage;
+
+                                    html += `
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div class="student-info">
+                                                <strong>${student.name}</strong> (${student.email})<br>
+                                                <small class="text-muted">Completed: ${new Date(timestamp).toLocaleString()}</small>
+                                            </div>
+                                            <span class="student-score ${percentage >= 50 ? 'score-pass' : 'score-fail'}">
+                                                ${score}/${totalQuestions} (${percentage}%)
+                                            </span>
+                                        </li>
+                                    `;
+                                });
+
+                                // Calculate average score
+                                const averageScore = Math.round(totalScore / studentIds.length);
+                                document.getElementById('average-score').textContent = `Avg: ${averageScore}%`;
+
+                                html += '</ul>';
+                                attendanceList.innerHTML = html;
+
+                                // Show the modal
+                                const attendanceModal = new bootstrap.Modal(document.getElementById('attendanceModal'));
+                                attendanceModal.show();
+                            });
                     });
-                })
-                .catch((error) => {
-                    showToast('error', 'Error loading quizzes: ' + error.message);
-                });
-        }
-        function viewQuizDetails(quizId) {
-            database.ref(`quizzes/${quizId}`).once('value')
-                .then((snapshot) => {
-                    const quiz = snapshot.val();
+            })
+            .catch(error => {
+                showToast('error', 'Error loading attendance: ' + error.message);
+            });
+    }
 
-                    // Create modal content
-                    let modalContent = `
+    function loadStudentQuizzes() {
+        database.ref(`studentResults/${currentUser.uid}`).once('value')
+            .then((snapshot) => {
+                const results = snapshot.val();
+                studentQuizList.innerHTML = '';
+                
+                if (!results) {
+                    studentQuizList.innerHTML = '<div class="col-12"><div class="alert alert-info">You haven\'t taken any quizzes yet.</div></div>';
+                    return;
+                }
+                
+                const quizIds = Object.keys(results);
+                const quizPromises = quizIds.map(quizId => {
+                    return database.ref(`quizzes/${quizId}`).once('value')
+                        .then(quizSnapshot => {
+                            const quiz = quizSnapshot.val();
+                            const result = results[quizId];
+                            return { quizId, quiz, result };
+                        });
+                });
+                
+                return Promise.all(quizPromises);
+            })
+            .then(quizzesWithResults => {
+                // Sort quizzes by timestamp (newest first)
+                quizzesWithResults.sort((a, b) => b.result.timestamp - a.result.timestamp);
+                
+                quizzesWithResults.forEach(({ quizId, quiz, result }) => {
+                    const quizElement = document.createElement('div');
+                    quizElement.className = 'col-md-6 col-lg-4';
+                    
+                    // Calculate time taken
+                    const timeTaken = result.timeTaken ? 
+                        `${Math.floor(result.timeTaken / 60)}m ${result.timeTaken % 60}s` : 'N/A';
+                    
+                    // Format date
+                    const takenDate = new Date(result.timestamp);
+                    const formattedDate = takenDate.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    
+                    quizElement.innerHTML = `
+                        <div class="quiz-card card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">${quiz.title}</h5>
+                                <div class="teacher-info mb-2">
+                                    <small class="text-muted">Created by:</small>
+                                    <div class="teacher-name fw-bold">${quiz.createdByName || 'Unknown Teacher'}</div>
+                                </div>
+                                <div class="d-flex justify-content-between small text-muted mb-2">
+                                    <span>Score: ${result.score}/${quiz.questions.length}</span>
+                                    <span>Time: ${timeTaken}</span>
+                                </div>
+                                <div class="small text-muted mb-3">Taken on ${formattedDate}</div>
+                                <div class="d-grid">
+                                    <button class="btn btn-sm btn-outline-primary view-result-btn" data-quizid="${quizId}">View Result</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    studentQuizList.appendChild(quizElement);
+                    quizElement.querySelector('.view-result-btn').addEventListener('click', () => showQuizResult(quizId));
+                });
+            })
+            .catch((error) => {
+                showToast('error', 'Error loading student quizzes: ' + error.message);
+            });
+    }
+
+    function joinQuiz() {
+        const quizLink = quizLinkInput.value.trim();
+
+        if (!quizLink) {
+            showToast('error', 'Please enter a quiz link');
+            return;
+        }
+
+        let quizId;
+        try {
+            const url = new URL(quizLink);
+            quizId = url.searchParams.get('quiz');
+        } catch (e) {
+            // If it's not a full URL, maybe it's just the ID
+            quizId = quizLink;
+        }
+
+        if (!quizId) {
+            showToast('error', 'Invalid quiz link. Please check the link and try again.');
+            return;
+        }
+
+        database.ref(`quizzes/${quizId}`).once('value')
+            .then((snapshot) => {
+                const quiz = snapshot.val();
+
+                if (!quiz) {
+                    showToast('error', 'Quiz not found. Please check the link and try again.');
+                    return;
+                }
+
+                // Check if quiz session has ended
+                const now = new Date();
+                const sessionEnd = new Date(quiz.sessionEnd);
+
+                if (now > sessionEnd) {
+                    showToast('error', 'This quiz session has expired. You can no longer take this quiz.');
+                    return;
+                }
+
+                return database.ref(`studentResults/${currentUser.uid}/${quizId}`).once('value')
+                    .then((resultSnapshot) => {
+                        if (resultSnapshot.exists()) {
+                            showToast('info', 'You\'ve already taken this quiz. Showing your results...');
+                            showQuizResult(quizId);
+                            return;
+                        }
+
+                        startQuiz(quizId, quiz);
+                    });
+            })
+            .catch((error) => {
+                showToast('error', 'Error joining quiz: ' + error.message);
+            });
+    }
+
+    
+function startQuiz(quizId, quiz) {
+    currentQuizId = quizId;
+    userAnswers = {};
+    currentQuestionIndex = 0;
+    quizQuestions = quiz.questions;
+    quizStartTime = Date.now();
+
+    studentDashboard.classList.add('hidden');
+    quizTakingContainer.classList.remove('hidden');
+
+    quizTakingTitle.textContent = quiz.title;
+    quizDescriptionDisplay.textContent = quiz.description || '';
+
+    questionIndicator.innerHTML = '';
+    quiz.questions.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.className = 'question-dot';
+        dot.textContent = index + 1;
+        dot.addEventListener('click', () => navigateToQuestion(index));
+        questionIndicator.appendChild(dot);
+    });
+
+    questionProgress.style.width = '0%';
+
+    showQuestion(currentQuestionIndex);
+}
+
+    function showQuestion(index) {
+    clearAllTimers();
+
+    const dots = document.querySelectorAll('.question-dot');
+    dots.forEach((dot, i) => {
+        dot.classList.remove('active', 'answered');
+        if (i === index) dot.classList.add('active');
+        if (userAnswers[i] !== undefined) dot.classList.add('answered');
+    });
+
+    const progress = ((index + 1) / quizQuestions.length) * 100;
+    questionProgress.style.width = `${progress}%`;
+
+    const question = quizQuestions[index];
+    quizQuestionsContainer.innerHTML = '';
+
+    const questionElement = document.createElement('div');
+    questionElement.className = 'question-item';
+    questionElement.id = `q-${index}`;
+
+    // Format code with proper indentation
+    let codeHtml = '';
+    if (question.code) {
+        const escapedCode = question.code.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        codeHtml = `
+            <div class="code-display code-${question.language || 'javascript'}">
+                <pre><code>${escapedCode}</code></pre>
+            </div>
+        `;
+    }
+
+    let optionsHtml = '';
+    question.options.forEach((option, optionIndex) => {
+        optionsHtml += `
+            <div class="option-item">
+                <input type="radio" id="q${index}-o${optionIndex}" name="q${index}" value="${optionIndex}"
+                    ${userAnswers[index] === optionIndex ? 'checked' : ''}>
+                <label for="q${index}-o${optionIndex}">${option.text}</label>
+            </div>
+        `;
+    });
+
+    questionElement.innerHTML = `
+        <div class="question-text fs-5 mb-3">${index + 1}. ${question.text}</div>
+        ${codeHtml}
+        <div class="options-container">${optionsHtml}</div>
+    `;
+    quizQuestionsContainer.appendChild(questionElement);
+
+    // Set up timer and event listeners (same as before)
+    let timeLeftForQuestion = question.timeLimit;
+    updateQuestionTimer(timeLeftForQuestion);
+
+    questionTimers[index] = setInterval(() => {
+        timeLeftForQuestion--;
+        updateQuestionTimer(timeLeftForQuestion);
+
+        if (timeLeftForQuestion <= 0) {
+            clearInterval(questionTimers[index]);
+            if (userAnswers[index] === undefined) {
+                userAnswers[index] = null;
+            }
+            showNextQuestion();
+        }
+    }, 1000);
+
+    questionElement.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            userAnswers[index] = parseInt(e.target.value);
+            dots[index].classList.add('answered');
+        });
+    });
+
+    prevQuestionBtn.disabled = index === 0;
+    nextQuestionBtn.textContent = index === quizQuestions.length - 1 ? 'Finish' : 'Next';
+}
+    function updateQuestionTimer(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    timeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+
+    quizTimer.style.backgroundColor = seconds <= 10 ? '#ff6b6b' : '#4a6bff';
+}
+
+function clearAllTimers() {
+    Object.keys(questionTimers).forEach(key => {
+        clearInterval(questionTimers[key]);
+        delete questionTimers[key];
+    });
+}
+
+function showNextQuestion() {
+    const currentRadio = document.querySelector(`input[name="q${currentQuestionIndex}"]:checked`);
+    userAnswers[currentQuestionIndex] = currentRadio ? parseInt(currentRadio.value) : null;
+
+    if (currentQuestionIndex < quizQuestions.length - 1) {
+        currentQuestionIndex++;
+        showQuestion(currentQuestionIndex);
+    } else {
+        submitQuiz();
+    }
+}
+
+function showPreviousQuestion() {
+    if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        showQuestion(currentQuestionIndex);
+    }
+}
+
+function navigateToQuestion(index) {
+    if (index >= 0 && index < quizQuestions.length) {
+        currentQuestionIndex = index;
+        showQuestion(currentQuestionIndex);
+    }
+}
+
+function submitQuiz() {
+    clearAllTimers();
+
+    const endTime = Date.now();
+    const timeTaken = Math.floor((endTime - quizStartTime) / 1000);
+
+    database.ref(`quizzes/${currentQuizId}`).once('value')
+        .then((snapshot) => {
+            const quiz = snapshot.val();
+            let score = 0;
+            const results = [];
+
+            quiz.questions.forEach((question, index) => {
+                const userAnswer = userAnswers[index];
+                const correctAnswerIndex = question.options.findIndex(option => option.isCorrect);
+                const isCorrect = userAnswer === correctAnswerIndex;
+
+                if (isCorrect) score++;
+
+                results.push({
+                    question: question.text,
+                    userAnswer: userAnswer !== undefined && userAnswer !== null ? question.options[userAnswer].text : 'Not answered',
+                    correctAnswer: question.options[correctAnswerIndex].text,
+                    isCorrect: isCorrect,
+                    explanation: question.explanation || ''
+                });
+            });
+
+            const resultData = {
+                score: score,
+                totalQuestions: quiz.questions.length,
+                timestamp: firebase.database.ServerValue.TIMESTAMP,
+                timeTaken: timeTaken
+            };
+
+            return database.ref(`studentResults/${currentUser.uid}/${currentQuizId}`).set(resultData)
+                .then(() => {
+                    return database.ref(`quizzes/${currentQuizId}/attendance/${currentUser.uid}`)
+                        .set(firebase.database.ServerValue.TIMESTAMP)
+                        .then(() => {
+                            return database.ref(`teacherQuizzes/${quiz.createdBy}/${currentQuizId}/attendanceCount`)
+                                .transaction((currentCount) => (currentCount || 0) + 1);
+                        });
+                })
+                .then(() => {
+                    showResults(quiz, results, score);
+                });
+        })
+        .catch((error) => {
+            showToast('error', 'Error submitting quiz: ' + error.message);
+        });
+}
+
+    function showResults(quiz, results, score) {
+        quizTakingContainer.classList.add('hidden');
+        quizResultsContainer.classList.remove('hidden');
+
+        const percentage = Math.round((score / quiz.questions.length) * 100);
+        const resultClass = percentage >= 50 ? 'text-success' : 'text-danger';
+
+        resultsSummary.innerHTML = `
+            <h3 class="mb-2">${quiz.title}</h3>
+            <p class="text-muted mb-3">Created by: ${quiz.createdByName}</p>
+            <div class="score-display ${resultClass}">${score} / ${quiz.questions.length}</div>
+            <p class="fs-5 ${resultClass}">${percentage}% Correct</p>
+        `;
+
+        resultsDetails.innerHTML = '';
+        quiz.questions.forEach((question, index) => {
+            const result = results[index];
+            const resultElement = document.createElement('div');
+            resultElement.className = 'result-question mb-4 pb-3 border-bottom';
+
+            resultElement.innerHTML = `
+                <h4>Question ${index + 1}: ${question.text}</h4>
+                <p>Your answer: <span class="${result.isCorrect ? 'correct-answer' : 'wrong-answer'}">${result.userAnswer}</span></p>
+                <p>Correct answer: <span class="correct-answer">${result.correctAnswer}</span></p>
+                ${question.explanation ? `<div class="explanation mt-3 p-3 bg-light rounded"><strong>Explanation:</strong> ${question.explanation}</div>` : ''}
+            `;
+
+            resultsDetails.appendChild(resultElement);
+        });
+
+        showToast('success', `You scored ${score} out of ${quiz.questions.length} (${percentage}%)`);
+    }
+
+    function showQuizResult(quizId) {
+        Promise.all([
+            database.ref(`quizzes/${quizId}`).once('value'),
+            database.ref(`studentResults/${currentUser.uid}/${quizId}`).once('value')
+        ])
+        .then(([quizSnapshot, resultSnapshot]) => {
+            const quiz = quizSnapshot.val();
+            const result = resultSnapshot.val();
+            
+            if (!quiz || !result) {
+                showToast('error', 'Quiz results not found');
+                return;
+            }
+            
+            const percentage = Math.round((result.score / quiz.questions.length) * 100);
+            const resultClass = percentage >= 50 ? 'text-success' : 'text-danger';
+            
+            // Format time taken
+            const timeTaken = result.timeTaken ? 
+                `${Math.floor(result.timeTaken / 60)}m ${result.timeTaken % 60}s` : 'N/A';
+            
+            modalResultsContent.innerHTML = `
                 <div class="modal-header">
                     <h5 class="modal-title">${quiz.title}</h5>
                 </div>
                 <div class="modal-body">
-                    <p class="mb-3">${quiz.description || 'No description provided'}</p>
-                    <p class="text-muted small mb-4">
-                        Total Questions: ${quiz.questions.length} | 
-                        Total Time: ${quiz.totalTime} seconds | 
-                        Session End: ${new Date(quiz.sessionEnd).toLocaleString()}
-                    </p>
-                    
-                    <div class="accordion" id="quizDetailsAccordion">
-            `;
-
-                    // Add each question with its options
-                    quiz.questions.forEach((question, index) => {
-                        const correctAnswerIndex = question.options.findIndex(option => option.isCorrect);
-
-                        modalContent += `
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="heading${index}">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" 
-                                data-bs-target="#collapse${index}" aria-expanded="true" 
-                                aria-controls="collapse${index}">
-                                Question ${index + 1}: ${question.text}
-                                <span class="ms-2 badge bg-secondary">${question.timeLimit}s</span>
-                            </button>
-                        </h2>
-                        <div id="collapse${index}" class="accordion-collapse collapse show" 
-                            aria-labelledby="heading${index}" data-bs-parent="#quizDetailsAccordion">
-                            <div class="accordion-body">
-                                <ul class="list-group list-group-flush">
-                `;
-
-                        question.options.forEach((option, optionIndex) => {
-                            const isCorrect = optionIndex === correctAnswerIndex;
-                            modalContent += `
-                        <li class="list-group-item ${isCorrect ? 'list-group-item-success' : ''}">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" ${isCorrect ? 'checked' : ''} disabled>
-                                <label class="form-check-label ${isCorrect ? 'fw-bold' : ''}">
-                                    ${option.text}
-                                    ${isCorrect ? ' (Correct Answer)' : ''}
-                                </label>
-                            </div>
-                        </li>
-                    `;
-                        });
-
-                        modalContent += `
-                                </ul>
-                            </div>
+                    <div class="text-center mb-4">
+                        <div class="teacher-info mb-3">
+                            <small class="text-muted">Created by:</small>
+                            <div class="teacher-name fs-5">${quiz.createdByName || 'Unknown Teacher'}</div>
                         </div>
+                        <div class="score-display ${resultClass}">${result.score} / ${quiz.questions.length}</div>
+                        <p class="fs-5 ${resultClass}">${percentage}% Correct</p>
+                        <p class="text-muted">Time taken: ${timeTaken}</p>
                     </div>
-                `;
-                    });
-
-                    modalContent += `
+                    
+                    <div class="accordion" id="resultsAccordion">
+                        ${quiz.questions.map((question, index) => {
+                            const correctAnswerIndex = question.options.findIndex(option => option.isCorrect);
+                            const userAnswer = userAnswers[index];
+                            const isCorrect = userAnswer === correctAnswerIndex;
+                            
+                            return `
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="heading${index}">
+                                        <button class="accordion-button ${isCorrect ? '' : 'collapsed'}" type="button" data-bs-toggle="collapse" 
+                                            data-bs-target="#collapse${index}" aria-expanded="${isCorrect ? 'true' : 'false'}" 
+                                            aria-controls="collapse${index}">
+                                            Question ${index + 1}: ${question.text}
+                                            <span class="ms-2 badge bg-${isCorrect ? 'success' : 'danger'}">
+                                                ${isCorrect ? 'Correct' : 'Incorrect'}
+                                            </span>
+                                        </button>
+                                    </h2>
+                                    <div id="collapse${index}" class="accordion-collapse collapse ${isCorrect ? 'show' : ''}" 
+                                        aria-labelledby="heading${index}" data-bs-parent="#resultsAccordion">
+                                        <div class="accordion-body">
+                                            <p><strong>Your answer:</strong> 
+                                                <span class="${isCorrect ? 'correct-answer' : 'wrong-answer'}">
+                                                    ${userAnswer !== undefined && userAnswer !== null ? question.options[userAnswer].text : 'Not answered'}
+                                                </span>
+                                            </p>
+                                            <p><strong>Correct answer:</strong> 
+                                                <span class="correct-answer">${question.options[correctAnswerIndex].text}</span>
+                                            </p>
+                                            ${question.explanation ? `
+                                            <div class="explanation mt-3 p-3 bg-light rounded">
+                                                <strong>Explanation:</strong> ${question.explanation}
+                                            </div>
+                                            ` : ''}
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             `;
-
-                    // Update modal content
-                    modalResultsContent.innerHTML = modalContent;
-
-                    // Show the modal
-                    viewResultsModal.show();
-                })
-                .catch((error) => {
-                    showToast('error', 'Error loading quiz details: ' + error.message);
-                });
-        }
-
-        function viewQuiz(quizId) {
-            database.ref(`quizzes/${quizId}`).once('value')
-                .then((snapshot) => {
-                    const quiz = snapshot.val();
-                    showToast('info',
-                        `Quiz: ${quiz.title}\n\nDescription: ${quiz.description}\n\nTotal Questions: ${quiz.questions.length}\n\nTotal Time: ${quiz.totalTime} seconds\n\nSession End: ${new Date(quiz.sessionEnd).toLocaleString()}`,
-                        'Quiz Details'
-                    );
-                })
-                .catch((error) => {
-                    showToast('error', 'Error loading quiz: ' + error.message);
-                });
-        }
-
-        function shareQuiz(quizId) {
-            const quizLink = `${window.location.origin}${window.location.pathname}?quiz=${quizId}`;
-            navigator.clipboard.writeText(quizLink)
-                .then(() => {
-                    showToast('success', 'Quiz link copied to clipboard!');
-                })
-                .catch(() => {
-                    prompt('Copy this link to share with your students:', quizLink);
-                });
-        }
-
-        function viewAttendance(quizId) {
-            // Get quiz details to know total questions
-            database.ref(`quizzes/${quizId}`).once('value')
-                .then((quizSnapshot) => {
-                    const quiz = quizSnapshot.val();
-                    const totalQuestions = quiz.questions.length;
-
-                    // Get attendance records
-                    return database.ref(`quizzes/${quizId}/attendance`).once('value')
-                        .then((attendanceSnapshot) => {
-                            const attendance = attendanceSnapshot.val();
-                            const attendanceList = document.getElementById('attendance-list');
-                            attendanceList.innerHTML = '';
-
-                            if (!attendance) {
-                                attendanceList.innerHTML = '<div class="alert alert-info">No students have taken this quiz yet.</div>';
-                                document.getElementById('total-students').textContent = 'Total: 0';
-                                document.getElementById('average-score').textContent = 'Avg: 0%';
-                                attendanceModal.classList.remove('hidden');
-                                return;
-                            }
-
-                            const studentIds = Object.keys(attendance);
-                            document.getElementById('total-students').textContent = `Total: ${studentIds.length}`;
-
-                            // Get student results and user details
-                            const studentPromises = studentIds.map(studentId => {
-                                return Promise.all([
-                                    database.ref(`users/${studentId}`).once('value'),
-                                    database.ref(`studentResults/${studentId}/${quizId}`).once('value')
-                                ]);
-                            });
-
-                            return Promise.all(studentPromises)
-                                .then(results => {
-                                    let totalScore = 0;
-                                    let html = '<ul class="list-group">';
-
-                                    results.forEach(([userSnapshot, resultSnapshot], index) => {
-                                        const student = userSnapshot.val();
-                                        const result = resultSnapshot.val();
-                                        const timestamp = attendance[studentIds[index]];
-
-                                        const score = result ? result.score : 0;
-                                        const percentage = Math.round((score / totalQuestions) * 100);
-                                        totalScore += percentage;
-
-                                        html += `
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                <div class="student-info">
-                                                    <strong>${student.name}</strong> (${student.email})<br>
-                                                    <small class="text-muted">Completed: ${new Date(timestamp).toLocaleString()}</small>
-                                                </div>
-                                                <span class="student-score ${percentage >= 50 ? 'score-pass' : 'score-fail'}">
-                                                    ${score}/${totalQuestions} (${percentage}%)
-                                                </span>
-                                            </li>
-                                        `;
-                                    });
-
-                                    // Calculate average score
-                                    const averageScore = Math.round(totalScore / studentIds.length);
-                                    document.getElementById('average-score').textContent = `Avg: ${averageScore}%`;
-
-                                    html += '</ul>';
-                                    attendanceList.innerHTML = html;
-
-                                    // Show the modal
-                                    const attendanceModal = new bootstrap.Modal(document.getElementById('attendanceModal'));
-                                    attendanceModal.show();
-                                });
-                        });
-                })
-                .catch(error => {
-                    showToast('error', 'Error loading attendance: ' + error.message);
-                });
-        }
-
-       function loadStudentQuizzes() {
-    database.ref(`studentResults/${currentUser.uid}`).once('value')
-        .then((snapshot) => {
-            const results = snapshot.val();
-            studentQuizList.innerHTML = '';
             
-            if (!results) {
-                studentQuizList.innerHTML = '<div class="col-12"><div class="alert alert-info">You haven\'t taken any quizzes yet.</div></div>';
-                return;
-            }
-            
-            const quizIds = Object.keys(results);
-            const quizPromises = quizIds.map(quizId => {
-                return database.ref(`quizzes/${quizId}`).once('value')
-                    .then(quizSnapshot => {
-                        const quiz = quizSnapshot.val();
-                        const result = results[quizId];
-                        return { quizId, quiz, result };
-                    });
-            });
-            
-            return Promise.all(quizPromises);
-        })
-        .then(quizzesWithResults => {
-            quizzesWithResults.forEach(({ quizId, quiz, result }) => {
-                const quizElement = document.createElement('div');
-                quizElement.className = 'col-md-6 col-lg-4';
-                quizElement.innerHTML = `
-                    <div class="quiz-card card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">${quiz.title}</h5>
-                            <div class="teacher-info mb-2">
-                                <small class="text-muted">Created by:</small>
-                                <div class="teacher-name fw-bold">${quiz.createdByName || 'Unknown Teacher'}</div>
-                            </div>
-                            <div class="d-flex justify-content-between small text-muted mb-2">
-                                <span>Score: ${result.score}/${quiz.questions.length}</span>
-                                <span>Taken on ${new Date(result.timestamp).toLocaleDateString()}</span>
-                            </div>
-                            <div class="d-grid">
-                                <button class="btn btn-sm btn-outline-primary view-result-btn" data-quizid="${quizId}">View Result</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                studentQuizList.appendChild(quizElement);
-                quizElement.querySelector('.view-result-btn').addEventListener('click', () => showQuizResult(quizId));
-            });
+            viewResultsModal.show();
         })
         .catch((error) => {
-            showToast('error', 'Error loading student quizzes: ' + error.message);
+            showToast('error', 'Error loading quiz results: ' + error.message);
         });
-}
+    }
 
-        function joinQuiz() {
-            const quizLink = quizLinkInput.value.trim();
+    function backToDashboard() {
+        quizResultsContainer.classList.add('hidden');
 
-            if (!quizLink) {
-                showToast('error', 'Please enter a quiz link');
-                return;
-            }
-
-            let quizId;
-            try {
-                const url = new URL(quizLink);
-                quizId = url.searchParams.get('quiz');
-            } catch (e) {
-                // If it's not a full URL, maybe it's just the ID
-                quizId = quizLink;
-            }
-
-            if (!quizId) {
-                showToast('error', 'Invalid quiz link. Please check the link and try again.');
-                return;
-            }
-
-            database.ref(`quizzes/${quizId}`).once('value')
-                .then((snapshot) => {
-                    const quiz = snapshot.val();
-
-                    if (!quiz) {
-                        showToast('error', 'Quiz not found. Please check the link and try again.');
-                        return;
-                    }
-
-                    // Check if quiz session has ended
-                    const now = new Date();
-                    const sessionEnd = new Date(quiz.sessionEnd);
-
-                    if (now > sessionEnd) {
-                        showToast('error', 'This quiz session has expired. You can no longer take this quiz.');
-                        return;
-                    }
-
-                    return database.ref(`studentResults/${currentUser.uid}/${quizId}`).once('value')
-                        .then((resultSnapshot) => {
-                            if (resultSnapshot.exists()) {
-                                showToast('info', 'You\'ve already taken this quiz. Showing your results...');
-                                showQuizResult(quizId);
-                                return;
-                            }
-
-                            startQuiz(quizId, quiz);
-                        });
-                })
-                .catch((error) => {
-                    showToast('error', 'Error joining quiz: ' + error.message);
-                });
+        if (currentUserRole === 'teacher') {
+            showTeacherDashboard();
+        } else {
+            showStudentDashboard();
+            loadStudentQuizzes();
         }
+    }
 
-        function startQuiz(quizId, quiz) {
-            currentQuizId = quizId;
-            userAnswers = {};
-            currentQuestionIndex = 0;
-            quizQuestions = quiz.questions;
+    // Initialize the app
+    window.addEventListener('load', () => {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                currentUser = user;
 
-            studentDashboard.classList.add('hidden');
-            quizTakingContainer.classList.remove('hidden');
+                database.ref('users/' + user.uid).once('value')
+                    .then((snapshot) => {
+                        const userData = snapshot.val();
+                        currentUserRole = userData.role;
 
-            quizTakingTitle.textContent = quiz.title;
-            quizDescriptionDisplay.textContent = quiz.description || '';
+                        if (currentUserRole === 'teacher') {
+                            showTeacherDashboard();
+                            loadTeacherQuizzes();
+                        } else {
+                            showStudentDashboard();
+                            loadStudentQuizzes();
 
-            // Initialize question indicator
-            questionIndicator.innerHTML = '';
-            quiz.questions.forEach((_, index) => {
-                const dot = document.createElement('div');
-                dot.className = 'question-dot';
-                dot.textContent = index + 1;
-                dot.addEventListener('click', () => navigateToQuestion(index));
-                questionIndicator.appendChild(dot);
-            });
+                            const urlParams = new URLSearchParams(window.location.search);
+                            const quizId = urlParams.get('quiz');
 
-            // Update progress bar
-            questionProgress.style.width = '0%';
+                            if (quizId) {
+                                window.history.replaceState({}, document.title, window.location.pathname);
 
-            // Show first question
-            showQuestion(currentQuestionIndex);
-        }
+                                database.ref(`quizzes/${quizId}`).once('value')
+                                    .then((quizSnapshot) => {
+                                        const quiz = quizSnapshot.val();
 
-        function showQuestion(index) {
-            // Clear any existing timer
-            if (questionTimers[index]) {
-                clearInterval(questionTimers[index]);
-            }
+                                        if (quiz) {
+                                            // Check if quiz session has ended
+                                            const now = new Date();
+                                            const sessionEnd = new Date(quiz.sessionEnd);
 
-            // Update current question indicator
-            const dots = document.querySelectorAll('.question-dot');
-            dots.forEach((dot, i) => {
-                dot.classList.remove('active', 'answered');
-                if (i === index) dot.classList.add('active');
-                if (userAnswers[i] !== undefined) dot.classList.add('answered');
-            });
-
-            // Update progress bar
-            const progress = ((index + 1) / quizQuestions.length) * 100;
-            questionProgress.style.width = `${progress}%`;
-
-            // Set up the question
-            const question = quizQuestions[index];
-            quizQuestionsContainer.innerHTML = '';
-
-            const questionElement = document.createElement('div');
-            questionElement.className = 'question-item';
-            questionElement.id = `q-${index}`;
-
-            let optionsHtml = '';
-            question.options.forEach((option, optionIndex) => {
-                optionsHtml += `
-                    <div class="option-item">
-                        <input type="radio" id="q${index}-o${optionIndex}" name="q${index}" value="${optionIndex}" 
-                            ${userAnswers[index] === optionIndex ? 'checked' : ''}>
-                        <label for="q${index}-o${optionIndex}">${option.text}</label>
-                    </div>
-                `;
-            });
-
-            questionElement.innerHTML = `
-                <div class="question-text fs-5 mb-3">${index + 1}. ${question.text}</div>
-                <div class="options-container">${optionsHtml}</div>
-            `;
-
-            quizQuestionsContainer.appendChild(questionElement);
-
-            // Set up timer for this question
-            let timeLeftForQuestion = question.timeLimit;
-            updateQuestionTimer(timeLeftForQuestion);
-
-            questionTimers[index] = setInterval(() => {
-                timeLeftForQuestion--;
-                updateQuestionTimer(timeLeftForQuestion);
-
-                if (timeLeftForQuestion <= 0) {
-                    clearInterval(questionTimers[index]);
-                    if (userAnswers[index] === undefined) {
-                        userAnswers[index] = null; // Mark as unanswered
-                    }
-                    showNextQuestion();
-                }
-            }, 1000);
-
-            // Update radio button event listeners
-            questionElement.querySelectorAll('input[type="radio"]').forEach(radio => {
-                radio.addEventListener('change', (e) => {
-                    userAnswers[index] = parseInt(e.target.value);
-                });
-            });
-
-            // Update navigation buttons
-            prevQuestionBtn.disabled = index === 0;
-            nextQuestionBtn.textContent = index === quizQuestions.length - 1 ? 'Finish' : 'Next';
-        }
-
-        function updateQuestionTimer(seconds) {
-            const minutes = Math.floor(seconds / 60);
-            const remainingSeconds = seconds % 60;
-            timeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-
-            if (seconds <= 10) {
-                quizTimer.style.backgroundColor = '#ff6b6b';
-            } else {
-                quizTimer.style.backgroundColor = '#4a6bff';
-            }
-        }
-
-        function showNextQuestion() {
-            // Save current answer if any
-            const currentRadio = document.querySelector(`input[name="q${currentQuestionIndex}"]:checked`);
-            if (currentRadio) {
-                userAnswers[currentQuestionIndex] = parseInt(currentRadio.value);
-            } else {
-                userAnswers[currentQuestionIndex] = null;
-            }
-
-            if (currentQuestionIndex < quizQuestions.length - 1) {
-                currentQuestionIndex++;
-                showQuestion(currentQuestionIndex);
-            } else {
-                submitQuiz();
-            }
-        }
-
-        function showPreviousQuestion() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                showQuestion(currentQuestionIndex);
-            }
-        }
-
-        function navigateToQuestion(index) {
-            if (index >= 0 && index < quizQuestions.length) {
-                currentQuestionIndex = index;
-                showQuestion(currentQuestionIndex);
-            }
-        }
-
-        function submitQuiz() {
-            // Clear all question timers
-            Object.values(questionTimers).forEach(timer => clearInterval(timer));
-
-            database.ref(`quizzes/${currentQuizId}`).once('value')
-                .then((snapshot) => {
-                    const quiz = snapshot.val();
-                    let score = 0;
-                    const results = [];
-
-                    quiz.questions.forEach((question, index) => {
-                        const userAnswer = userAnswers[index];
-                        const correctAnswerIndex = question.options.findIndex(option => option.isCorrect);
-                        const isCorrect = userAnswer === correctAnswerIndex;
-
-                        if (isCorrect) score++;
-
-                        results.push({
-                            question: question.text,
-                            userAnswer: userAnswer !== undefined && userAnswer !== null ? question.options[userAnswer].text : 'Not answered',
-                            correctAnswer: question.options[correctAnswerIndex].text,
-                            isCorrect: isCorrect
-                        });
-                    });
-
-                    const resultData = {
-                        score: score,
-                        totalQuestions: quiz.questions.length,
-                        timestamp: firebase.database.ServerValue.TIMESTAMP
-                    };
-
-                    return database.ref(`studentResults/${currentUser.uid}/${currentQuizId}`).set(resultData)
-                        .then(() => {
-                            // Record attendance
-                            return database.ref(`quizzes/${currentQuizId}/attendance/${currentUser.uid}`)
-                                .set(firebase.database.ServerValue.TIMESTAMP)
-                                .then(() => {
-                                    return database.ref(`teacherQuizzes/${quiz.createdBy}/${currentQuizId}/attendanceCount`)
-                                        .transaction((currentCount) => {
-                                            return (currentCount || 0) + 1;
-                                        });
-                                });
-                        })
-                        .then(() => {
-                            showResults(quiz, results, score);
-                        });
-                })
-                .catch((error) => {
-                    showToast('error', 'Error submitting quiz: ' + error.message);
-                });
-        }
-
-        function showResults(quiz, results, score) {
-            quizTakingContainer.classList.add('hidden');
-            quizResultsContainer.classList.remove('hidden');
-
-            const percentage = Math.round((score / quiz.questions.length) * 100);
-            const resultClass = percentage >= 50 ? 'text-success' : 'text-danger';
-
-            resultsSummary.innerHTML = `
-                <h3 class="mb-2">${quiz.title}</h3>
-                <p class="text-muted mb-3">Created by: ${quiz.createdByName}</p>
-                <div class="score-display ${resultClass}">${score} / ${quiz.questions.length}</div>
-                <p class="fs-5 ${resultClass}">${percentage}% Correct</p>
-            `;
-
-            resultsDetails.innerHTML = '';
-            results.forEach((result, index) => {
-                const resultElement = document.createElement('div');
-                resultElement.className = 'result-question mb-4 pb-3 border-bottom';
-
-                resultElement.innerHTML = `
-                    <h4>Question ${index + 1}: ${result.question}</h4>
-                    <p>Your answer: <span class="${result.isCorrect ? 'correct-answer' : 'wrong-answer'}">${result.userAnswer}</span></p>
-                    <p>Correct answer: <span class="correct-answer">${result.correctAnswer}</span></p>
-                `;
-
-                resultsDetails.appendChild(resultElement);
-            });
-
-            showToast('success', `You scored ${score} out of ${quiz.questions.length} (${percentage}%)`);
-        }
-function showQuizResult(quizId) {
-    Promise.all([
-        database.ref(`quizzes/${quizId}`).once('value'),
-        database.ref(`studentResults/${currentUser.uid}/${quizId}`).once('value')
-    ])
-    .then(([quizSnapshot, resultSnapshot]) => {
-        const quiz = quizSnapshot.val();
-        const result = resultSnapshot.val();
-        
-        if (!quiz || !result) {
-            showToast('error', 'Quiz results not found');
-            return;
-        }
-        
-        const percentage = Math.round((result.score / quiz.questions.length) * 100);
-        const resultClass = percentage >= 50 ? 'text-success' : 'text-danger';
-        
-        modalResultsContent.innerHTML = `
-            <div class="modal-header">
-                <h5 class="modal-title">${quiz.title}</h5>
-            </div>
-            <div class="modal-body">
-                <div class="text-center mb-4">
-                    <div class="teacher-info mb-3">
-                        <small class="text-muted">Created by:</small>
-                        <div class="teacher-name fs-5">${quiz.createdByName || 'Unknown Teacher'}</div>
-                    </div>
-                    <div class="score-display ${resultClass}">${result.score} / ${quiz.questions.length}</div>
-                    <p class="fs-5 ${resultClass}">${percentage}% Correct</p>
-                </div>
-                
-                <div class="accordion" id="resultsAccordion">
-                    ${quiz.questions.map((question, index) => {
-                        const correctAnswerIndex = question.options.findIndex(option => option.isCorrect);
-                        const userAnswer = userAnswers[index];
-                        const isCorrect = userAnswer === correctAnswerIndex;
-                        
-                        return `
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="heading${index}">
-                                    <button class="accordion-button ${isCorrect ? '' : 'collapsed'}" type="button" data-bs-toggle="collapse" 
-                                        data-bs-target="#collapse${index}" aria-expanded="${isCorrect ? 'true' : 'false'}" 
-                                        aria-controls="collapse${index}">
-                                        Question ${index + 1}: ${question.text}
-                                        <span class="ms-2 badge bg-${isCorrect ? 'success' : 'danger'}">
-                                            ${isCorrect ? 'Correct' : 'Incorrect'}
-                                        </span>
-                                    </button>
-                                </h2>
-                                <div id="collapse${index}" class="accordion-collapse collapse ${isCorrect ? 'show' : ''}" 
-                                    aria-labelledby="heading${index}" data-bs-parent="#resultsAccordion">
-                                    <div class="accordion-body">
-                                        <p><strong>Your answer:</strong> 
-                                            <span class="${isCorrect ? 'correct-answer' : 'wrong-answer'}">
-                                                ${userAnswer !== undefined && userAnswer !== null ? question.options[userAnswer].text : 'Not answered'}
-                                            </span>
-                                        </p>
-                                        <p><strong>Correct answer:</strong> 
-                                            <span class="correct-answer">${question.options[correctAnswerIndex].text}</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    }).join('')}
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        `;
-        
-        viewResultsModal.show();
-    })
-    .catch((error) => {
-        showToast('error', 'Error loading quiz results: ' + error.message);
-    });
-}
-
-        function backToDashboard() {
-            quizResultsContainer.classList.add('hidden');
-
-            if (currentUserRole === 'teacher') {
-                showTeacherDashboard();
-            } else {
-                showStudentDashboard();
-                loadStudentQuizzes();
-            }
-        }
-
-        // Initialize the app
-        window.addEventListener('load', () => {
-            auth.onAuthStateChanged((user) => {
-                if (user) {
-                    currentUser = user;
-
-                    database.ref('users/' + user.uid).once('value')
-                        .then((snapshot) => {
-                            const userData = snapshot.val();
-                            currentUserRole = userData.role;
-
-                            if (currentUserRole === 'teacher') {
-                                showTeacherDashboard();
-                                loadTeacherQuizzes();
-                            } else {
-                                showStudentDashboard();
-                                loadStudentQuizzes();
-
-                                const urlParams = new URLSearchParams(window.location.search);
-                                const quizId = urlParams.get('quiz');
-
-                                if (quizId) {
-                                    window.history.replaceState({}, document.title, window.location.pathname);
-
-                                    database.ref(`quizzes/${quizId}`).once('value')
-                                        .then((quizSnapshot) => {
-                                            const quiz = quizSnapshot.val();
-
-                                            if (quiz) {
-                                                // Check if quiz session has ended
-                                                const now = new Date();
-                                                const sessionEnd = new Date(quiz.sessionEnd);
-
-                                                if (now > sessionEnd) {
-                                                    showToast('error', 'This quiz session has expired. You can no longer take this quiz.');
-                                                    return;
-                                                }
-
-                                                return database.ref(`studentResults/${user.uid}/${quizId}`).once('value')
-                                                    .then((resultSnapshot) => {
-                                                        if (resultSnapshot.exists()) {
-                                                            showToast('info', 'You\'ve already taken this quiz. Showing your results...');
-                                                            showQuizResult(quizId);
-                                                            return;
-                                                        }
-
-                                                        startQuiz(quizId, quiz);
-                                                    });
+                                            if (now > sessionEnd) {
+                                                showToast('error', 'This quiz session has expired. You can no longer take this quiz.');
+                                                return;
                                             }
-                                        })
-                                        .catch((error) => {
-                                            showToast('error', 'Error joining quiz from link: ' + error.message);
-                                        });
-                                }
+
+                                            return database.ref(`studentResults/${user.uid}/${quizId}`).once('value')
+                                                .then((resultSnapshot) => {
+                                                    if (resultSnapshot.exists()) {
+                                                        showToast('info', 'You\'ve already taken this quiz. Showing your results...');
+                                                        showQuizResult(quizId);
+                                                        return;
+                                                    }
+
+                                                    startQuiz(quizId, quiz);
+                                                });
+                                        }
+                                    })
+                                    .catch((error) => {
+                                        showToast('error', 'Error joining quiz from link: ' + error.message);
+                                    });
                             }
+                        }
 
-                            authContainer.classList.add('hidden');
-                        });
-                } else {
-                    currentUser = null;
-                    currentUserRole = null;
-                    authContainer.classList.remove('hidden');
-                    teacherDashboard.classList.add('hidden');
-                    studentDashboard.classList.add('hidden');
-                    quizTakingContainer.classList.add('hidden');
-                    quizResultsContainer.classList.add('hidden');
+                        authContainer.classList.add('hidden');
+                    });
+            } else {
+                currentUser = null;
+                currentUserRole = null;
+                authContainer.classList.remove('hidden');
+                teacherDashboard.classList.add('hidden');
+                studentDashboard.classList.add('hidden');
+                quizTakingContainer.classList.add('hidden');
+                quizResultsContainer.classList.add('hidden');
 
-                    // Show login tab by default
-                    authTabs.show();
-                }
-            });
+                // Show login tab by default
+                authTabs.show();
+            }
         });
-    </script>
+    });
+</script>
 
     <!-- Attendance Modal -->
     <div class="modal fade" id="attendanceModal" tabindex="-1" aria-hidden="true">
@@ -1917,6 +2171,7 @@ function showQuizResult(quizId) {
             loginTab.show();
         });
     </script>
+  
+    </script>
 </body>
-
 </html>

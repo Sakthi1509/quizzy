@@ -1,0 +1,3759 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Test your skills with Quizzy! Timed quizzes, code-friendly format, and live results.">
+    <meta property="og:title" content="Quizzy - The Quiz App">
+    <meta property="og:description" content="Test your skill">
+    <meta property="og:image" content="https://quizzy-009.web.app/game.png">
+    <meta property="og:url" content="https://quizzy-009.web.app">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Quizzy - The Quiz App">
+    <meta name="twitter:description" content="Test your skill">
+    <meta name="twitter:image" content="https://quizzy-009.web.app/game.png">
+    <title>Quizzy</title>
+    <link id="favicon" rel="icon" href="game.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
+    <style>
+        :root {
+            --primary-color: #4a6bff;
+            --secondary-color: #f5f7ff;
+            --accent-color: #ff6b6b;
+            --text-color: #333;
+            --light-text: #666;
+            --border-color: #ddd;
+            --success-color: #4caf50;
+            --error-color: #f44336;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: var(--text-color);
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Auth Page */
+        .auth-container {
+            max-width: 500px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 95%;
+        }
+
+        .auth-tabs .nav-link {
+            color: var(--light-text);
+            font-weight: 600;
+            border: none;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+        }
+
+        .auth-tabs .nav-link.active {
+            color: var(--primary-color);
+            background: transparent;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        /* Quiz Card */
+        .quiz-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+            margin-bottom: 15px;
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Quiz Creation */
+        .question-card {
+            background: var(--secondary-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .option-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .option-container input[type="text"] {
+            flex: 1;
+            margin-right: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: var(--error-color);
+            cursor: pointer;
+            font-size: 20px;
+            margin-left: 10px;
+        }
+
+        /* Quiz Taking */
+        #quiz-timer {
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .question-item {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .option-item:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* Results */
+        .correct-answer {
+            color: var(--success-color);
+            font-weight: 600;
+        }
+
+        .wrong-answer {
+            color: var(--error-color);
+            font-weight: 600;
+        }
+
+        .score-display {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 20px 0;
+        }
+
+        /* Progress Bar */
+        .progress {
+            height: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Terms and Conditions */
+        .terms-container {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        /* Attendance Modal */
+        .student-score {
+            font-weight: bold;
+            margin-left: 20px;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .score-pass {
+            background-color: #e8f5e9;
+            color: var(--success-color);
+        }
+
+        .score-fail {
+            background-color: #ffebee;
+            color: var(--error-color);
+        }
+
+        /* Current Question Indicator */
+        .question-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .question-dot {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .question-dot.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .question-dot.answered {
+            background: var(--success-color);
+            color: white;
+        }
+
+        /* Enhanced Auth Container */
+        .auth-container {
+            max-width: 500px;
+            margin: 1rem auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: none;
+        }
+
+        .auth-tabs .nav-link {
+            padding: 0.8rem;
+            font-weight: 600;
+            color: #6c757d;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .auth-tabs .nav-link.active {
+            color: #4a6bff;
+            background: transparent;
+            border-bottom: 3px solid #4a6bff;
+        }
+
+        .auth-tabs .nav-link:hover:not(.active) {
+            color: #4a6bff;
+            background: rgba(74, 107, 255, 0.05);
+        }
+
+        .auth-form {
+            padding: 1.5rem;
+        }
+
+        /* Form Enhancements */
+        .form-control {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .form-control:focus {
+            border-color: #4a6bff;
+            box-shadow: 0 0 0 0.25rem rgba(74, 107, 255, 0.25);
+        }
+
+        .btn-primary {
+            background-color: #4a6bff;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #3a56d4;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(74, 107, 255, 0.3);
+        }
+
+        /* Auth Footer Links */
+        .auth-footer {
+            text-align: center;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .auth-footer a {
+            color: #4a6bff;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .auth-footer a:hover {
+            color: #3a56d4;
+            text-decoration: none;
+        }
+
+        /* Terms Container */
+        .terms-container {
+            max-height: 150px;
+            overflow-y: auto;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #e0e0e0;
+        }
+
+        /* Quiz Details Modal Styles */
+        .quiz-details-modal .accordion-button:not(.collapsed) {
+            background-color: rgba(74, 107, 255, 0.1);
+            color: var(--primary-color);
+        }
+
+        .quiz-details-modal .accordion-button:focus {
+            box-shadow: none;
+            border-color: var(--primary-color);
+        }
+
+        .quiz-details-modal .list-group-item {
+            border-left: none;
+            border-right: none;
+        }
+
+        .quiz-details-modal .list-group-item-success {
+            background-color: rgba(76, 175, 80, 0.1);
+        }
+
+        .explanation {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--primary-color);
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        #auth-loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        /* Code Block Styles */
+        .code-container {
+            margin: 15px 0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .code-content {
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre;
+            tab-size: 4;
+            background-color: #f5f5f5;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+            min-height: 100px;
+            font-size: 0.85rem;
+        }
+
+        .code-display {
+            background-color: #282a36;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-size: 0.85rem;
+        }
+
+        .code-display pre {
+            margin: 0;
+            white-space: pre-wrap;
+        }
+
+        .language-select {
+            margin-right: 10px;
+            font-size: 0.85rem;
+        }
+
+        /* Admin Panel Styles */
+        .admin-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 95%;
+        }
+
+        .user-card {
+            border-left: 4px solid #4a6bff;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+
+        .user-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .pending {
+            border-left-color: #ffc107;
+        }
+
+        .approved {
+            border-left-color: #28a745;
+        }
+
+        .rejected {
+            border-left-color: #dc3545;
+        }
+
+        .status-badge {
+            font-size: 0.8rem;
+            padding: 3px 8px;
+            border-radius: 10px;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            color: #6c757d;
+        }
+
+        .search-box input {
+            padding-left: 35px;
+            font-size: 0.9rem;
+        }
+
+        .stats-card {
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .stats-card i {
+            font-size: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .stats-card h5 {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .stats-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0;
+        }
+
+        .total-users {
+            background: linear-gradient(45deg, #4a6bff, #6a11cb);
+        }
+
+        .pending-users {
+            background: linear-gradient(45deg, #ffc107, #ff7b00);
+        }
+
+        .approved-users {
+            background: linear-gradient(45deg, #28a745, #20c997);
+        }
+
+        .rejected-users {
+            background: linear-gradient(45deg, #dc3545, #fd7e14);
+        }
+
+        /* New Follow Button Styles */
+        .follow-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .follow-btn .follow-text {
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .follow-btn .following-text {
+            display: inline-block;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%) translateY(100%);
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        .follow-btn.following .follow-text {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+
+        .follow-btn.following .following-text {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Teacher Card Styles */
+        .teacher-card {
+            transition: all 0.3s;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .teacher-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .teacher-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--light-text);
+        }
+
+        .teacher-stats span {
+            display: flex;
+            align-items: center;
+        }
+
+        .teacher-stats i {
+            margin-right: 5px;
+        }
+
+        /* Quiz Tabs */
+        .quiz-tabs .nav-link {
+            color: var(--light-text);
+            font-weight: 600;
+            border: none;
+            padding: 10px 15px;
+        }
+
+        .quiz-tabs .nav-link.active {
+            color: var(--primary-color);
+            background: transparent;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        /* Join Quiz Bar */
+        .join-quiz-bar {
+            background-color: var(--secondary-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .auth-container {
+                padding: 15px;
+            }
+
+            .auth-form {
+                padding: 1rem 0;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .dashboard-header h1 {
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+            }
+
+            .quiz-card .card-body {
+                padding: 15px;
+            }
+
+            .quiz-card .card-title {
+                font-size: 1.1rem;
+            }
+
+            .quiz-card .btn {
+                font-size: 0.8rem;
+                padding: 5px 10px;
+            }
+
+            .question-card {
+                padding: 10px;
+            }
+
+            .option-container input[type="text"] {
+                padding: 8px;
+            }
+
+            #quiz-timer {
+                padding: 5px 10px;
+                font-size: 0.8rem;
+            }
+
+            .question-dot {
+                width: 25px;
+                height: 25px;
+                font-size: 0.8rem;
+            }
+
+            .score-display {
+                font-size: 2rem;
+            }
+
+            .stats-card {
+                padding: 10px;
+            }
+
+            .stats-card h3 {
+                font-size: 1.2rem;
+            }
+
+            .stats-card i {
+                font-size: 1.2rem;
+            }
+
+            .modal-body {
+                padding: 15px;
+            }
+
+            .modal-header h5 {
+                font-size: 1.2rem;
+            }
+
+            .quiz-creation-modal .modal-body {
+                padding: 15px;
+            }
+
+            .quiz-creation-modal .modal-header h5 {
+                font-size: 1.2rem;
+            }
+
+            .question-text {
+                font-size: 1rem;
+            }
+
+            .option-item label {
+                font-size: 0.9rem;
+            }
+
+            .explanation {
+                font-size: 0.85rem;
+                padding: 8px;
+            }
+
+            .code-display {
+                padding: 10px;
+                font-size: 0.8rem;
+            }
+
+            .code-content {
+                padding: 10px;
+                font-size: 0.8rem;
+            }
+
+            .language-select {
+                font-size: 0.8rem;
+                width: 120px;
+            }
+
+            .btn-group .btn {
+                font-size: 0.8rem;
+                padding: 5px 8px;
+            }
+
+            .user-card .card-body {
+                padding: 15px;
+            }
+
+            .user-card .card-title {
+                font-size: 1rem;
+            }
+
+            .user-card .card-text {
+                font-size: 0.85rem;
+            }
+
+            .status-badge {
+                font-size: 0.7rem;
+            }
+
+            .view-details-btn {
+                padding: 3px 6px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .auth-container {
+                margin: 10px auto;
+                padding: 10px;
+            }
+
+            .auth-tabs .nav-link {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+
+            .form-control {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.85rem;
+            }
+
+            .btn {
+                font-size: 0.85rem;
+                padding: 0.6rem;
+            }
+
+            .quiz-list, .student-quiz-list {
+                grid-template-columns: 1fr;
+            }
+
+            .quiz-card {
+                margin-bottom: 15px;
+            }
+
+            .question-indicator {
+                gap: 3px;
+            }
+
+            .question-dot {
+                width: 22px;
+                height: 22px;
+                font-size: 0.7rem;
+            }
+
+            .quiz-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .quiz-header h1 {
+                font-size: 1.3rem;
+                margin-bottom: 10px;
+            }
+
+            #quiz-timer {
+                align-self: flex-start;
+                margin-top: 10px;
+            }
+
+            .quiz-footer {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .quiz-footer .btn {
+                width: 100%;
+            }
+
+            .stats-card {
+                margin-bottom: 10px;
+            }
+
+            .stats-card h3 {
+                font-size: 1rem;
+            }
+
+            .stats-card h5 {
+                font-size: 0.8rem;
+            }
+
+            .search-box input {
+                font-size: 0.85rem;
+            }
+
+            .user-card .card-body {
+                padding: 10px;
+            }
+
+            .user-card .card-title {
+                font-size: 0.9rem;
+            }
+
+            .user-card .card-text {
+                font-size: 0.8rem;
+            }
+
+            .status-badge {
+                font-size: 0.65rem;
+                padding: 2px 5px;
+            }
+
+            .modal-dialog {
+                margin: 10px;
+            }
+
+            .modal-content {
+                border-radius: 8px;
+            }
+
+            .modal-header h5 {
+                font-size: 1.1rem;
+            }
+
+            .modal-body {
+                padding: 10px;
+            }
+
+            .accordion-button {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .list-group-item {
+                padding: 0.75rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            .explanation {
+                font-size: 0.8rem;
+                padding: 8px;
+            }
+
+            .code-display {
+                padding: 8px;
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Additional Mobile Optimizations */
+        @media (max-width: 400px) {
+            .auth-container {
+                padding: 10px;
+            }
+
+            .auth-tabs .nav-link {
+                padding: 0.5rem 0.3rem;
+                font-size: 0.75rem;
+            }
+
+            .form-control {
+                padding: 0.5rem 0.7rem;
+                font-size: 0.8rem;
+            }
+
+            .btn {
+                font-size: 0.8rem;
+                padding: 0.5rem;
+            }
+
+            .question-card {
+                padding: 8px;
+            }
+
+            .option-container input[type="text"] {
+                padding: 6px;
+                font-size: 0.8rem;
+            }
+
+            .remove-btn {
+                font-size: 18px;
+            }
+
+            .question-dot {
+                width: 20px;
+                height: 20px;
+                font-size: 0.65rem;
+            }
+
+            .quiz-header h1 {
+                font-size: 1.1rem;
+            }
+
+            #quiz-timer {
+                font-size: 0.7rem;
+                padding: 4px 8px;
+            }
+
+            .stats-card {
+                padding: 8px;
+            }
+
+            .stats-card h3 {
+                font-size: 0.9rem;
+            }
+
+            .stats-card h5 {
+                font-size: 0.75rem;
+            }
+
+            .search-box input {
+                font-size: 0.8rem;
+            }
+
+            .user-card .card-title {
+                font-size: 0.85rem;
+            }
+
+            .user-card .card-text {
+                font-size: 0.75rem;
+            }
+
+            .status-badge {
+                font-size: 0.6rem;
+            }
+
+            .modal-header h5 {
+                font-size: 1rem;
+            }
+
+            .accordion-button {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .list-group-item {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .explanation {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container position-fixed top-0 end-0 p-3"></div>
+
+    <div id="app-container">
+        <!-- Auth Screens -->
+        <div id="auth-container" class="auth-container">
+            <h2 class="mb-4 text-center">PKN College Dept Of IT </h2>
+
+            <ul class="nav nav-tabs auth-tabs" id="authTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login-form"
+                        type="button" role="tab">Login</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register-form"
+                        type="button" role="tab">Register</button>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane fade show active auth-form" id="login-form" role="tabpanel">
+                    <div class="mb-3">
+                        <label for="login-email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="login-email" placeholder="Enter your email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="login-password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="login-password"
+                            placeholder="Enter your password">
+                    </div>
+                    <button id="login-btn" class="btn btn-primary w-100 mb-3">Login</button>
+                    <button id="forgot-password-btn" class="btn btn-link w-100">Forgot Password?</button>
+                    <div id="login-error" class="text-danger mt-2 text-center"></div>
+
+                    <div class="auth-footer">
+                        Don't have an account? <a href="#" id="show-register">Register</a>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade auth-form" id="register-form" role="tabpanel">
+                    <div class="mb-3">
+                        <label for="register-name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="register-name" placeholder="Enter your name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="register-email" placeholder="Enter your email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="register-password"
+                            placeholder="Create a password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-role" class="form-label">I am a</label>
+                        <select class="form-select" id="register-role">
+                            <option value="teacher">Teacher</option>
+                            <option value="student">Student</option>
+                        </select>
+                    </div>
+
+                    <div id="student-terms" class="mb-3 hidden">
+                        <h5 class="mb-2">Terms and Conditions</h5>
+                        <div class="terms-container">
+                            <p><strong>General Instructions:</strong></p>
+                            <ol>
+                                <li>You must complete the quiz within the given time limit.</li>
+                                <li>Each question has its own timer - answer before time runs out.</li>
+                                <li>You cannot go back to previous questions once answered.</li>
+                                <li>The quiz will automatically submit when time expires.</li>
+                                <li>Any form of cheating will result in disqualification.</li>
+                                <li>Your results will be available immediately after submission.</li>
+                                <li>The quiz creator has the right to invalidate results if misconduct is detected.</li>
+                            </ol>
+                            <p>By proceeding, you agree to these terms and conditions.</p>
+                        </div>
+                        <div class="form-check mt-2">
+                            <input class="form-check-input" type="checkbox" id="accept-terms">
+                            <label class="form-check-label" for="accept-terms">
+                                I accept the terms and conditions
+                            </label>
+                        </div>
+                    </div>
+
+                    <button id="register-btn" class="btn btn-primary w-100 mb-3">Register</button>
+                    <div id="register-error" class="text-danger mt-2 text-center"></div>
+
+                    <div class="auth-footer">
+                        Already have an account? <a href="#" id="show-login">Sign In</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="forgot-password-form" class="auth-form hidden">
+                <h2 class="mb-4 text-center">Reset Password</h2>
+                <div class="mb-3">
+                    <label for="reset-email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="reset-email" placeholder="Enter your email">
+                </div>
+                <button id="reset-password-btn" class="btn btn-primary w-100 mb-3">Send Reset Link</button>
+                <button id="back-to-login-btn" class="btn btn-link w-100">Back to Login</button>
+                <div id="reset-error" class="text-danger mt-2 text-center"></div>
+                <div id="reset-success" class="text-success mt-2 text-center"></div>
+            </div>
+        </div>
+        <!-- Add this inside your auth-container div, after the tab-content div -->
+        <div id="auth-loading" class="text-center hidden">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Processing...</p>
+        </div>
+
+        <!-- Teacher Dashboard -->
+        <div id="teacher-dashboard" class="container mt-4 hidden">
+            <header class="dashboard-header d-flex justify-content-between align-items-center mb-4">
+                <h1>Teacher Dashboard</h1>
+                <button id="logout-btn" class="btn btn-outline-primary">Logout</button>
+            </header>
+            <hr style="opacity:100;">
+
+            <div class="dashboard-content">
+                <div class="join-quiz-bar mb-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="teacher-join-quiz-input" placeholder="Enter quiz link to join">
+                        <button class="btn btn-primary" id="teacher-join-quiz-btn">Join Quiz</button>
+                    </div>
+                </div>
+
+                <div class="dashboard-actions mb-4">
+                    <button id="create-quiz-btn" class="btn btn-primary">Create New Quiz</button>
+                </div>
+
+                <ul class="nav nav-tabs quiz-tabs mb-3" id="teacherTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="your-quizzes-tab" data-bs-toggle="tab" data-bs-target="#your-quizzes" type="button">Your Quizzes</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="quizzes-taken-tab" data-bs-toggle="tab" data-bs-target="#quizzes-taken" type="button">Quizzes You've Taken</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="your-students-tab" data-bs-toggle="tab" data-bs-target="#your-students" type="button">Your Students</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="available-teachers-tab" data-bs-toggle="tab" data-bs-target="#available-teachers" type="button">Available Teachers</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="your-quizzes" role="tabpanel">
+                        <div id="quiz-list-container">
+                            <div id="quiz-list" class="row g-4">
+                                <!-- Teacher's quizzes will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="quizzes-taken" role="tabpanel">
+                        <div id="teacher-quizzes-taken-list" class="row g-4">
+                            <!-- Quizzes teacher has taken will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="your-students" role="tabpanel">
+                        <div id="your-students-list" class="row g-4">
+                            <!-- Teacher's students will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="available-teachers" role="tabpanel">
+                        <div id="available-teachers-list" class="row g-4">
+                            <!-- Available teachers will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Dashboard -->
+        <div id="student-dashboard" class="container mt-4 hidden">
+            <header class="dashboard-header d-flex justify-content-between align-items-center mb-4">
+                <h1>Student Dashboard</h1>
+                <button id="student-logout-btn" class="btn btn-outline-primary">Logout</button>
+            </header>
+            <hr style="opacity:100;">
+
+            <div class="dashboard-content">
+                <div id="quiz-link-container" class="card mb-4 p-3">
+                    <div class="mb-3">
+                        <label for="quiz-link-input" class="form-label">Enter Quiz Link</label>
+                        <input type="text" class="form-control" id="quiz-link-input" placeholder="Paste quiz link here">
+                    </div>
+                    <button id="join-quiz-btn" class="btn btn-primary">Join Quiz</button>
+                </div>
+                <!-- Inside the student dashboard section -->
+<div class="dashboard-actions mb-4">
+    <button id="student-create-quiz-btn" class="btn btn-primary">Create New Quiz</button>
+</div>
+
+                <ul class="nav nav-tabs quiz-tabs mb-3" id="studentTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="quizzes-taken-tab" data-bs-toggle="tab" data-bs-target="#student-quizzes-taken" type="button">Quizzes You've Taken</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="your-quizzes-tab" data-bs-toggle="tab" data-bs-target="#student-your-quizzes" type="button">Your Quizzes</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="your-teachers-tab" data-bs-toggle="tab" data-bs-target="#student-your-teachers" type="button">Your Teachers</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="available-teachers-tab" data-bs-toggle="tab" data-bs-target="#student-available-teachers" type="button">Available Teachers</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="student-quizzes-taken" role="tabpanel">
+                        <div id="student-quiz-list" class="row g-4">
+                            <!-- Quizzes student has taken will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="student-your-quizzes" role="tabpanel">
+                        <div id="student-created-quiz-list" class="row g-4">
+                            <!-- Quizzes student has created will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="student-your-teachers" role="tabpanel">
+                        <div id="student-followed-teachers" class="row g-4">
+                            <!-- Teachers student is following will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="student-available-teachers" role="tabpanel">
+                        <div id="student-available-teachers-list" class="row g-4">
+                            <!-- Available teachers will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Creation Modal -->
+        <div class="modal fade" id="quiz-creation-modal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Create New Quiz</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="quiz-title" class="form-label">Quiz Title</label>
+                            <input type="text" class="form-control" id="quiz-title" placeholder="Enter quiz title">
+                        </div>
+                        <div class="mb-3">
+                            <label for="quiz-description" class="form-label">Description</label>
+                            <textarea class="form-control" id="quiz-description" rows="3"
+                                placeholder="Enter quiz description"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="quiz-session-end" class="form-label">Quiz Session End Date/Time</label>
+                            <input type="datetime-local" class="form-control" id="quiz-session-end">
+                        </div>
+
+                        <div id="questions-container">
+                            <!-- Questions will be added here -->
+                        </div>
+
+                        <button id="add-question-btn" class="btn btn-secondary mt-3">Add Question</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button id="save-quiz-btn" class="btn btn-primary">Save Quiz</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Taking Interface -->
+        <div id="quiz-taking-container" class="container mt-4 hidden">
+            <header class="quiz-header d-flex justify-content-between align-items-center mb-4">
+                <h1 id="quiz-taking-title">Quiz Title</h1>
+                <div id="quiz-timer" class="badge bg-primary fs-6">Time Left: <span id="time-display">00:00</span></div>
+            </header>
+
+            <div class="progress">
+                <div id="question-progress" class="progress-bar" role="progressbar" style="width: 0%"></div>
+            </div>
+
+            <div class="question-indicator" id="question-indicator">
+                <!-- Question dots will be added here -->
+            </div>
+
+            <div id="quiz-content">
+                <div id="quiz-description-display" class="mb-4"></div>
+                <div id="quiz-questions-container"></div>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+                <button id="prev-question-btn" class="btn btn-secondary">Previous</button>
+                <button id="next-question-btn" class="btn btn-primary">Next</button>
+                <button id="submit-quiz-btn" class="btn btn-success">Submit Quiz</button>
+            </div>
+        </div>
+
+        <!-- Quiz Results -->
+        <div id="quiz-results-container" class="container mt-4 hidden">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title mb-4">Quiz Results</h2>
+                    <div id="results-summary" class="text-center mb-4">
+                       
+                    </div>
+                    <div id="results-details"></div>
+                    <button id="back-to-dashboard-btn" class="btn btn-primary w-100 mt-3">Back to Dashboard</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="admin-dashboard" class="admin-container hidden">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1><i class="fas fa-user-shield me-2"></i>Admin Panel</h1>
+                <button id="admin-logout-btn" class="btn btn-outline-danger">Logout</button>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="stats-card total-users">
+                        <i class="fas fa-users"></i>
+                        <h5>Total Users</h5>
+                        <h3 id="total-users-count">0</h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card pending-users">
+                        <i class="fas fa-clock"></i>
+                        <h5>Pending Approval</h5>
+                        <h3 id="pending-users-count">0</h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card approved-users">
+                        <i class="fas fa-check-circle"></i>
+                        <h5>Approved</h5>
+                        <h3 id="approved-users-count">0</h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card rejected-users">
+                        <i class="fas fa-times-circle"></i>
+                        <h5>Rejected</h5>
+                        <h3 id="rejected-users-count">0</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="user-search" class="form-control" placeholder="Search users by name or email...">
+            </div>
+
+            <div class="mb-3">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-outline-primary active filter-btn"
+                        data-filter="all">All</button>
+                    <button type="button" class="btn btn-outline-warning filter-btn"
+                        data-filter="pending">Pending</button>
+                    <button type="button" class="btn btn-outline-success filter-btn"
+                        data-filter="approved">Approved</button>
+                    <button type="button" class="btn btn-outline-danger filter-btn"
+                        data-filter="rejected">Rejected</button>
+                </div>
+            </div>
+
+            <div id="users-list">
+                <!-- Users will be loaded here -->
+                <div class="text-center my-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p>Loading users...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Results Modal -->
+    <div class="modal fade" id="viewResultsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Quiz Results</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modal-results-content">
+                    <!-- Results will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Details Modal -->
+    <div class="modal fade" id="userDetailsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">User Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="user-details-content">
+                    <!-- User details will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" id="approve-user-btn">Approve</button>
+                    <button type="button" class="btn btn-danger" id="reject-user-btn">Reject</button>
+                    <button type="button" class="btn btn-danger" id="delete-user-btn">Delete Account</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Teacher Details Modal -->
+    <div class="modal fade" id="teacherDetailsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Teacher Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="teacher-details-content">
+                    <!-- Teacher details will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary follow-btn" id="follow-teacher-btn">
+                        <span class="follow-text">Follow</span>
+                        <span class="following-text">Following</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <!-- jsPDF for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <script>
+        // Firebase Configuration and Initialization
+        const firebaseConfig = {
+            apiKey: "AIzaSyDPf30guBLIarjbA530onMtfDubnF1S4HA",
+            authDomain: "quizzy-009.firebaseapp.com",
+            projectId: "quizzy-009",
+            storageBucket: "quizzy-009.appspot.com",
+            messagingSenderId: "404889113357",
+            appId: "1:404889113357:web:50c112295fff6ea3935644",
+            databaseURL: "https://quizzy-009-default-rtdb.firebaseio.com/"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const database = firebase.database();
+
+        // Initialize Bootstrap components
+        const authTabs = new bootstrap.Tab(document.getElementById('login-tab'));
+        const quizCreationModal = new bootstrap.Modal(document.getElementById('quiz-creation-modal'));
+        const viewResultsModal = new bootstrap.Modal(document.getElementById('viewResultsModal'));
+        const userDetailsModal = new bootstrap.Modal(document.getElementById('userDetailsModal'));
+        const teacherDetailsModal = new bootstrap.Modal(document.getElementById('teacherDetailsModal'));
+        const teacherTabs = new bootstrap.Tab(document.getElementById('your-quizzes-tab'));
+        const studentTabs = new bootstrap.Tab(document.getElementById('quizzes-taken-tab'));
+
+        // Initialize jsPDF
+        const { jsPDF } = window.jspdf;
+
+        // Toastr configuration
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": true,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000"
+        };
+
+        // DOM Elements
+        const authContainer = document.getElementById('auth-container');
+        const loginTab = document.getElementById('login-tab');
+        const registerTab = document.getElementById('register-tab');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const forgotPasswordForm = document.getElementById('forgot-password-form');
+        const loginBtn = document.getElementById('login-btn');
+        const registerBtn = document.getElementById('register-btn');
+        const forgotPasswordBtn = document.getElementById('forgot-password-btn');
+        const resetPasswordBtn = document.getElementById('reset-password-btn');
+        const backToLoginBtn = document.getElementById('back-to-login-btn');
+        const loginEmail = document.getElementById('login-email');
+        const loginPassword = document.getElementById('login-password');
+        const registerName = document.getElementById('register-name');
+        const registerEmail = document.getElementById('register-email');
+        const registerPassword = document.getElementById('register-password');
+        const registerRole = document.getElementById('register-role');
+        const resetEmail = document.getElementById('reset-email');
+        const loginError = document.getElementById('login-error');
+        const registerError = document.getElementById('register-error');
+        const resetError = document.getElementById('reset-error');
+        const resetSuccess = document.getElementById('reset-success');
+        const studentTerms = document.getElementById('student-terms');
+        const acceptTerms = document.getElementById('accept-terms');
+        const authLoading = document.getElementById('auth-loading');
+        const teacherDashboard = document.getElementById('teacher-dashboard');
+        const studentDashboard = document.getElementById('student-dashboard');
+        const adminDashboard = document.getElementById('admin-dashboard');
+        const logoutBtn = document.getElementById('logout-btn');
+        const studentLogoutBtn = document.getElementById('student-logout-btn');
+        const adminLogoutBtn = document.getElementById('admin-logout-btn');
+        const createQuizBtn = document.getElementById('create-quiz-btn');
+        const quizList = document.getElementById('quiz-list');
+        const quizLinkInput = document.getElementById('quiz-link-input');
+        const joinQuizBtn = document.getElementById('join-quiz-btn');
+        const studentQuizList = document.getElementById('student-quiz-list');
+        const teacherJoinQuizInput = document.getElementById('teacher-join-quiz-input');
+        const teacherJoinQuizBtn = document.getElementById('teacher-join-quiz-btn');
+
+        const quizTitle = document.getElementById('quiz-title');
+        const quizDescription = document.getElementById('quiz-description');
+        const quizSessionEnd = document.getElementById('quiz-session-end');
+        const questionsContainer = document.getElementById('questions-container');
+        const addQuestionBtn = document.getElementById('add-question-btn');
+        const saveQuizBtn = document.getElementById('save-quiz-btn');
+
+        const quizTakingContainer = document.getElementById('quiz-taking-container');
+        const quizTakingTitle = document.getElementById('quiz-taking-title');
+        const quizTimer = document.getElementById('quiz-timer');
+        const timeDisplay = document.getElementById('time-display');
+        const quizDescriptionDisplay = document.getElementById('quiz-description-display');
+        const quizQuestionsContainer = document.getElementById('quiz-questions-container');
+        const submitQuizBtn = document.getElementById('submit-quiz-btn');
+        const prevQuestionBtn = document.getElementById('prev-question-btn');
+        const nextQuestionBtn = document.getElementById('next-question-btn');
+        const questionProgress = document.getElementById('question-progress');
+        const questionIndicator = document.getElementById('question-indicator');
+
+        const quizResultsContainer = document.getElementById('quiz-results-container');
+        const resultsSummary = document.getElementById('results-summary');
+        const resultsDetails = document.getElementById('results-details');
+        const backToDashboardBtn = document.getElementById('back-to-dashboard-btn');
+        const modalResultsContent = document.getElementById('modal-results-content');
+        const shareResultBtn = document.getElementById('share-result-btn');
+        const downloadResultBtn = document.getElementById('download-result-btn');
+
+        // Admin elements
+        const usersList = document.getElementById('users-list');
+        const userSearch = document.getElementById('user-search');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const userDetailsContent = document.getElementById('user-details-content');
+        const approveUserBtn = document.getElementById('approve-user-btn');
+        const rejectUserBtn = document.getElementById('reject-user-btn');
+        const deleteUserBtn = document.getElementById('delete-user-btn');
+        const totalUsersCount = document.getElementById('total-users-count');
+        const pendingUsersCount = document.getElementById('pending-users-count');
+        const approvedUsersCount = document.getElementById('approved-users-count');
+        const rejectedUsersCount = document.getElementById('rejected-users-count');
+
+        // Teacher dashboard elements
+        const teacherQuizzesTakenList = document.getElementById('teacher-quizzes-taken-list');
+        const yourStudentsList = document.getElementById('your-students-list');
+        const availableTeachersList = document.getElementById('available-teachers-list');
+
+        // Student dashboard elements
+        const studentCreatedQuizList = document.getElementById('student-created-quiz-list');
+        const studentFollowedTeachers = document.getElementById('student-followed-teachers');
+        const studentAvailableTeachersList = document.getElementById('student-available-teachers-list');
+        // Add to the Event Listeners section
+const studentCreateQuizBtn = document.getElementById('student-create-quiz-btn');
+studentCreateQuizBtn.addEventListener('click', () => quizCreationModal.show());
+
+        // Follow teacher elements
+        const followTeacherBtn = document.getElementById('follow-teacher-btn');
+        const teacherDetailsContent = document.getElementById('teacher-details-content');
+
+        // Global Variables
+        let currentUser = null;
+        let currentUserRole = null;
+        let currentQuizId = null;
+        let quizTimerInterval = null;
+        let timeLeft = 0;
+        let userAnswers = {};
+        let currentQuestionIndex = 0;
+        let quizQuestions = [];
+        let questionTimers = {};
+        let quizStartTime = 0;
+        let allUsers = [];
+        let currentSelectedUserId = null;
+        let currentSelectedTeacherId = null;
+        let currentQuizResult = null;
+        let followedTeachers = [];
+        let availableTeachers = [];
+
+        // Set default session end time (24 hours from now)
+        const now = new Date();
+        now.setHours(now.getHours() + 24);
+        const formattedDateTime = now.toISOString().slice(0, 16);
+        quizSessionEnd.value = formattedDateTime;
+
+        // Event Listeners
+        registerRole.addEventListener('change', (e) => {
+            if (e.target.value === 'student') {
+                studentTerms.classList.remove('hidden');
+            } else {
+                studentTerms.classList.add('hidden');
+            }
+        });
+
+        loginBtn.addEventListener('click', loginUser);
+        registerBtn.addEventListener('click', registerUser);
+        forgotPasswordBtn.addEventListener('click', () => {
+            loginForm.classList.add('hidden');
+            registerForm.classList.add('hidden');
+            forgotPasswordForm.classList.remove('hidden');
+        });
+        resetPasswordBtn.addEventListener('click', resetPassword);
+        backToLoginBtn.addEventListener('click', () => {
+            forgotPasswordForm.classList.add('hidden');
+            loginForm.classList.remove('hidden');
+        });
+        logoutBtn.addEventListener('click', logoutUser);
+        studentLogoutBtn.addEventListener('click', logoutUser);
+        adminLogoutBtn.addEventListener('click', logoutUser);
+        createQuizBtn.addEventListener('click', () => quizCreationModal.show());
+        addQuestionBtn.addEventListener('click', addQuestion);
+        saveQuizBtn.addEventListener('click', saveQuiz);
+        joinQuizBtn.addEventListener('click', joinQuiz);
+        teacherJoinQuizBtn.addEventListener('click', joinQuizAsTeacher);
+        submitQuizBtn.addEventListener('click', submitQuiz);
+        prevQuestionBtn.addEventListener('click', showPreviousQuestion);
+        nextQuestionBtn.addEventListener('click', showNextQuestion);
+        backToDashboardBtn.addEventListener('click', backToDashboard);
+        shareResultBtn.addEventListener('click', shareQuizResult);
+        downloadResultBtn.addEventListener('click', downloadQuizResult);
+        followTeacherBtn.addEventListener('click', toggleFollowTeacher);
+        
+
+        // Admin event listeners
+        userSearch.addEventListener('input', filterUsers);
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                filterUsers();
+            });
+        });
+        approveUserBtn.addEventListener('click', approveUser);
+        rejectUserBtn.addEventListener('click', rejectUser);
+        deleteUserBtn.addEventListener('click', deleteUser);
+
+        // Functions
+        function showToast(type, message, title = '') {
+            switch (type) {
+                case 'success':
+                    toastr.success(message, title);
+                    break;
+                case 'error':
+                    toastr.error(message, title);
+                    break;
+                case 'info':
+                    toastr.info(message, title);
+                    break;
+                case 'warning':
+                    toastr.warning(message, title);
+                    break;
+                default:
+                    toastr.info(message, title);
+            }
+        }
+
+        function loginUser() {
+            const email = loginEmail.value.trim();
+            const password = loginPassword.value.trim();
+
+            if (!email || !password) {
+                showToast('error', 'Please fill in all fields');
+                return;
+            }
+
+            // Check if admin login
+            if (email === 'PKNitadministrator@gmail.com' && password === 'PKNit1219@') {
+                auth.signInWithEmailAndPassword(email, password)
+                    .then(() => {
+                        showToast('success', 'Admin login successful!');
+                        showAdminDashboard();
+                        loadAllUsers();
+                    })
+                    .catch((error) => {
+                        showToast('error', error.message);
+                    });
+                return;
+            }
+
+            // Show loading spinner
+            authLoading.classList.remove('hidden');
+            loginBtn.disabled = true;
+
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    const uid = userCredential.user.uid;
+
+                    return database.ref('users/' + uid).once('value').then((snapshot) => {
+                        const userData = snapshot.val();
+
+                        // ✅ Check approval before continuing
+                        if (!userData || userData.status !== 'approved') {
+                            auth.signOut(); // logout the user
+                            throw new Error('Your account is pending approval by the administrator.');
+                        }
+
+                        // ✅ Proceed if approved
+                        currentUser = userCredential.user;
+                        currentUserRole = userData.role;
+
+                        if (currentUserRole === 'teacher') {
+                            showTeacherDashboard();
+                            loadTeacherQuizzes();
+                            loadTeacherQuizzesTaken();
+                            loadYourStudents();
+                            loadAvailableTeachers();
+                        } else {
+                            showStudentDashboard();
+                            loadStudentQuizzes();
+                            loadStudentCreatedQuizzes();
+                            loadFollowedTeachers();
+                            loadAvailableTeachers();
+                        }
+
+                        authContainer.classList.add('hidden');
+                        showToast('success', 'Login successful!');
+                    });
+                })
+                .catch((error) => {
+                    showToast('error', error.message);
+                })
+                .finally(() => {
+                    authLoading.classList.add('hidden');
+                    loginBtn.disabled = false;
+                });
+        }
+
+        function registerUser() {
+            const name = registerName.value.trim();
+            const email = registerEmail.value.trim();
+            const password = registerPassword.value.trim();
+            const role = registerRole.value;
+
+            if (!name || !email || !password) {
+                showToast('error', 'Please fill in all fields');
+                return;
+            }
+
+            if (password.length < 6) {
+                showToast('error', 'Password should be at least 6 characters');
+                return;
+            }
+
+            if (role === 'student' && !acceptTerms.checked) {
+                showToast('error', 'You must accept the terms and conditions');
+                return;
+            }
+
+            // Show loading spinner
+            authLoading.classList.remove('hidden');
+            registerBtn.disabled = true;
+
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    return database.ref('users/' + userCredential.user.uid).set({
+                        name: name,
+                        email: email,
+                        role: role,
+                        status: 'pending', // New users need admin approval
+                        createdAt: firebase.database.ServerValue.TIMESTAMP,
+                        acceptedTerms: role === 'student' ? acceptTerms.checked : false
+                    });
+                })
+                .then(() => {
+                    showToast('success', 'Registration successful! Your account is pending approval by the administrator.');
+                    // Reset form
+                    registerName.value = '';
+                    registerEmail.value = '';
+                    registerPassword.value = '';
+                    registerRole.value = 'teacher';
+                    acceptTerms.checked = false;
+                    studentTerms.classList.add('hidden');
+
+                    // Show login tab
+                    const loginTab = new bootstrap.Tab(document.getElementById('login-tab'));
+                    loginTab.show();
+                })
+                .catch((error) => {
+                    showToast('error', error.message);
+                })
+                .finally(() => {
+                    // Hide loading spinner regardless of success/error
+                    authLoading.classList.add('hidden');
+                    registerBtn.disabled = false;
+                });
+        }
+
+        function resetPassword() {
+            const email = resetEmail.value.trim();
+
+            if (!email) {
+                showToast('error', 'Please enter your email');
+                return;
+            }
+
+            // Show loading spinner
+            authLoading.classList.remove('hidden');
+            resetPasswordBtn.disabled = true;
+
+            auth.sendPasswordResetEmail(email)
+                .then(() => {
+                    showToast('success', 'Password reset email sent. Please check your inbox.');
+                })
+                .catch((error) => {
+                    showToast('error', error.message);
+                })
+                .finally(() => {
+                    // Hide loading spinner
+                    authLoading.classList.add('hidden');
+                    resetPasswordBtn.disabled = false;
+                });
+        }
+
+        function logoutUser() {
+            auth.signOut()
+                .then(() => {
+                    currentUser = null;
+                    currentUserRole = null;
+                    authContainer.classList.remove('hidden');
+                    teacherDashboard.classList.add('hidden');
+                    studentDashboard.classList.add('hidden');
+                    adminDashboard.classList.add('hidden');
+                    quizTakingContainer.classList.add('hidden');
+                    quizResultsContainer.classList.add('hidden');
+
+                    // Reset form fields
+                    loginEmail.value = '';
+                    loginPassword.value = '';
+                    registerName.value = '';
+                    registerEmail.value = '';
+                    registerPassword.value = '';
+                    resetEmail.value = '';
+
+                    // Clear any errors
+                    loginError.textContent = '';
+                    registerError.textContent = '';
+                    resetError.textContent = '';
+                    resetSuccess.textContent = '';
+
+                    // Show login tab by default
+                    authTabs.show();
+                })
+                .catch((error) => {
+                    showToast('error', 'Logout error: ' + error.message);
+                });
+        }
+
+        function showTeacherDashboard() {
+            teacherDashboard.classList.remove('hidden');
+            studentDashboard.classList.add('hidden');
+            adminDashboard.classList.add('hidden');
+            quizTakingContainer.classList.add('hidden');
+            quizResultsContainer.classList.add('hidden');
+        }
+
+        function showStudentDashboard() {
+            studentDashboard.classList.remove('hidden');
+            teacherDashboard.classList.add('hidden');
+            adminDashboard.classList.add('hidden');
+            quizTakingContainer.classList.add('hidden');
+            quizResultsContainer.classList.add('hidden');
+        }
+
+        function showAdminDashboard() {
+            adminDashboard.classList.remove('hidden');
+            teacherDashboard.classList.add('hidden');
+            studentDashboard.classList.add('hidden');
+            authContainer.classList.add('hidden');
+            quizTakingContainer.classList.add('hidden');
+            quizResultsContainer.classList.add('hidden');
+        }
+
+        function addQuestion() {
+            const questionId = Date.now();
+            const questionHtml = `
+                <div class="question-card" id="question-${questionId}">
+                    <div class="mb-3">
+                        <label for="question-text-${questionId}" class="form-label">Question</label>
+                        <textarea class="form-control" id="question-text-${questionId}" rows="4" placeholder="Enter question text"></textarea>
+                        <button class="btn btn-sm btn-outline-secondary mt-2 add-code-btn" data-question="${questionId}">
+                            <i class="fas fa-code"></i> Add Code Block
+                        </button>
+                        <div id="code-container-${questionId}" class="hidden mt-3">
+                            <label class="form-label">Code Content</label>
+                            <textarea class="form-control code-content" rows="8" placeholder="Enter code here..." data-question="${questionId}"></textarea>
+                            <div class="d-flex mt-2">
+                                <select class="form-select language-select" style="width: 150px" data-question="${questionId}">
+                                    <option value="javascript">JavaScript</option>
+                                    <option value="python">Python</option>
+                                    <option value="java">Java</option>
+                                    <option value="csharp">C#</option>
+                                    <option value="cpp">C++</option>
+                                    <option value="php">PHP</option>
+                                    <option value="ruby">Ruby</option>
+                                </select>
+                                <button class="btn btn-sm btn-outline-danger ms-2 remove-code-btn" data-question="${questionId}">
+                                    <i class="fas fa-times"></i> Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Options</label>
+                        <div id="options-container-${questionId}">
+                            <div class="option-container">
+                                <input type="radio" name="correct-answer-${questionId}" value="0" checked>
+                                <input type="text" class="form-control" placeholder="Option 1">
+                                <button class="remove-btn remove-option-btn">&times;</button>
+                            </div>
+                            <div class="option-container">
+                                <input type="radio" name="correct-answer-${questionId}" value="1">
+                                <input type="text" class="form-control" placeholder="Option 2">
+                                <button class="remove-btn remove-option-btn">&times;</button>
+                            </div>
+                        </div>
+                        <button class="btn btn-sm btn-outline-primary add-option-btn mt-2" data-question="${questionId}">+ Add Option</button>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="question-explanation-${questionId}" class="form-label">Explanation</label>
+                        <textarea class="form-control" id="question-explanation-${questionId}" rows="2" placeholder="Add explanation for this question"></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="question-time-${questionId}" class="form-label">Time Limit (seconds)</label>
+                        <input type="number" class="form-control" id="question-time-${questionId}" value="30" min="10">
+                    </div>
+                    
+                    <button class="btn btn-sm btn-outline-danger remove-question-btn" data-question="${questionId}">Remove Question</button>
+                </div>
+            `;
+
+            questionsContainer.insertAdjacentHTML('beforeend', questionHtml);
+
+            // Add event listeners
+            document.querySelector(`[data-question="${questionId}"].add-code-btn`).addEventListener('click', toggleCodeBlock);
+            document.querySelector(`[data-question="${questionId}"].remove-code-btn`).addEventListener('click', toggleCodeBlock);
+            document.querySelector(`[data-question="${questionId}"].add-option-btn`).addEventListener('click', addOption);
+            document.querySelector(`[data-question="${questionId}"].remove-question-btn`).addEventListener('click', removeQuestion);
+
+            // Add event listeners for option remove buttons
+            const removeOptionBtns = document.querySelectorAll(`#question-${questionId} .remove-option-btn`);
+            removeOptionBtns.forEach(btn => {
+                btn.addEventListener('click', removeOption);
+            });
+        }
+
+        function toggleCodeBlock(e) {
+            const questionId = e.target.getAttribute('data-question');
+            const codeContainer = document.getElementById(`code-container-${questionId}`);
+            const addCodeBtn = document.querySelector(`[data-question="${questionId}"].add-code-btn`);
+            const removeCodeBtn = document.querySelector(`[data-question="${questionId}"].remove-code-btn`);
+
+            if (e.target === addCodeBtn) {
+                codeContainer.classList.remove('hidden');
+                addCodeBtn.classList.add('hidden');
+                // Focus on the code textarea when shown
+                codeContainer.querySelector('.code-content').focus();
+            } else {
+                codeContainer.classList.add('hidden');
+                addCodeBtn.classList.remove('hidden');
+                // Clear the code content when hidden
+                codeContainer.querySelector('.code-content').value = '';
+            }
+        }
+
+        function addOption(e) {
+            const questionId = e.target.getAttribute('data-question');
+            const optionsContainer = document.getElementById(`options-container-${questionId}`);
+            const optionCount = optionsContainer.children.length;
+
+            if (optionCount >= 6) {
+                showToast('error', 'Maximum 6 options allowed per question');
+                return;
+            }
+
+            const optionHtml = `
+                <div class="option-container">
+                    <input type="radio" name="correct-answer-${questionId}" value="${optionCount}">
+                    <input type="text" class="form-control" placeholder="Option ${optionCount + 1}">
+                    <button class="remove-btn remove-option-btn">&times;</button>
+                </div>
+            `;
+
+            optionsContainer.insertAdjacentHTML('beforeend', optionHtml);
+            optionsContainer.lastElementChild.querySelector('.remove-option-btn').addEventListener('click', removeOption);
+        }
+
+        function removeOption(e) {
+            const optionContainer = e.target.closest('.option-container');
+            const optionsContainer = optionContainer.parentElement;
+
+            if (optionsContainer.children.length <= 2) {
+                showToast('error', 'Each question must have at least 2 options');
+                return;
+            }
+
+            const radioBtn = optionContainer.querySelector('input[type="radio"]');
+            if (radioBtn.checked) {
+                optionsContainer.firstElementChild.querySelector('input[type="radio"]').checked = true;
+            }
+
+            optionContainer.remove();
+
+            const optionContainers = optionsContainer.querySelectorAll('.option-container');
+            optionContainers.forEach((container, index) => {
+                container.querySelector('input[type="radio"]').value = index;
+            });
+        }
+
+        function removeQuestion(e) {
+            const questionId = e.target.getAttribute('data-question');
+            const questionElement = document.getElementById(`question-${questionId}`);
+
+            if (questionsContainer.children.length <= 1) {
+                showToast('error', 'Each quiz must have at least one question');
+                return;
+            }
+
+            questionElement.remove();
+        }
+
+        function saveQuiz() {
+            const title = quizTitle.value.trim();
+            const description = quizDescription.value.trim();
+            const sessionEnd = quizSessionEnd.value;
+
+            // Validation
+            if (!title) {
+                showToast('error', 'Please enter a quiz title');
+                return;
+            }
+
+            if (title.length > 100) {
+                showToast('error', 'Quiz title must be less than 100 characters');
+                return;
+            }
+
+            if (description.length > 500) {
+                showToast('error', 'Description must be less than 500 characters');
+                return;
+            }
+
+            // Validate session end date
+            const now = new Date();
+            const sessionEndDate = new Date(sessionEnd);
+            if (sessionEndDate <= now) {
+                showToast('error', 'Quiz end date must be in the future');
+                return;
+            }
+
+            const questions = [];
+            let totalTime = 0;
+            let isValid = true;
+
+            document.querySelectorAll('.question-card').forEach((questionCard, index) => {
+                const questionId = questionCard.id.split('-')[1];
+                const questionText = document.getElementById(`question-text-${questionId}`).value.trim();
+                const codeContainer = document.getElementById(`code-container-${questionId}`);
+                const timeLimit = parseInt(document.getElementById(`question-time-${questionId}`).value) || 30;
+                const explanation = document.getElementById(`question-explanation-${questionId}`).value.trim();
+
+                // Question validation
+                if (!questionText) {
+                    showToast('error', `Please enter text for question ${index + 1}`);
+                    isValid = false;
+                    return;
+                }
+
+                const questionData = {
+                    text: questionText,
+                    options: [],
+                    explanation: explanation,
+                    timeLimit: timeLimit
+                };
+
+                // Add code block if exists
+                if (codeContainer && !codeContainer.classList.contains('hidden')) {
+                    const codeContent = codeContainer.querySelector('.code-content').value.trim();
+                    if (codeContent) {
+                        questionData.code = codeContent;
+                        questionData.language = codeContainer.querySelector('.language-select').value;
+                    }
+                }
+
+                // Process options
+                const optionsContainers = questionCard.querySelectorAll('.option-container');
+
+                optionsContainers.forEach((optionContainer, optionIndex) => {
+                    const optionText = optionContainer.querySelector('input[type="text"]').value.trim();
+
+                    if (!optionText) {
+                        showToast('error', `Please enter text for option ${optionIndex + 1} in question ${index + 1}`);
+                        isValid = false;
+                        return;
+                    }
+
+                    const isCorrect = optionContainer.querySelector('input[type="radio"]').checked;
+                    questionData.options.push({
+                        text: optionText,
+                        isCorrect: isCorrect
+                    });
+                });
+
+                if (!isValid) return;
+
+                // Validate options
+                if (questionData.options.length < 2) {
+                    showToast('error', `Question ${index + 1} must have at least 2 options`);
+                    isValid = false;
+                    return;
+                }
+
+                const hasCorrectAnswer = questionData.options.some(option => option.isCorrect);
+                if (!hasCorrectAnswer) {
+                    showToast('error', `Please mark the correct answer for question ${index + 1}`);
+                    isValid = false;
+                    return;
+                }
+
+                questions.push(questionData);
+                totalTime += timeLimit;
+            });
+
+            if (!isValid) return;
+
+            if (questions.length === 0) {
+                showToast('error', 'Please add at least one question to the quiz');
+                return;
+            }
+
+            // Show loading state
+            saveQuizBtn.disabled = true;
+            saveQuizBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...';
+
+            const quizRef = database.ref('quizzes').push();
+            const quizId = quizRef.key;
+
+            const quizData = {
+                title: title,
+                description: description,
+                questions: questions,
+                totalTime: totalTime,
+                sessionEnd: sessionEnd,
+                createdAt: firebase.database.ServerValue.TIMESTAMP,
+                createdBy: currentUser.uid,
+                createdByName: currentUser.displayName || currentUser.email,
+                hasCodeBlocks: questions.some(q => q.hasOwnProperty('code')),
+                 creatorRole: currentUserRole
+            };
+
+            // Save to Firebase
+            quizRef.set(quizData)
+                .then(() => {
+                     const quizRefPath = currentUserRole === 'teacher' ? 
+                `teacherQuizzes/${currentUser.uid}/${quizId}` : 
+                `studentQuizzes/${currentUser.uid}/${quizId}`;
+            
+            return database.ref(quizRefPath).set({
+                title: title,
+                createdAt: firebase.database.ServerValue.TIMESTAMP,
+                attendanceCount: 0,
+                sessionEnd: sessionEnd,
+                hasCodeBlocks: quizData.hasCodeBlocks
+            });
+                    return database.ref(`teacherQuizzes/${currentUser.uid}/${quizId}`).set({
+                        title: title,
+                        createdAt: firebase.database.ServerValue.TIMESTAMP,
+                        attendanceCount: 0,
+                        sessionEnd: sessionEnd,
+                        hasCodeBlocks: quizData.hasCodeBlocks
+                    });
+                })
+                .then(() => {
+                    showToast('success', 'Quiz saved successfully!');
+                    quizCreationModal.hide();
+
+                    // Reset form
+                    quizTitle.value = '';
+                    quizDescription.value = '';
+                    questionsContainer.innerHTML = '';
+
+                    // Set default session end time (24 hours from now)
+                    const now = new Date();
+                    now.setHours(now.getHours() + 24);
+                    const formattedDateTime = now.toISOString().slice(0, 16);
+                    quizSessionEnd.value = formattedDateTime;
+
+                    if (currentUserRole === 'teacher') {
+                loadTeacherQuizzes();
+            } else {
+                loadStudentCreatedQuizzes();
+            }
+                })
+                .catch((error) => {
+                    showToast('error', 'Error saving quiz: ' + error.message);
+                })
+                .finally(() => {
+                    saveQuizBtn.disabled = false;
+                    saveQuizBtn.textContent = 'Save Quiz';
+                });
+        }
+
+        function loadTeacherQuizzes() {
+            database.ref(`teacherQuizzes/${currentUser.uid}`).once('value')
+                .then((snapshot) => {
+                    const quizzes = snapshot.val();
+                    quizList.innerHTML = '';
+
+                    if (!quizzes) {
+                        quizList.innerHTML = '<div class="col-12"><div class="alert alert-info">You haven\'t created any quizzes yet.</div></div>';
+                        return;
+                    }
+
+                    Object.entries(quizzes).forEach(([quizId, quiz]) => {
+                        const quizElement = document.createElement('div');
+                        quizElement.className = 'col-md-6 col-lg-4';
+                        quizElement.innerHTML = `
+                            <div class="quiz-card card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">${quiz.title}</h5>
+                                    <p class="card-text text-muted small">Created on ${new Date(quiz.createdAt).toLocaleDateString()}</p>
+                                    <p class="card-text text-muted small">Session ends: ${new Date(quiz.sessionEnd).toLocaleString()}</p>
+                                    <div class="d-flex justify-content-between small text-muted mb-2">
+                                        <span>ID: ${quizId.substring(0, 6)}...</span>
+                                        <span>Attendees: ${quiz.attendanceCount || 0}</span>
+                                    </div>
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-sm btn-outline-primary view-details-btn" data-quizid="${quizId}">View Details</button>
+                                        <button class="btn btn-sm btn-outline-success share-quiz-btn" data-quizid="${quizId}">Share</button>
+                                        <button class="btn btn-sm btn-outline-info view-attendance-btn" data-quizid="${quizId}">View Results</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+
+                        quizList.appendChild(quizElement);
+
+                        quizElement.querySelector('.view-details-btn').addEventListener('click', () => viewQuizDetails(quizId));
+                        quizElement.querySelector('.share-quiz-btn').addEventListener('click', () => shareQuiz(quizId));
+                        quizElement.querySelector('.view-attendance-btn').addEventListener('click', () => viewAttendance(quizId));
+                    });
+                })
+                .catch((error) => {
+                    showToast('error', 'Error loading quizzes: ' + error.message);
+                });
+        }
+
+        function loadTeacherQuizzesTaken() {
+            database.ref(`studentResults/${currentUser.uid}`).once('value')
+                .then((snapshot) => {
+                    const results = snapshot.val();
+                    teacherQuizzesTakenList.innerHTML = '';
+
+                    if (!results) {
+                        teacherQuizzesTakenList.innerHTML = '<div class="col-12"><div class="alert alert-info">You haven\'t taken any quizzes yet.</div></div>';
+                        return;
+                    }
+
+                    const quizIds = Object.keys(results);
+                    const quizPromises = quizIds.map(quizId => {
+                        return database.ref(`quizzes/${quizId}`).once('value')
+                            .then(quizSnapshot => {
+                                const quiz = quizSnapshot.val();
+                                const result = results[quizId];
+                                return { quizId, quiz, result };
+                            });
+                    });
+
+                    return Promise.all(quizPromises);
+                })
+                .then(quizzesWithResults => {
+                    // Sort quizzes by timestamp (newest first)
+                    quizzesWithResults.sort((a, b) => b.result.timestamp - a.result.timestamp);
+
+                    quizzesWithResults.forEach(({ quizId, quiz, result }) => {
+                        const quizElement = document.createElement('div');
+                        quizElement.className = 'col-md-6 col-lg-4';
+
+                        // Calculate time taken
+                        const timeTaken = result.timeTaken ?
+                            `${Math.floor(result.timeTaken / 60)}m ${result.timeTaken % 60}s` : 'N/A';
+
+                        // Format date
+                        const takenDate = new Date(result.timestamp);
+                        const formattedDate = takenDate.toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        });
+
+                        quizElement.innerHTML = `
+                            <div class="quiz-card card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">${quiz.title}</h5>
+                                    <div class="teacher-info mb-2">
+                                        <small class="text-muted">Created by:</small>
+                                        <div class="teacher-name fw-bold">${quiz.createdByName || 'Unknown Teacher'}</div>
+                                    </div>
+                                    <div class="d-flex justify-content-between small text-muted mb-2">
+                                        <span>Score: ${result.score}/${quiz.questions.length}</span>
+                                        <span>Time: ${timeTaken}</span>
+                                    </div>
+                                    <div class="small text-muted mb-3">Taken on ${formattedDate}</div>
+                                    <div class="d-grid">
+                                        <button class="btn btn-sm btn-outline-primary view-result-btn" data-quizid="${quizId}">View Result</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+
+                        teacherQuizzesTakenList.appendChild(quizElement);
+                        quizElement.querySelector('.view-result-btn').addEventListener('click', () => showQuizResult(quizId));
+                    });
+                })
+                .catch((error) => {
+                    showToast('error', 'Error loading quizzes taken: ' + error.message);
+                });
+        }
+
+        function loadYourStudents() {
+            database.ref(`teacherStudents/${currentUser.uid}`).once('value')
+                .then((snapshot) => {
+                    const studentIds = snapshot.val();
+                    yourStudentsList.innerHTML = '';
+
+                    if (!studentIds) {
+                        yourStudentsList.innerHTML = '<div class="col-12"><div class="alert alert-info">No students are following you yet.</div></div>';
+                        return;
+                    }
+
+                    const studentPromises = Object.keys(studentIds).map(studentId => {
+                        return database.ref(`users/${studentId}`).once('value');
+                    });
+
+                    return Promise.all(studentPromises);
+                })
+                .then(studentSnapshots => {
+                    studentSnapshots.forEach(snapshot => {
+                        const student = snapshot.val();
+                        const studentElement = document.createElement('div');
+                        studentElement.className = 'col-md-6 col-lg-4';
+                        
+                        studentElement.innerHTML = `
+                            <div class="card teacher-card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">${student.name}</h5>
+                                    <p class="card-text text-muted">${student.email}</p>
+                                    <div class="teacher-stats">
+                                        <span><i class="fas fa-graduation-cap"></i> Student</span>
+                                        <span><i class="fas fa-calendar-alt"></i> Joined: ${new Date(student.createdAt).toLocaleDateString()}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+
+                        yourStudentsList.appendChild(studentElement);
+                    });
+                })
+                .catch((error) => {
+                    showToast('error', 'Error loading your students: ' + error.message);
+                });
+        }
+
+        function loadAvailableTeachers() {
+            database.ref('users').once('value')
+                .then((snapshot) => {
+                    const users = snapshot.val();
+                    availableTeachersList.innerHTML = '';
+                    studentAvailableTeachersList.innerHTML = '';
+
+                    if (!users) {
+                        availableTeachersList.innerHTML = '<div class="col-12"><div class="alert alert-info">No teachers available.</div></div>';
+                        studentAvailableTeachersList.innerHTML = '<div class="col-12"><div class="alert alert-info">No teachers available.</div></div>';
+                        return;
+                    }
+
+                    availableTeachers = [];
+                    
+                    Object.keys(users).forEach(uid => {
+                        const user = users[uid];
+                        if (user.role === 'teacher' && user.status === 'approved' && uid !== currentUser.uid) {
+                            availableTeachers.push({
+                                uid: uid,
+                                ...user
+                            });
+                        }
+                    });
+
+                    if (availableTeachers.length === 0) {
+                        availableTeachersList.innerHTML = '<div class="col-12"><div class="alert alert-info">No teachers available.</div></div>';
+                        studentAvailableTeachersList.innerHTML = '<div class="col-12"><div class="alert alert-info">No teachers available.</div></div>';
+                        return;
+                    }
+
+                    // Render for teacher dashboard
+                    availableTeachers.forEach(teacher => {
+                        const teacherElement = document.createElement('div');
+                        teacherElement.className = 'col-md-6 col-lg-4';
+                        
+                        teacherElement.innerHTML = `
+                            <div class="card teacher-card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">${teacher.name}</h5>
+                                    <p class="card-text text-muted">${teacher.email}</p>
+                                    <div class="teacher-stats">
+                                        <span><i class="fas fa-chalkboard-teacher"></i> Teacher</span>
+                                        <span><i class="fas fa-calendar-alt"></i> Joined: ${new Date(teacher.createdAt).toLocaleDateString()}</span>
+                                    </div>
+                                    <button class="btn btn-sm btn-outline-primary mt-3 view-teacher-btn" data-teacherid="${teacher.uid}">
+                                        View Profile
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+
+                        availableTeachersList.appendChild(teacherElement);
+                        teacherElement.querySelector('.view-teacher-btn').addEventListener('click', () => viewTeacherDetails(teacher.uid));
+                    });
+
+                    // Render for student dashboard
+                    availableTeachers.forEach(teacher => {
+                        const teacherElement = document.createElement('div');
+                        teacherElement.className = 'col-md-6 col-lg-4';
+                        
+                        teacherElement.innerHTML = `
+                            <div class="card teacher-card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">${teacher.name}</h5>
+                                    <p class="card-text text-muted">${teacher.email}</p>
+                                    <div class="teacher-stats">
+                                        <span><i class="fas fa-chalkboard-teacher"></i> Teacher</span>
+                                        <span><i class="fas fa-calendar-alt"></i> Joined: ${new Date(teacher.createdAt).toLocaleDateString()}</span>
+                                    </div>
+                                    <button class="btn btn-sm btn-outline-primary mt-3 view-teacher-btn" data-teacherid="${teacher.uid}">
+                                        View Profile
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+
+                        studentAvailableTeachersList.appendChild(teacherElement);
+                        teacherElement.querySelector('.view-teacher-btn').addEventListener('click', () => viewTeacherDetails(teacher.uid));
+                    });
+                })
+                .catch((error) => {
+                    showToast('error', 'Error loading available teachers: ' + error.message);
+                });
+        }
+
+        function viewTeacherDetails(teacherId) {
+            currentSelectedTeacherId = teacherId;
+            
+            database.ref(`users/${teacherId}`).once('value')
+                .then((snapshot) => {
+                    const teacher = snapshot.val();
+                    
+                    // Check if current user is following this teacher
+                    return database.ref(`studentTeachers/${currentUser.uid}/${teacherId}`).once('value')
+                        .then((followSnapshot) => {
+                            const isFollowing = followSnapshot.exists();
+                            
+                            // Get teacher's quiz count
+                            return database.ref(`teacherQuizzes/${teacherId}`).once('value')
+                                .then((quizzesSnapshot) => {
+                                    const quizzes = quizzesSnapshot.val();
+                                    const quizCount = quizzes ? Object.keys(quizzes).length : 0;
+                                    
+                                    // Get teacher's student count
+                                    return database.ref(`teacherStudents/${teacherId}`).once('value')
+                                        .then((studentsSnapshot) => {
+                                            const students = studentsSnapshot.val();
+                                            const studentCount = students ? Object.keys(students).length : 0;
+                                            
+                                            // Render teacher details
+                                            teacherDetailsContent.innerHTML = `
+                                                <div class="mb-3">
+                                                    <h4>${teacher.name}</h4>
+                                                    <p class="text-muted">${teacher.email}</p>
+                                                </div>
+                                                
+                                                <div class="mb-3">
+                                                    <div class="d-flex justify-content-between mb-2">
+                                                        <span><i class="fas fa-chalkboard-teacher me-2"></i>Teacher</span>
+                                                        <span class="text-muted">Joined: ${new Date(teacher.createdAt).toLocaleDateString()}</span>
+                                                    </div>
+                                                    
+                                                    <div class="d-flex justify-content-between mb-2">
+                                                        <span><i class="fas fa-question-circle me-2"></i>Quizzes Created</span>
+                                                        <span class="text-muted">${quizCount}</span>
+                                                    </div>
+                                                    
+                                                    <div class="d-flex justify-content-between mb-2">
+                                                        <span><i class="fas fa-users me-2"></i>Students</span>
+                                                        <span class="text-muted">${studentCount}</span>
+                                                    </div>
+                                                </div>
+                                            `;
+                                            
+                                            // Update follow button state
+                                            const followBtn = document.getElementById('follow-teacher-btn');
+                                            if (isFollowing) {
+                                                followBtn.classList.add('following');
+                                            } else {
+                                                followBtn.classList.remove('following');
+                                            }
+                                            
+                                            teacherDetailsModal.show();
+                                        });
+                                });
+                        });
+                })
+                .catch((error) => {
+                    showToast('error', 'Error loading teacher details: ' + error.message);
+                });
+        }
+
+        function toggleFollowTeacher() {
+            const teacherId = currentSelectedTeacherId;
+            const followBtn = document.getElementById('follow-teacher-btn');
+            
+            if (followBtn.classList.contains('following')) {
+                // Unfollow teacher
+                database.ref(`studentTeachers/${currentUser.uid}/${teacherId}`).remove()
+                    .then(() => {
+                        return database.ref(`teacherStudents/${teacherId}/${currentUser.uid}`).remove();
+                    })
+                    .then(() => {
+                        followBtn.classList.remove('following');
+                        showToast('success', 'You have unfollowed this teacher');
+                        loadFollowedTeachers();
+                    })
+                    .catch((error) => {
+                        showToast('error', 'Error unfollowing teacher: ' + error.message);
+                    });
+            } else {
+                // Follow teacher
+                database.ref(`studentTeachers/${currentUser.uid}/${teacherId}`).set(true)
+                    .then(() => {
+                        return database.ref(`teacherStudents/${teacherId}/${currentUser.uid}`).set(true);
+                    })
+                    .then(() => {
+                        followBtn.classList.add('following');
+                        showToast('success', 'You are now following this teacher');
+                        loadFollowedTeachers();
+                    })
+                    .catch((error) => {
+                        showToast('error', 'Error following teacher: ' + error.message);
+                    });
+            }
+        }
+
+        function loadFollowedTeachers() {
+            database.ref(`studentTeachers/${currentUser.uid}`).once('value')
+                .then((snapshot) => {
+                    const teacherIds = snapshot.val();
+                    studentFollowedTeachers.innerHTML = '';
+
+                    if (!teacherIds) {
+                        studentFollowedTeachers.innerHTML = '<div class="col-12"><div class="alert alert-info">You are not following any teachers yet.</div></div>';
+                        return;
+                    }
+
+                    const teacherPromises = Object.keys(teacherIds).map(teacherId => {
+                        return database.ref(`users/${teacherId}`).once('value');
+                    });
+
+                    return Promise.all(teacherPromises);
+                })
+                .then(teacherSnapshots => {
+                    followedTeachers = [];
+                    
+                    teacherSnapshots.forEach(snapshot => {
+                        const teacher = snapshot.val();
+                        followedTeachers.push(teacher);
+                        
+                        const teacherElement = document.createElement('div');
+                        teacherElement.className = 'col-md-6 col-lg-4';
+                        
+                        teacherElement.innerHTML = `
+                            <div class="card teacher-card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">${teacher.name}</h5>
+                                    <p class="card-text text-muted">${teacher.email}</p>
+                                    <div class="teacher-stats">
+                                        <span><i class="fas fa-chalkboard-teacher"></i> Teacher</span>
+                                        <span><i class="fas fa-calendar-alt"></i> Joined: ${new Date(teacher.createdAt).toLocaleDateString()}</span>
+                                    </div>
+                                    <button class="btn btn-sm btn-outline-primary mt-3 view-teacher-btn" data-teacherid="${teacher.uid}">
+                                        View Profile
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+
+                        studentFollowedTeachers.appendChild(teacherElement);
+                        teacherElement.querySelector('.view-teacher-btn').addEventListener('click', () => viewTeacherDetails(teacher.uid));
+                    });
+                })
+                .catch((error) => {
+                    showToast('error', 'Error loading followed teachers: ' + error.message);
+                });
+        }
+
+        function loadStudentCreatedQuizzes() {
+    database.ref(`studentQuizzes/${currentUser.uid}`).once('value')
+        .then((snapshot) => {
+            const quizzes = snapshot.val();
+            studentCreatedQuizList.innerHTML = '';
+
+            if (!quizzes) {
+                studentCreatedQuizList.innerHTML = '<div class="col-12"><div class="alert alert-info">You haven\'t created any quizzes yet.</div></div>';
+                return;
+            }
+
+            Object.entries(quizzes).forEach(([quizId, quiz]) => {
+                const quizElement = document.createElement('div');
+                quizElement.className = 'col-md-6 col-lg-4';
+                quizElement.innerHTML = `
+                    <div class="quiz-card card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">${quiz.title}</h5>
+                            <p class="card-text text-muted small">Created on ${new Date(quiz.createdAt).toLocaleDateString()}</p>
+                            <p class="card-text text-muted small">Session ends: ${new Date(quiz.sessionEnd).toLocaleString()}</p>
+                            <div class="d-flex justify-content-between small text-muted mb-2">
+                                <span>ID: ${quizId.substring(0, 6)}...</span>
+                                <span>Attendees: ${quiz.attendanceCount || 0}</span>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-sm btn-outline-primary view-details-btn" data-quizid="${quizId}">View Details</button>
+                                <button class="btn btn-sm btn-outline-success share-quiz-btn" data-quizid="${quizId}">Share</button>
+                                <button class="btn btn-sm btn-outline-info view-attendance-btn" data-quizid="${quizId}">View Results</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                studentCreatedQuizList.appendChild(quizElement);
+
+                quizElement.querySelector('.view-details-btn').addEventListener('click', () => viewQuizDetails(quizId));
+                quizElement.querySelector('.share-quiz-btn').addEventListener('click', () => shareQuiz(quizId));
+                quizElement.querySelector('.view-attendance-btn').addEventListener('click', () => viewAttendance(quizId));
+            });
+        })
+        .catch((error) => {
+            showToast('error', 'Error loading your quizzes: ' + error.message);
+        });
+}
+
+        function viewQuizDetails(quizId) {
+            database.ref(`quizzes/${quizId}`).once('value')
+                .then((snapshot) => {
+                    const quiz = snapshot.val();
+
+                    // Create modal content
+                    let modalContent = `
+                        <div class="modal-header">
+                            <h5 class="modal-title">${quiz.title}</h5>
+                        </div>
+                        <div class="modal-body">
+                            <p class="mb-3">${quiz.description || 'No description provided'}</p>
+                            <p class="text-muted small mb-4">
+                                Total Questions: ${quiz.questions.length} | 
+                                Total Time: ${quiz.totalTime} seconds | 
+                                Session End: ${new Date(quiz.sessionEnd).toLocaleString()}
+                            </p>
+                            
+                            <div class="accordion" id="quizDetailsAccordion">
+                    `;
+
+                    // Add each question with its options
+                    quiz.questions.forEach((question, index) => {
+                        const correctAnswerIndex = question.options.findIndex(option => option.isCorrect);
+
+                        modalContent += `
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading${index}">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" 
+                                        data-bs-target="#collapse${index}" aria-expanded="true" 
+                                        aria-controls="collapse${index}">
+                                        Question ${index + 1}: ${question.text}
+                                        <span class="ms-2 badge bg-secondary">${question.timeLimit}s</span>
+                                    </button>
+                                </h2>
+                                <div id="collapse${index}" class="accordion-collapse collapse show" 
+                                    aria-labelledby="heading${index}" data-bs-parent="#quizDetailsAccordion">
+                                    <div class="accordion-body">
+                                        <ul class="list-group list-group-flush">
+                        `;
+
+                        question.options.forEach((option, optionIndex) => {
+                            const isCorrect = optionIndex === correctAnswerIndex;
+                            modalContent += `
+                                <li class="list-group-item ${isCorrect ? 'list-group-item-success' : ''}">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" ${isCorrect ? 'checked' : ''} disabled>
+                                        <label class="form-check-label ${isCorrect ? 'fw-bold' : ''}">
+                                            ${option.text}
+                                            ${isCorrect ? ' (Correct Answer)' : ''}
+                                        </label>
+                                    </div>
+                                </li>
+                            `;
+                        });
+
+                        modalContent += `
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    modalContent += `
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    `;
+
+                    // Update modal content
+                    modalResultsContent.innerHTML = modalContent;
+
+                    // Show the modal
+                    viewResultsModal.show();
+                })
+                .catch((error) => {
+                    showToast('error', 'Error loading quiz details: ' + error.message);
+                });
+        }
+
+        function shareQuiz(quizId) {
+            const quizLink = `${window.location.origin}${window.location.pathname}?quiz=${quizId}`;
+            navigator.clipboard.writeText(quizLink)
+                .then(() => {
+                    showToast('success', 'Quiz link copied to clipboard!');
+                })
+                .catch(() => {
+                    prompt('Copy this link to share with your students:', quizLink);
+                });
+        }
+
+        function shareQuizResult() {
+            if (!currentQuizResult) return;
+            
+            const resultText = `I scored ${currentQuizResult.score} out of ${currentQuizResult.totalQuestions} (${Math.round((currentQuizResult.score / currentQuizResult.totalQuestions) * 100)}%) on the quiz "${currentQuizResult.title}"!`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Quiz Results',
+                    text: resultText,
+                    url: window.location.href
+                }).catch(() => {
+                    // Fallback if share fails
+                    navigator.clipboard.writeText(resultText)
+                        .then(() => showToast('success', 'Results copied to clipboard!'))
+                        .catch(() => prompt('Copy your results:', resultText));
+                });
+            } else {
+                navigator.clipboard.writeText(resultText)
+                    .then(() => showToast('success', 'Results copied to clipboard!'))
+                    .catch(() => prompt('Copy your results:', resultText));
+            }
+        }
+
+        function downloadQuizResult() {
+            if (!currentQuizResult) return;
+            
+            // Create a new PDF document
+            const doc = new jsPDF();
+            
+            // Add title
+            doc.setFontSize(20);
+            doc.text(`Quiz Results: ${currentQuizResult.title}`, 105, 20, { align: 'center' });
+            
+            // Add summary
+            doc.setFontSize(14);
+            const percentage = Math.round((currentQuizResult.score / currentQuizResult.totalQuestions) * 100);
+            doc.text(`Score: ${currentQuizResult.score}/${currentQuizResult.totalQuestions} (${percentage}%)`, 105, 40, { align: 'center' });
+            
+            // Add date
+            const formattedDate = new Date().toLocaleString();
+            doc.setFontSize(12);
+            doc.text(`Generated on: ${formattedDate}`, 105, 50, { align: 'center' });
+            
+            // Add student name
+            doc.text(`Student: ${currentUser.email}`, 105, 60, { align: 'center' });
+            
+            // Add a line
+            doc.line(20, 70, 190, 70);
+            
+            // Add detailed results
+            doc.setFontSize(16);
+            doc.text('Detailed Results:', 20, 80);
+            
+            let yPosition = 90;
+            currentQuizResult.results.forEach((result, index) => {
+                doc.setFontSize(12);
+                doc.text(`Question ${index + 1}: ${result.question}`, 20, yPosition);
+                yPosition += 10;
+                
+                doc.text(`Your answer: ${result.userAnswer}`, 25, yPosition);
+                yPosition += 7;
+                doc.setTextColor(result.isCorrect ? '#4CAF50' : '#F44336');
+                doc.text(result.isCorrect ? '✓ Correct' : '✗ Incorrect', 25, yPosition);
+                yPosition += 7;
+                doc.setTextColor('#000000');
+                
+                doc.text(`Correct answer: ${result.correctAnswer}`, 25, yPosition);
+                yPosition += 10;
+                
+                if (result.explanation) {
+                    doc.text(`Explanation: ${result.explanation}`, 25, yPosition);
+                    yPosition += 10;
+                }
+                
+                // Add space between questions
+                yPosition += 5;
+                
+                // Add new page if needed
+                if (yPosition > 270) {
+                    doc.addPage();
+                    yPosition = 20;
+                }
+            });
+            
+            // Save the PDF
+            doc.save(`Quiz_Results_${currentQuizResult.title.replace(/ /g, '_')}.pdf`);
+        }
+
+        function viewAttendance(quizId) {
+            // Get quiz details to know total questions
+            database.ref(`quizzes/${quizId}`).once('value')
+                .then((quizSnapshot) => {
+                    const quiz = quizSnapshot.val();
+                    const totalQuestions = quiz.questions.length;
+
+                    // Get attendance records
+                    return database.ref(`quizzes/${quizId}/attendance`).once('value')
+                        .then((attendanceSnapshot) => {
+                            const attendance = attendanceSnapshot.val();
+                            const attendanceList = document.getElementById('attendance-list');
+                            attendanceList.innerHTML = '';
+
+                            if (!attendance) {
+                                attendanceList.innerHTML = '<div class="alert alert-info">No students have taken this quiz yet.</div>';
+                                document.getElementById('total-students').textContent = 'Total: 0';
+                                document.getElementById('average-score').textContent = 'Avg: 0%';
+                                return;
+                            }
+
+                            const studentIds = Object.keys(attendance);
+                            document.getElementById('total-students').textContent = `Total: ${studentIds.length}`;
+
+                            // Get student results and user details
+                            const studentPromises = studentIds.map(studentId => {
+                                return Promise.all([
+                                    database.ref(`users/${studentId}`).once('value'),
+                                    database.ref(`studentResults/${studentId}/${quizId}`).once('value')
+                                ]);
+                            });
+
+                            return Promise.all(studentPromises)
+                                .then(results => {
+                                    let totalScore = 0;
+                                    let html = '<ul class="list-group">';
+
+                                    results.forEach(([userSnapshot, resultSnapshot], index) => {
+                                        const student = userSnapshot.val();
+                                        const result = resultSnapshot.val();
+                                        const timestamp = attendance[studentIds[index]];
+
+                                        const score = result ? result.score : 0;
+                                        const percentage = Math.round((score / totalQuestions) * 100);
+                                        totalScore += percentage;
+
+                                        html += `
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div class="student-info">
+                                                    <strong>${student.name}</strong> (${student.email})<br>
+                                                    <small class="text-muted">Completed: ${new Date(timestamp).toLocaleString()}</small>
+                                                </div>
+                                                <span class="student-score ${percentage >= 50 ? 'score-pass' : 'score-fail'}">
+                                                    ${score}/${totalQuestions} (${percentage}%)
+                                                </span>
+                                            </li>
+                                        `;
+                                    });
+
+                                    // Calculate average score
+                                    const averageScore = Math.round(totalScore / studentIds.length);
+                                    document.getElementById('average-score').textContent = `Avg: ${averageScore}%`;
+
+                                    html += '</ul>';
+                                    attendanceList.innerHTML = html;
+
+                                    // Show the modal
+                                    const attendanceModal = new bootstrap.Modal(document.getElementById('attendanceModal'));
+                                    attendanceModal.show();
+                                });
+                        });
+                })
+                .catch(error => {
+                    showToast('error', 'Error loading attendance: ' + error.message);
+                });
+        }
+
+        function loadStudentQuizzes() {
+            database.ref(`studentResults/${currentUser.uid}`).once('value')
+                .then((snapshot) => {
+                    const results = snapshot.val();
+                    studentQuizList.innerHTML = '';
+
+                    if (!results) {
+                        studentQuizList.innerHTML = '<div class="col-12"><div class="alert alert-info">You haven\'t taken any quizzes yet.</div></div>';
+                        return;
+                    }
+
+                    const quizIds = Object.keys(results);
+                    const quizPromises = quizIds.map(quizId => {
+                        return database.ref(`quizzes/${quizId}`).once('value')
+                            .then(quizSnapshot => {
+                                const quiz = quizSnapshot.val();
+                                const result = results[quizId];
+                                return { quizId, quiz, result };
+                            });
+                    });
+
+                    return Promise.all(quizPromises);
+                })
+                .then(quizzesWithResults => {
+                    // Sort quizzes by timestamp (newest first)
+                    quizzesWithResults.sort((a, b) => b.result.timestamp - a.result.timestamp);
+
+                    quizzesWithResults.forEach(({ quizId, quiz, result }) => {
+                        const quizElement = document.createElement('div');
+                        quizElement.className = 'col-md-6 col-lg-4';
+
+                        // Calculate time taken
+                        const timeTaken = result.timeTaken ?
+                            `${Math.floor(result.timeTaken / 60)}m ${result.timeTaken % 60}s` : 'N/A';
+
+                        // Format date
+                        const takenDate = new Date(result.timestamp);
+                        const formattedDate = takenDate.toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        });
+
+                        quizElement.innerHTML = `
+                            <div class="quiz-card card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">${quiz.title}</h5>
+                                    <div class="teacher-info mb-2">
+                                        <small class="text-muted">Created by:</small>
+                                        <div class="teacher-name fw-bold">${quiz.createdByName || 'Unknown Teacher'}</div>
+                                    </div>
+                                    <div class="d-flex justify-content-between small text-muted mb-2">
+                                        <span>Score: ${result.score}/${quiz.questions.length}</span>
+                                        <span>Time: ${timeTaken}</span>
+                                    </div>
+                                    <div class="small text-muted mb-3">Taken on ${formattedDate}</div>
+                                    <div class="d-grid">
+                                        <button class="btn btn-sm btn-outline-primary view-result-btn" data-quizid="${quizId}">View Result</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+
+                        studentQuizList.appendChild(quizElement);
+                        quizElement.querySelector('.view-result-btn').addEventListener('click', () => showQuizResult(quizId));
+                    });
+                })
+                .catch((error) => {
+                    showToast('error', 'Error loading student quizzes: ' + error.message);
+                });
+        }
+
+        function joinQuiz() {
+            const quizLink = quizLinkInput.value.trim();
+
+            if (!quizLink) {
+                showToast('error', 'Please enter a quiz link');
+                return;
+            }
+
+            let quizId;
+            try {
+                const url = new URL(quizLink);
+                quizId = url.searchParams.get('quiz');
+            } catch (e) {
+                // If it's not a full URL, maybe it's just the ID
+                quizId = quizLink;
+            }
+
+            if (!quizId) {
+                showToast('error', 'Invalid quiz link. Please check the link and try again.');
+                return;
+            }
+
+            database.ref(`quizzes/${quizId}`).once('value')
+                .then((snapshot) => {
+                    const quiz = snapshot.val();
+
+                    if (!quiz) {
+                        showToast('error', 'Quiz not found. Please check the link and try again.');
+                        return;
+                    }
+
+                    // Check if quiz session has ended
+                    const now = new Date();
+                    const sessionEnd = new Date(quiz.sessionEnd);
+
+                    if (now > sessionEnd) {
+                        showToast('error', 'This quiz session has expired. You can no longer take this quiz.');
+                        return;
+                    }
+
+                    return database.ref(`studentResults/${currentUser.uid}/${quizId}`).once('value')
+                        .then((resultSnapshot) => {
+                            if (resultSnapshot.exists()) {
+                                showToast('info', 'You\'ve already taken this quiz. Showing your results...');
+                                showQuizResult(quizId);
+                                return;
+                            }
+
+                            startQuiz(quizId, quiz);
+                        });
+                })
+                .catch((error) => {
+                    showToast('error', 'Error joining quiz: ' + error.message);
+                });
+        }
+
+        function joinQuizAsTeacher() {
+            const quizLink = teacherJoinQuizInput.value.trim();
+
+            if (!quizLink) {
+                showToast('error', 'Please enter a quiz link');
+                return;
+            }
+
+            let quizId;
+            try {
+                const url = new URL(quizLink);
+                quizId = url.searchParams.get('quiz');
+            } catch (e) {
+                // If it's not a full URL, maybe it's just the ID
+                quizId = quizLink;
+            }
+
+            if (!quizId) {
+                showToast('error', 'Invalid quiz link. Please check the link and try again.');
+                return;
+            }
+
+            database.ref(`quizzes/${quizId}`).once('value')
+                .then((snapshot) => {
+                    const quiz = snapshot.val();
+
+                    if (!quiz) {
+                        showToast('error', 'Quiz not found. Please check the link and try again.');
+                        return;
+                    }
+
+                    // Check if quiz session has ended
+                    const now = new Date();
+                    const sessionEnd = new Date(quiz.sessionEnd);
+
+                    if (now > sessionEnd) {
+                        showToast('error', 'This quiz session has expired. You can no longer take this quiz.');
+                        return;
+                    }
+
+                    return database.ref(`studentResults/${currentUser.uid}/${quizId}`).once('value')
+                        .then((resultSnapshot) => {
+                            if (resultSnapshot.exists()) {
+                                showToast('info', 'You\'ve already taken this quiz. Showing your results...');
+                                showQuizResult(quizId);
+                                return;
+                            }
+
+                            startQuiz(quizId, quiz);
+                        });
+                })
+                .catch((error) => {
+                    showToast('error', 'Error joining quiz: ' + error.message);
+                });
+        }
+
+        function startQuiz(quizId, quiz) {
+            currentQuizId = quizId;
+            userAnswers = {};
+            currentQuestionIndex = 0;
+            quizQuestions = quiz.questions;
+            quizStartTime = Date.now();
+
+            studentDashboard.classList.add('hidden');
+            teacherDashboard.classList.add('hidden');
+            quizTakingContainer.classList.remove('hidden');
+
+            quizTakingTitle.textContent = quiz.title;
+            quizDescriptionDisplay.textContent = quiz.description || '';
+
+            questionIndicator.innerHTML = '';
+            quiz.questions.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.className = 'question-dot';
+                dot.textContent = index + 1;
+                dot.addEventListener('click', () => navigateToQuestion(index));
+                questionIndicator.appendChild(dot);
+            });
+
+            questionProgress.style.width = '0%';
+
+            showQuestion(currentQuestionIndex);
+        }
+
+        function showQuestion(index) {
+            clearAllTimers();
+
+            const dots = document.querySelectorAll('.question-dot');
+            dots.forEach((dot, i) => {
+                dot.classList.remove('active', 'answered');
+                if (i === index) dot.classList.add('active');
+                if (userAnswers[i] !== undefined) dot.classList.add('answered');
+            });
+
+            const progress = ((index + 1) / quizQuestions.length) * 100;
+            questionProgress.style.width = `${progress}%`;
+
+            const question = quizQuestions[index];
+            quizQuestionsContainer.innerHTML = '';
+
+            const questionElement = document.createElement('div');
+            questionElement.className = 'question-item';
+            questionElement.id = `q-${index}`;
+
+            // Format code with proper indentation
+            let codeHtml = '';
+            if (question.code) {
+                const escapedCode = question.code.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                codeHtml = `
+                    <div class="code-display code-${question.language || 'javascript'}">
+                        <pre><code>${escapedCode}</code></pre>
+                    </div>
+                `;
+            }
+
+            let optionsHtml = '';
+            question.options.forEach((option, optionIndex) => {
+                optionsHtml += `
+                    <div class="option-item">
+                        <input type="radio" id="q${index}-o${optionIndex}" name="q${index}" value="${optionIndex}"
+                            ${userAnswers[index] === optionIndex ? 'checked' : ''}>
+                        <label for="q${index}-o${optionIndex}">${option.text}</label>
+                    </div>
+                `;
+            });
+
+            questionElement.innerHTML = `
+                <div class="question-text fs-5 mb-3">${index + 1}. ${question.text}</div>
+                ${codeHtml}
+                <div class="options-container">${optionsHtml}</div>
+            `;
+            quizQuestionsContainer.appendChild(questionElement);
+
+            // Set up timer and event listeners
+            let timeLeftForQuestion = question.timeLimit;
+            updateQuestionTimer(timeLeftForQuestion);
+
+            questionTimers[index] = setInterval(() => {
+                timeLeftForQuestion--;
+                updateQuestionTimer(timeLeftForQuestion);
+
+                if (timeLeftForQuestion <= 0) {
+                    clearInterval(questionTimers[index]);
+                    if (userAnswers[index] === undefined) {
+                        userAnswers[index] = null;
+                    }
+                    showNextQuestion();
+                }
+            }, 1000);
+
+            questionElement.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    userAnswers[index] = parseInt(e.target.value);
+                    dots[index].classList.add('answered');
+                });
+            });
+
+            prevQuestionBtn.disabled = index === 0;
+            nextQuestionBtn.textContent = index === quizQuestions.length - 1 ? 'Finish' : 'Next';
+        }
+
+        function updateQuestionTimer(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            timeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+
+            quizTimer.style.backgroundColor = seconds <= 10 ? '#ff6b6b' : '#4a6bff';
+        }
+
+        function clearAllTimers() {
+            Object.keys(questionTimers).forEach(key => {
+                clearInterval(questionTimers[key]);
+                delete questionTimers[key];
+            });
+        }
+
+        function showNextQuestion() {
+            const currentRadio = document.querySelector(`input[name="q${currentQuestionIndex}"]:checked`);
+            userAnswers[currentQuestionIndex] = currentRadio ? parseInt(currentRadio.value) : null;
+
+            if (currentQuestionIndex < quizQuestions.length - 1) {
+                currentQuestionIndex++;
+                showQuestion(currentQuestionIndex);
+            } else {
+                submitQuiz();
+            }
+        }
+
+        function showPreviousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion(currentQuestionIndex);
+            }
+        }
+
+        function navigateToQuestion(index) {
+            if (index >= 0 && index < quizQuestions.length) {
+                currentQuestionIndex = index;
+                showQuestion(currentQuestionIndex);
+            }
+        }
+
+        function submitQuiz() {
+            clearAllTimers();
+
+            const endTime = Date.now();
+            const timeTaken = Math.floor((endTime - quizStartTime) / 1000);
+
+            database.ref(`quizzes/${currentQuizId}`).once('value')
+                .then((snapshot) => {
+                    const quiz = snapshot.val();
+                    let score = 0;
+                    const results = [];
+
+                    quiz.questions.forEach((question, index) => {
+                        const userAnswer = userAnswers[index];
+                        const correctAnswerIndex = question.options.findIndex(option => option.isCorrect);
+                        const isCorrect = userAnswer === correctAnswerIndex;
+
+                        if (isCorrect) score++;
+
+                        results.push({
+                            question: question.text,
+                            userAnswer: userAnswer !== undefined && userAnswer !== null ? question.options[userAnswer].text : 'Not answered',
+                            correctAnswer: question.options[correctAnswerIndex].text,
+                            isCorrect: isCorrect,
+                            explanation: question.explanation || ''
+                        });
+                    });
+
+                    const resultData = {
+                        score: score,
+                        totalQuestions: quiz.questions.length,
+                        timestamp: firebase.database.ServerValue.TIMESTAMP,
+                        timeTaken: timeTaken
+                    };
+
+                    return database.ref(`studentResults/${currentUser.uid}/${currentQuizId}`).set(resultData)
+                        .then(() => {
+                            return database.ref(`quizzes/${currentQuizId}/attendance/${currentUser.uid}`)
+                                .set(firebase.database.ServerValue.TIMESTAMP)
+                                .then(() => {
+                                    return database.ref(`teacherQuizzes/${quiz.createdBy}/${currentQuizId}/attendanceCount`)
+                                        .transaction((currentCount) => (currentCount || 0) + 1);
+                                });
+                        })
+                        .then(() => {
+                            // Store current quiz result for sharing/downloading
+                            currentQuizResult = {
+                                title: quiz.title,
+                                score: score,
+                                totalQuestions: quiz.questions.length,
+                                results: results
+                            };
+                            
+                            showResults(quiz, results, score);
+                        });
+                })
+                .catch((error) => {
+                    showToast('error', 'Error submitting quiz: ' + error.message);
+                });
+        }
+
+        function showResults(quiz, results, score) {
+            quizTakingContainer.classList.add('hidden');
+            quizResultsContainer.classList.remove('hidden');
+
+            const percentage = Math.round((score / quiz.questions.length) * 100);
+            const resultClass = percentage >= 50 ? 'text-success' : 'text-danger';
+
+            resultsSummary.innerHTML = `
+                <h3 class="mb-2">${quiz.title}</h3>
+                <p class="text-muted mb-3">Created by: ${quiz.createdByName}</p>
+                <div class="score-display ${resultClass}">${score} / ${quiz.questions.length}</div>
+                <p class="fs-5 ${resultClass}">${percentage}% Correct</p>
+                <div class="share-buttons mb-3">
+                    <button class="btn btn-outline-primary me-2" id="share-result-btn">
+                        <i class="fas fa-share-alt me-1"></i> Share Results
+                    </button>
+                    <button class="btn btn-outline-secondary" id="download-result-btn">
+                        <i class="fas fa-download me-1"></i> Download PDF
+                    </button>
+                </div>
+            `;
+
+            resultsDetails.innerHTML = '';
+            quiz.questions.forEach((question, index) => {
+                const result = results[index];
+                const resultElement = document.createElement('div');
+                resultElement.className = 'result-question mb-4 pb-3 border-bottom';
+
+                resultElement.innerHTML = `
+                    <h4>Question ${index + 1}: ${question.text}</h4>
+                    <p>Your answer: <span class="${result.isCorrect ? 'correct-answer' : 'wrong-answer'}">${result.userAnswer}</span></p>
+                    <p>Correct answer: <span class="correct-answer">${result.correctAnswer}</span></p>
+                    ${question.explanation ? `<div class="explanation mt-3 p-3 bg-light rounded"><strong>Explanation:</strong> ${question.explanation}</div>` : ''}
+                `;
+
+                resultsDetails.appendChild(resultElement);
+            });
+
+            showToast('success', `You scored ${score} out of ${quiz.questions.length} (${percentage}%)`);
+        }
+
+        function showQuizResult(quizId) {
+            Promise.all([
+                database.ref(`quizzes/${quizId}`).once('value'),
+                database.ref(`studentResults/${currentUser.uid}/${quizId}`).once('value')
+            ])
+                .then(([quizSnapshot, resultSnapshot]) => {
+                    const quiz = quizSnapshot.val();
+                    const result = resultSnapshot.val();
+
+                    if (!quiz || !result) {
+                        showToast('error', 'Quiz results not found');
+                        return;
+                    }
+
+                    const percentage = Math.round((result.score / quiz.questions.length) * 100);
+                    const resultClass = percentage >= 50 ? 'text-success' : 'text-danger';
+
+                    // Format time taken
+                    const timeTaken = result.timeTaken ?
+                        `${Math.floor(result.timeTaken / 60)}m ${result.timeTaken % 60}s` : 'N/A';
+
+                    modalResultsContent.innerHTML = `
+                        <div class="modal-header">
+                            <h5 class="modal-title">${quiz.title}</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="text-center mb-4">
+                                <div class="teacher-info mb-3">
+                                    <small class="text-muted">Created by:</small>
+                                    <div class="teacher-name fs-5">${quiz.createdByName || 'Unknown Teacher'}</div>
+                                </div>
+                                <div class="score-display ${resultClass}">${result.score} / ${quiz.questions.length}</div>
+                                <p class="fs-5 ${resultClass}">${percentage}% Correct</p>
+                                <p class="text-muted">Time taken: ${timeTaken}</p>
+                            </div>
+                            
+                            <div class="accordion" id="resultsAccordion">
+                                ${quiz.questions.map((question, index) => {
+                        const correctAnswerIndex = question.options.findIndex(option => option.isCorrect);
+                        const userAnswer = userAnswers[index];
+                        const isCorrect = userAnswer === correctAnswerIndex;
+
+                        return `
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="heading${index}">
+                                                <button class="accordion-button ${isCorrect ? '' : 'collapsed'}" type="button" data-bs-toggle="collapse" 
+                                                    data-bs-target="#collapse${index}" aria-expanded="${isCorrect ? 'true' : 'false'}" 
+                                                    aria-controls="collapse${index}">
+                                                    Question ${index + 1}: ${question.text}
+                                                    <span class="ms-2 badge bg-${isCorrect ? 'success' : 'danger'}">
+                                                        ${isCorrect ? 'Correct' : 'Incorrect'}
+                                                    </span>
+                                                </button>
+                                            </h2>
+                                            <div id="collapse${index}" class="accordion-collapse collapse ${isCorrect ? 'show' : ''}" 
+                                                aria-labelledby="heading${index}" data-bs-parent="#resultsAccordion">
+                                                <div class="accordion-body">
+                                                    <p><strong>Your answer:</strong> 
+                                                        <span class="${isCorrect ? 'correct-answer' : 'wrong-answer'}">
+                                                            ${userAnswer !== undefined && userAnswer !== null ? question.options[userAnswer].text : 'Not answered'}
+                                                        </span>
+                                                    </p>
+                                                    <p><strong>Correct answer:</strong> 
+                                                        <span class="correct-answer">${question.options[correctAnswerIndex].text}</span>
+                                                    </p>
+                                                    ${question.explanation ? `
+                                                    <div class="explanation mt-3 p-3 bg-light rounded">
+                                                        <strong>Explanation:</strong> ${question.explanation}
+                                                    </div>
+                                                    ` : ''}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `;
+                    }).join('')}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    `;
+
+                    viewResultsModal.show();
+                })
+                .catch((error) => {
+                    showToast('error', 'Error loading quiz results: ' + error.message);
+                });
+        }
+
+        function backToDashboard() {
+            quizResultsContainer.classList.add('hidden');
+
+            if (currentUserRole === 'teacher') {
+                showTeacherDashboard();
+            } else {
+                showStudentDashboard();
+                loadStudentQuizzes();
+            }
+        }
+
+        // Admin functions
+        function loadAllUsers() {
+            database.ref('users').once('value')
+                .then((snapshot) => {
+                    allUsers = [];
+                    const users = snapshot.val();
+
+                    if (!users) {
+                        usersList.innerHTML = '<div class="alert alert-info">No users found.</div>';
+                        updateStats();
+                        return;
+                    }
+
+                    // Convert users object to array and add uid
+                    Object.keys(users).forEach(uid => {
+                        allUsers.push({
+                            uid: uid,
+                            ...users[uid]
+                        });
+                    });
+
+                    renderUsers(allUsers);
+                    updateStats();
+                })
+                .catch((error) => {
+                    usersList.innerHTML = `<div class="alert alert-danger">Error loading users: ${error.message}</div>`;
+                });
+        }
+
+        function renderUsers(users) {
+            if (users.length === 0) {
+                usersList.innerHTML = '<div class="alert alert-info">No users match your criteria.</div>';
+                return;
+            }
+
+            usersList.innerHTML = '';
+
+            users.forEach(user => {
+                const userCard = document.createElement('div');
+                userCard.className = `card user-card ${user.status || 'pending'}`;
+
+                const statusClass = user.status === 'approved' ? 'bg-success' :
+                    user.status === 'rejected' ? 'bg-danger' : 'bg-warning';
+                const statusText = user.status === 'approved' ? 'Approved' :
+                    user.status === 'rejected' ? 'Rejected' : 'Pending';
+
+                userCard.innerHTML = `
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5 class="card-title">${user.name}</h5>
+                                <p class="card-text text-muted mb-1">${user.email}</p>
+                                <p class="card-text">
+                                    <span class="badge ${statusClass} status-badge">${statusText}</span>
+                                    <span class="badge bg-primary status-badge">${user.role}</span>
+                                </p>
+                            </div>
+                            <button class="btn btn-sm btn-outline-primary view-details-btn" data-uid="${user.uid}">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                usersList.appendChild(userCard);
+
+                // Add event listener to view details button
+                userCard.querySelector('.view-details-btn').addEventListener('click', () => viewUserDetails(user.uid));
+            });
+        }
+
+        function viewUserDetails(uid) {
+            currentSelectedUserId = uid;
+            const user = allUsers.find(u => u.uid === uid);
+
+            if (!user) return;
+
+            const registeredDate = user.createdAt ? new Date(user.createdAt).toLocaleString() : 'Unknown';
+            const statusClass = user.status === 'approved' ? 'text-success' :
+                user.status === 'rejected' ? 'text-danger' : 'text-warning';
+            const statusText = user.status === 'approved' ? 'Approved' :
+                user.status === 'rejected' ? 'Rejected' : 'Pending Approval';
+
+            userDetailsContent.innerHTML = `
+                <div class="mb-3">
+                    <h4>${user.name}</h4>
+                    <p class="text-muted">${user.email}</p>
+                </div>
+                
+                <div class="mb-3">
+                    <p><strong>Role:</strong> ${user.role}</p>
+                    <p><strong>Status:</strong> <span class="${statusClass}">${statusText}</span></p>
+                    <p><strong>Registered:</strong> ${registeredDate}</p>
+                </div>
+                
+                ${user.role === 'student' ? `
+                <div class="alert alert-info">
+                    <strong>Student Terms Accepted:</strong> ${user.acceptedTerms ? 'Yes' : 'No'}
+                </div>
+                ` : ''}
+            `;
+
+            // Show/hide buttons based on current status
+            approveUserBtn.style.display = user.status !== 'approved' ? 'block' : 'none';
+            rejectUserBtn.style.display = user.status !== 'rejected' ? 'block' : 'none';
+
+            userDetailsModal.show();
+        }
+
+        function approveUser() {
+            if (!currentSelectedUserId) return;
+
+            const updates = {
+                status: 'approved',
+                approvedAt: firebase.database.ServerValue.TIMESTAMP
+            };
+
+            database.ref(`users/${currentSelectedUserId}`).update(updates)
+                .then(() => {
+                    showToast('success', 'User approved successfully!');
+                    userDetailsModal.hide();
+                    loadAllUsers();
+                })
+                .catch((error) => {
+                    showToast('error', 'Error approving user: ' + error.message);
+                });
+        }
+
+        function rejectUser() {
+            if (!currentSelectedUserId) return;
+
+            const updates = {
+                status: 'rejected',
+                rejectedAt: firebase.database.ServerValue.TIMESTAMP
+            };
+
+            database.ref(`users/${currentSelectedUserId}`).update(updates)
+                .then(() => {
+                    showToast('success', 'User rejected successfully!');
+                    userDetailsModal.hide();
+                    loadAllUsers();
+                })
+                .catch((error) => {
+                    showToast('error', 'Error rejecting user: ' + error.message);
+                });
+        }
+
+        function deleteUser() {
+            if (!currentSelectedUserId) return;
+
+            if (!confirm('Are you sure you want to permanently delete this user account? This action cannot be undone.')) {
+                return;
+            }
+
+            database.ref(`users/${currentSelectedUserId}`).remove()
+                .then(() => {
+                    showToast('success', 'User data removed from database.');
+                    userDetailsModal.hide();
+                    loadAllUsers();
+                })
+                .catch((error) => {
+                    showToast('error', 'Error removing user data: ' + error.message);
+                });
+
+            // ⚠️ Deleting from Auth requires Admin SDK (on backend/server)
+            // You can instead flag the account and delete from a cloud function if needed.
+        }
+
+        function filterUsers() {
+            const searchTerm = userSearch.value.toLowerCase();
+            const filter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
+
+            let filteredUsers = allUsers;
+
+            if (searchTerm) {
+                filteredUsers = filteredUsers.filter(user =>
+                    (user.name && user.name.toLowerCase().includes(searchTerm)) ||
+                    (user.email && user.email.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            if (filter !== 'all') {
+                filteredUsers = filteredUsers.filter(user => {
+                    const status = user.status || 'pending';
+                    return filter === status;
+                });
+            }
+
+            renderUsers(filteredUsers);
+        }
+
+        function updateStats() {
+            totalUsersCount.textContent = allUsers.length;
+            pendingUsersCount.textContent = allUsers.filter(u => !u.status || u.status === 'pending').length;
+            approvedUsersCount.textContent = allUsers.filter(u => u.status === 'approved').length;
+            rejectedUsersCount.textContent = allUsers.filter(u => u.status === 'rejected').length;
+        }
+
+        // Initialize the app
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                currentUser = user;
+
+                database.ref('users/' + user.uid).once('value')
+                    .then((snapshot) => {
+                        const userData = snapshot.val();
+
+                        // ✅ Admin override check
+                        if (user.email === 'PKNitadministrator@gmail.com') {
+                            showAdminDashboard();
+                            loadAllUsers();
+                            authContainer.classList.add('hidden');
+                            return; // Stop here, don't proceed to status checks
+                        }
+
+                        // ✅ Status check only for non-admins
+                        if (userData.status !== 'approved') {
+                            auth.signOut();
+                            showToast('error', 'Your account is pending approval by the administrator.');
+                            return;
+                        }
+
+                        // ✅ Role-based dashboard logic
+                        currentUserRole = userData.role;
+
+                        if (currentUserRole === 'teacher') {
+                            showTeacherDashboard();
+                            loadTeacherQuizzes();
+                            loadTeacherQuizzesTaken();
+                            loadYourStudents();
+                            loadAvailableTeachers();
+                        } else {
+                            showStudentDashboard();
+                            loadStudentQuizzes();
+                            loadStudentCreatedQuizzes();
+                            loadFollowedTeachers();
+                            loadAvailableTeachers();
+
+                            const urlParams = new URLSearchParams(window.location.search);
+                            const quizId = urlParams.get('quiz');
+
+                            if (quizId) {
+                                window.history.replaceState({}, document.title, window.location.pathname);
+
+                                database.ref(`quizzes/${quizId}`).once('value')
+                                    .then((quizSnapshot) => {
+                                        const quiz = quizSnapshot.val();
+
+                                        if (quiz) {
+                                            const now = new Date();
+                                            const sessionEnd = new Date(quiz.sessionEnd);
+
+                                            if (now > sessionEnd) {
+                                                showToast('error', 'This quiz session has expired. You can no longer take this quiz.');
+                                                return;
+                                            }
+
+                                            return database.ref(`studentResults/${user.uid}/${quizId}`).once('value')
+                                                .then((resultSnapshot) => {
+                                                    if (resultSnapshot.exists()) {
+                                                        showToast('info', 'You\'ve already taken this quiz. Showing your results...');
+                                                        showQuizResult(quizId);
+                                                        return;
+                                                    }
+
+                                                    startQuiz(quizId, quiz);
+                                                });
+                                        }
+                                    })
+                                    .catch((error) => {
+                                        showToast('error', 'Error joining quiz from link: ' + error.message);
+                                    });
+                            }
+                        }
+
+                        authContainer.classList.add('hidden');
+                    });
+            } else {
+                currentUser = null;
+                currentUserRole = null;
+                authContainer.classList.remove('hidden');
+                teacherDashboard.classList.add('hidden');
+                studentDashboard.classList.add('hidden');
+                adminDashboard.classList.add('hidden');
+                quizTakingContainer.classList.add('hidden');
+                quizResultsContainer.classList.add('hidden');
+
+                authTabs.show();
+            }
+        });
+
+        // Tab switching helpers
+        document.getElementById('show-register').addEventListener('click', function (e) {
+            e.preventDefault();
+            const registerTab = new bootstrap.Tab(document.getElementById('register-tab'));
+            registerTab.show();
+        });
+
+        document.getElementById('show-login').addEventListener('click', function (e) {
+            e.preventDefault();
+            const loginTab = new bootstrap.Tab(document.getElementById('login-tab'));
+            loginTab.show();
+        });
+    </script>
+
+    <!-- Attendance Modal -->
+    <div class="modal fade" id="attendanceModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Quiz Attendance & Results</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-between mb-3">
+                        <div class="p-2 bg-light rounded" id="total-students">Total: 0</div>
+                        <div class="p-2 bg-light rounded" id="average-score">Avg: 0%</div>
+                    </div>
+                    <div id="attendance-list"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

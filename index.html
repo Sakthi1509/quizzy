@@ -3,25 +3,55 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="description"
-        content="Test your skills with Quizzy! Timed quizzes, code-friendly format, and live results.">
-    <meta property="og:title" content="Quizzy - The Quiz App">
-    <meta property="og:description" content="Test your skill">
+        content="Quizzy: AI-powered quiz platform with smart question generation, real-time analytics. Create, share, and master quizzes effortlessly.">
+
+    <!-- Open Graph / Social Media Meta -->
+    <meta property="og:title" content="Quizzy | Smart Quiz Creation Platform">
+    <meta property="og:description"
+        content="Transform learning with AI-generated quizzes, and adaptive testing. The future of digital assessments is here.">
     <meta property="og:image" content="https://quizzy-009.web.app/game.png">
     <meta property="og:url" content="https://quizzy-009.web.app">
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Quizzy ">
+
+    <!-- Twitter Meta -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Quizzy - The Quiz App">
-    <meta name="twitter:description" content="Test your skill">
+    <meta name="twitter:title" content="Quizzy  | Next-Gen Quiz Platform">
+    <meta name="twitter:description"
+        content="Create quizzes in seconds with AI.  generate from topics, and track performance with smart analytics.">
     <meta name="twitter:image" content="https://quizzy-009.web.app/game.png">
+    <meta name="twitter:site" content="@quizzyapp">
+
+    <!-- Additional SEO Enhancements -->
+    <meta name="keywords"
+        content="AI quiz generator, smart assessments, education technology, quiz creator, automated testing, learning platform">
+    <meta name="author" content="Sakthivel">
+    <meta name="robots" content="index, follow">
+
+    <!-- Mobile Specific -->
+    <meta name="theme-color" content="#4a6bff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.webmanifest">
     <title>Quizzy</title>
+    <!-- Light mode icon -->
     <link id="favicon" rel="icon" href="game.png">
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Add this BEFORE toastr.js -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
@@ -289,12 +319,7 @@
             transition: all 0.3s;
         }
 
-        .btn-primary:hover {
-            background-color: #3a56d4;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(74, 107, 255, 0.3);
-        }
-
+       
         /* Auth Footer Links */
         .auth-footer {
             text-align: center;
@@ -504,83 +529,43 @@
             background: linear-gradient(45deg, #dc3545, #fd7e14);
         }
 
-        /* New Follow Button Styles */
-        .follow-btn {
-            position: relative;
-            overflow: hidden;
-        }
+        /* Dashboard Tabs */
 
-        .follow-btn .follow-text {
-            display: inline-block;
-            transition: transform 0.3s;
-        }
 
-        .follow-btn .following-text {
-            display: inline-block;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%) translateY(100%);
-            opacity: 0;
+        /* Teacher/Student Cards */
+        .teacher-card,
+        .student-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
             transition: all 0.3s;
         }
 
-        .follow-btn.following .follow-text {
-            transform: translateY(-100%);
-            opacity: 0;
-        }
-
-        .follow-btn.following .following-text {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
-        /* Teacher Card Styles */
-        .teacher-card {
-            transition: all 0.3s;
-            border-left: 4px solid var(--primary-color);
-        }
-
-        .teacher-card:hover {
-            transform: translateY(-3px);
+        .teacher-card:hover,
+        .student-card:hover {
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .teacher-stats {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
-            color: var(--light-text);
-        }
-
-        .teacher-stats span {
+        .teacher-card .avatar,
+        .student-card .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #4a6bff;
+            color: white;
             display: flex;
             align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-right: 15px;
         }
 
-        .teacher-stats i {
-            margin-right: 5px;
-        }
-
-        /* Quiz Tabs */
-        .quiz-tabs .nav-link {
-            color: var(--light-text);
-            font-weight: 600;
-            border: none;
-            padding: 10px 15px;
-        }
-
-        .quiz-tabs .nav-link.active {
-            color: var(--primary-color);
-            background: transparent;
-            border-bottom: 2px solid var(--primary-color);
-        }
-
-        /* Join Quiz Bar */
-        .join-quiz-bar {
-            background-color: var(--secondary-color);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+        .follow-btn {
+            border-radius: 20px;
+            padding: 5px 15px;
+            font-size: 0.8rem;
         }
 
         /* Responsive Adjustments */
@@ -593,15 +578,7 @@
                 padding: 1rem 0;
             }
 
-            .dashboard-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
 
-            .dashboard-header h1 {
-                font-size: 1.5rem;
-                margin-bottom: 10px;
-            }
 
             .quiz-card .card-body {
                 padding: 15px;
@@ -951,6 +928,499 @@
                 font-size: 0.75rem;
             }
         }
+
+        /* Time adjustment buttons */
+        .input-group .btn {
+            width: 50px;
+            font-weight: bold;
+        }
+
+        .input-group .decrease-time {
+            border-right: none;
+        }
+
+        .input-group .increase-time {
+            border-left: none;
+        }
+
+        /* Total time display */
+        #total-time-display {
+            font-weight: bold;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+        }
+
+
+        /* Responsive adjustments */
+        @media (max-width: 576px) {
+            .input-group .btn {
+                width: 40px;
+                padding: 0.25rem;
+            }
+
+            #total-time-display {
+                font-size: 0.9rem;
+                padding: 8px 12px;
+            }
+        }
+
+        /* Tooltip styles */
+        .btn-with-shortcut {
+            position: relative;
+        }
+
+        .btn-with-shortcut::after {
+            content: attr(data-shortcut);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+            z-index: 100;
+            margin-bottom: 5px;
+        }
+
+        .btn-with-shortcut:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .ai-logo {
+            transition: transform 0.3s ease;
+        }
+
+        .ai-logo:hover {
+            transform: rotate(30deg);
+        }
+
+        /* Profile Cards */
+
+        /* Progress bars */
+        .progress {
+            border-radius: 10px;
+        }
+
+        .progress-bar {
+            transition: width 0.6s ease;
+        }
+
+        /* Table styles */
+        .table {
+            font-size: 0.9rem;
+        }
+
+        .table th {
+            background-color: #f8f9fa;
+            border-top: none;
+        }
+
+        /* Card headers */
+        .card-header {
+            font-weight: 600;
+        }
+
+        /* Achievement level display */
+        .display-4 {
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .profile-card {
+                margin-bottom: 20px;
+            }
+
+            .display-4 {
+                font-size: 2rem;
+            }
+        }
+
+        :root {
+            --nav-bg-color: #4a6bff;
+            --nav-text-color: #fff;
+            --nav-hover-color: #3a56d4;
+            --nav-active-color: #2a42b2;
+            --nav-icon-size: 1.5rem;
+            --nav-transition: all 0.3s ease;
+            --sidebar-width: 250px;
+            --sidebar-collapsed-width: 80px;
+            --mobile-nav-height: 60px;
+        }
+
+        /* Desktop Sidebar Navigation */
+        .sidebar-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: var(--sidebar-width);
+            background-color: var(--nav-bg-color);
+            color: var(--nav-text-color);
+            transition: var(--nav-transition);
+            z-index: 1000;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-nav.collapsed {
+            width: var(--sidebar-collapsed-width);
+        }
+
+        .sidebar-nav.collapsed .nav-item-text {
+            display: none;
+        }
+
+        .sidebar-nav.collapsed .nav-item {
+            justify-content: center;
+        }
+
+        .sidebar-nav.collapsed .nav-brand {
+            justify-content: center;
+            padding: 1rem 0;
+        }
+
+        .sidebar-nav.collapsed .nav-brand-text {
+            display: none;
+        }
+
+        .sidebar-nav.collapsed .toggle-collapse {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-brand-icon {
+            font-size: 1.8rem;
+            margin-right: 0.75rem;
+        }
+
+        .nav-brand-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            transition: var(--nav-transition);
+        }
+
+        .nav-menu {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            transition: var(--nav-transition);
+            text-decoration: none;
+            color: var(--nav-text-color);
+        }
+
+        .nav-item:hover {
+            background-color: var(--nav-hover-color);
+        }
+
+        .nav-item.active {
+            background-color: var(--nav-active-color);
+            border-left: 4px solid #fff;
+        }
+
+        .nav-item-icon {
+            font-size: var(--nav-icon-size);
+            margin-right: 1rem;
+            min-width: var(--nav-icon-size);
+            text-align: center;
+        }
+
+        .nav-item-text {
+            transition: var(--nav-transition);
+            white-space: nowrap;
+        }
+
+        .toggle-collapse {
+            position: absolute;
+            bottom: 1rem;
+            left: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--nav-text-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--nav-transition);
+        }
+
+        .toggle-collapse:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Mobile Bottom Navigation */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: var(--mobile-nav-height);
+            background-color: var(--nav-bg-color);
+            z-index: 1000;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-nav-items {
+            display: flex;
+            height: 100%;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--nav-text-color);
+            text-decoration: none;
+            padding: 0.5rem;
+            position: relative;
+            flex: 1;
+            height: 100%;
+        }
+
+        .mobile-nav-item:hover {
+            background-color: var(--nav-hover-color);
+        }
+
+        .mobile-nav-item.active {
+            background-color: var(--nav-active-color);
+        }
+
+        .mobile-nav-item-icon {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .mobile-nav-item-text {
+            font-size: 0.7rem;
+            white-space: nowrap;
+        }
+
+        .mobile-nav-item.active::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: #fff;
+        }
+
+        /* Tooltip for collapsed sidebar and mobile icons */
+        .nav-tooltip {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: -40px;
+            background-color: #333;
+            color: #fff;
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--nav-transition);
+            pointer-events: none;
+            z-index: 1100;
+        }
+
+        .nav-tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 5px 5px 0;
+            border-style: solid;
+            border-color: #333 transparent transparent;
+        }
+
+        .mobile-nav-item:hover .nav-tooltip,
+        .sidebar-nav.collapsed .nav-item:hover .nav-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Main content area adjustment */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            transition: var(--nav-transition);
+            min-height: calc(100vh - var(--mobile-nav-height));
+            padding-bottom: var(--mobile-nav-height);
+        }
+
+        .sidebar-nav.collapsed+.main-content {
+            margin-left: var(--sidebar-collapsed-width);
+        }
+
+        /* Responsive Behavior */
+        @media (max-width: 992px) {
+            .sidebar-nav {
+                display: none;
+            }
+
+            .mobile-nav {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-bottom: var(--mobile-nav-height);
+            }
+        }
+
+        /* Dark/Light Mode Compatibility */
+        @media (prefers-color-scheme: dark) {
+
+            .sidebar-nav,
+            .mobile-nav {
+                --nav-bg-color: #2a3a6b;
+                --nav-hover-color: #1e2a52;
+                --nav-active-color: #131d3d;
+            }
+        }
+
+        /* Profile tab specific styling */
+        #teacher-profile .card,
+        #student-profile .card {
+            border: none;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        #teacher-profile .list-group-item,
+        #student-profile .list-group-item {
+            border-left: none;
+            border-right: none;
+            padding: 1rem 1.5rem;
+        }
+
+        #teacher-profile .list-group-item:first-child,
+        #student-profile .list-group-item:first-child {
+            border-top: none;
+        }
+
+        #teacher-profile .list-group-item:last-child,
+        #student-profile .list-group-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Hide horizontal tab navigation */
+        .dashboard-tabs {
+            display: none !important;
+        }
+
+        /* Adjust spacing since tabs are hidden */
+        .tab-content {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+        /* Main content container adjustment */
+#teacher-dashboard, #student-dashboard {
+    padding-bottom: 70px; /* Space for mobile nav */
+}
+
+/* Mobile nav styles */
+.mobile-nav {
+ 
+    height: 60px; /* Fixed height */
+   
+    display: none; /* Initially hidden */
+}
+
+/* Mobile nav items container */
+.mobile-nav-items {
+    display: flex;
+    justify-content: space-around;
+    height: 100%;
+    align-items: center;
+    padding: 0 10px;
+}
+
+/* Ensure content doesn't get hidden behind nav */
+@media (max-width: 992px) {
+    #teacher-dashboard, #student-dashboard {
+        padding-bottom: 70px; /* Match mobile nav height */
+    }
+    
+    
+    
+    /* Adjust any modals or popups to appear above nav */
+    .modal {
+        z-index: 1100; /* Above mobile nav */
+    }
+}/* Enhanced Tab Colors with !important */
+/* ----- Tab Container ----- */
+.auth-tabs {
+    border-bottom: 2px solid #e0e0e0 !important; /* Strong separator */
+    background: transparent !important;
+}
+
+/* ----- Inactive Tab (Default State) ----- */
+.auth-tabs .nav-link {
+    color: #666 !important; /* Soft gray text */
+    background: white !important; /* Pure white background */
+    border: 2px solid #e0e0e0 !important; /* Light gray border */
+    border-bottom: none !important; /* Remove bottom border to blend with container */
+    margin-right: 5px !important; /* Spacing between tabs */
+    border-radius: 8px 8px 0 0 !important; /* Rounded top corners */
+    font-weight: 600 !important; /* Bold text */
+    padding: 10px 20px !important; /* Comfortable padding */
+    transition: all 0.3s ease !important; /* Smooth hover effect */
+}
+
+/* ----- Hover Effect (Subtle but noticeable) ----- */
+.auth-tabs .nav-link:hover {
+    color: #4a6bff !important; /* Primary blue text on hover */
+    background: #f8faff !important; /* Very light blue bg */
+    border-color: #c7d2fe !important; /* Soft blue border */
+}
+
+/* ----- Active Tab (Bold & Eye-Catching) ----- */
+.auth-tabs .nav-link.active {
+    color: white !important; /* Crisp white text */
+    background: #4a6bff !important; /* Solid primary blue */
+    border-color: #6072c0 !important; /* Matching border */
+    box-shadow: 0 4px 12px rgba(0, 0, 2, 0.3) !important; /* Glow effect */
+    position: relative !important; /* For the bottom highlight */
+}
+
+/* ----- Active Tab Bottom Highlight (Extra Contrast) ----- */
+.auth-tabs .nav-link.active::after {
+    content: "" !important;
+    position: absolute !important;
+    bottom: -2px !important; /* Aligns with container border */
+    left: 0 !important;
+    right: 0 !important;
+    height: 2px !important;
+    background: white !important; /* White line to "cut" into the blue */
+}
     </style>
 </head>
 
@@ -1067,140 +1537,430 @@
             </div>
             <p class="mt-2">Processing...</p>
         </div>
+        <div class="sidebar-nav hidden" id="sidebarNav">
+            <div class="nav-brand">
+                <div class="nav-brand-icon">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <div class="nav-brand-text">Quizzy</div>
+            </div>
+
+            <div class="nav-menu " id="teacherNavMenu">
+                <a href="#" class="nav-item" data-tab="teacher-quizzes" data-tab-group="teacher">
+                    <div class="nav-item-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <div class="nav-item-text">Your Quizzes</div>
+                    <div class="nav-tooltip">Your Quizzes</div>
+                </a>
+
+                <a href="#" class="nav-item" data-tab="teacher-taken" data-tab-group="teacher">
+                    <div class="nav-item-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="nav-item-text">Taken Quizzes</div>
+                    <div class="nav-tooltip">Taken Quizzes</div>
+                </a>
+                <a href="#" class="nav-item" data-tab="teacher-followers" data-tab-group="teacher" data-bs-toggle="tab"
+                    data-bs-target="#teacher-followers">
+                    <div class="nav-item-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="nav-item-text">Your Students</div>
+                    <div class="nav-tooltip">Your Students</div>
+                </a>
+
+
+
+
+                <a href="#" class="nav-item" data-tab="teacher-join" data-tab-group="teacher">
+                    <div class="nav-item-icon">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </div>
+                    <div class="nav-item-text">Join Quiz</div>
+                    <div class="nav-tooltip">Join Quiz</div>
+                </a>
+                <a href="#" class="nav-item" data-tab="ai-tools" data-tab-group="teacher" data-bs-toggle="tab"
+                    data-bs-target="#ai-tools">
+                    <div class="nav-item-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="nav-item-text">Generate with AI</div>
+                    <div class="nav-tooltip">Generate with AI</div>
+                </a>
+
+                <a href="#" class="nav-item" data-tab="teacher-profile" data-tab-group="teacher">
+                    <div class="nav-item-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="nav-item-text">Profile</div>
+                    <div class="nav-tooltip">Profile</div>
+                </a>
+            </div>
+
+            <div class="nav-menu" id="studentNavMenu" style="display: none;">
+                <a href="#" class="nav-item" data-tab="student-taken" data-tab-group="student">
+                    <div class="nav-item-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="nav-item-text">Taken Quizzes</div>
+                    <div class="nav-tooltip">Taken Quizzes</div>
+                </a>
+
+                <a href="#" class="nav-item" data-tab="student-quizzes" data-tab-group="student">
+                    <div class="nav-item-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <div class="nav-item-text">Your Quizzes</div>
+                    <div class="nav-tooltip">Your Quizzes</div>
+                </a>
+                <a href="#" class="nav-item" data-tab="student-teachers" data-tab-group="student" data-bs-toggle="tab"
+                    data-bs-target="#student-teachers">
+                    <div class="nav-item-icon">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <div class="nav-item-text">Your Teachers</div>
+                    <div class="nav-tooltip">Your Teachers</div>
+                </a>
+                <a href="#" class="nav-item" data-tab="student-join" data-tab-group="student">
+                    <div class="nav-item-icon">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </div>
+                    <div class="nav-item-text">Join Quiz</div>
+                    <div class="nav-tooltip">Join Quiz</div>
+                </a>
+
+                <a href="#" class="nav-item" data-tab="student-profile" data-tab-group="student">
+                    <div class="nav-item-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="nav-item-text">Profile</div>
+                    <div class="nav-tooltip">Profile</div>
+                </a>
+            </div>
+
+            <button class="toggle-collapse" id="toggleCollapse">
+                <i class="fas fa-chevron-left" id="collapseIcon"></i>
+            </button>
+        </div>
+
+        <div class="mobile-nav hidden" id="mobileNav">
+            <div class="mobile-nav-items" id="teacherMobileNav">
+                <a href="#" class="mobile-nav-item" data-tab="teacher-quizzes" data-tab-group="teacher">
+                    <div class="mobile-nav-item-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <div class="mobile-nav-item-text">Quizzes</div>
+                    <div class="nav-tooltip">Your Quizzes</div>
+                </a>
+
+                <a href="#" class="mobile-nav-item" data-tab="teacher-taken" data-tab-group="teacher">
+                    <div class="mobile-nav-item-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="mobile-nav-item-text">Taken</div>
+                    <div class="nav-tooltip">Taken Quizzes</div>
+                </a>
+                <a href="#" class="mobile-nav-item" data-tab="teacher-followers" data-tab-group="teacher"
+                    data-bs-toggle="tab" data-bs-target="#teacher-followers">
+                    <div class="mobile-nav-item-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="mobile-nav-item-text">Students</div>
+                    <div class="nav-tooltip">Your Students</div>
+                </a>
+                <a href="#" class="mobile-nav-item" data-tab="ai-tools" data-tab-group="teacher" data-bs-toggle="tab"
+                    data-bs-target="#ai-tools">
+                    <div class="mobile-nav-item-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="mobile-nav-item-text">AI</div>
+                    <div class="nav-tooltip">Generate with AI</div>
+                </a>
+
+                <a href="#" class="mobile-nav-item" data-tab="teacher-join" data-tab-group="teacher">
+                    <div class="mobile-nav-item-icon">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </div>
+                    <div class="mobile-nav-item-text">Join</div>
+                    <div class="nav-tooltip">Join Quiz</div>
+                </a>
+
+                <a href="#" class="mobile-nav-item" data-tab="teacher-profile" data-tab-group="teacher">
+                    <div class="mobile-nav-item-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="mobile-nav-item-text">Profile</div>
+                    <div class="nav-tooltip">Profile</div>
+                </a>
+            </div>
+            <div class="mobile-nav-items" id="studentMobileNav" style="display: none;">
+                <a href="#" class="mobile-nav-item" data-tab="student-taken" data-tab-group="student">
+                    <div class="mobile-nav-item-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="mobile-nav-item-text">Taken</div>
+                    <div class="nav-tooltip">Taken Quizzes</div>
+                </a>
+
+                <a href="#" class="mobile-nav-item" data-tab="student-quizzes" data-tab-group="student">
+                    <div class="mobile-nav-item-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <div class="mobile-nav-item-text">Quizzes</div>
+                    <div class="nav-tooltip">Your Quizzes</div>
+                </a>
+                <a href="#" class="mobile-nav-item" data-tab="student-teachers" data-tab-group="student"
+                    data-bs-toggle="tab" data-bs-target="#student-teachers">
+                    <div class="mobile-nav-item-icon">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <div class="mobile-nav-item-text">Teachers</div>
+                    <div class="nav-tooltip">Your Teachers</div>
+                </a>
+                <a href="#" class="mobile-nav-item" data-tab="student-join" data-tab-group="student">
+                    <div class="mobile-nav-item-icon">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </div>
+                    <div class="mobile-nav-item-text">Join</div>
+                    <div class="nav-tooltip">Join Quiz</div>
+                </a>
+
+                <a href="#" class="mobile-nav-item" data-tab="student-profile" data-tab-group="student">
+                    <div class="mobile-nav-item-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="mobile-nav-item-text">Profile</div>
+                    <div class="nav-tooltip">Profile</div>
+                </a>
+            </div>
+        </div>
 
         <!-- Teacher Dashboard -->
         <div id="teacher-dashboard" class="container mt-4 hidden">
             <header class="dashboard-header d-flex justify-content-between align-items-center mb-4">
                 <h1>Teacher Dashboard</h1>
-                <button id="logout-btn" class="btn btn-outline-primary">Logout</button>
+                <button id="logout-btn" class="btn btn-outline-primary btn-with-shortcut"
+                    data-shortcut="Ctrl+Esc">Logout</button>
             </header>
+
             <hr style="opacity:100;">
 
-            <div class="dashboard-content">
-                <div class="join-quiz-bar mb-4">
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="teacher-join-quiz-input"
-                            placeholder="Enter quiz link to join">
-                        <button class="btn btn-primary" id="teacher-join-quiz-btn">Join Quiz</button>
-                    </div>
-                </div>
-
-                <div class="dashboard-actions mb-4">
-                    <button id="create-quiz-btn" class="btn btn-primary">Create New Quiz</button>
-                </div>
-
-                <ul class="nav nav-tabs quiz-tabs mb-3" id="teacherTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="your-quizzes-tab" data-bs-toggle="tab"
-                            data-bs-target="#your-quizzes" type="button">Your Quizzes</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="quizzes-taken-tab" data-bs-toggle="tab"
-                            data-bs-target="#quizzes-taken" type="button">Quizzes You've Taken</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="your-students-tab" data-bs-toggle="tab"
-                            data-bs-target="#your-students" type="button">Your Students</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="available-teachers-tab" data-bs-toggle="tab"
-                            data-bs-target="#available-teachers" type="button">Available Teachers</button>
-                    </li>
-                </ul>
-
-                <div class="tab-content">
-                    <div class="tab-pane fade show active" id="your-quizzes" role="tabpanel">
-                        <div id="quiz-list-container">
-                            <div id="quiz-list" class="row g-4">
-                                <!-- Teacher's quizzes will be loaded here -->
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="tab-pane fade" id="quizzes-taken" role="tabpanel">
-                        <div id="teacher-quizzes-taken-list" class="row g-4">
-                            <!-- Quizzes teacher has taken will be loaded here -->
-                        </div>
-                    </div>
-
-                    <div class="tab-pane fade" id="your-students" role="tabpanel">
-                        <div id="your-students-list" class="row g-4">
-                            <!-- Teacher's students will be loaded here -->
-                        </div>
-                    </div>
-
-                    <div class="tab-pane fade" id="available-teachers" role="tabpanel">
-                        <div id="available-teachers-list" class="row g-4">
-                            <!-- Available teachers will be loaded here -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Student Dashboard -->
-        <div id="student-dashboard" class="container mt-4 hidden">
-            <header class="dashboard-header d-flex justify-content-between align-items-center mb-4">
-                <h1>Student Dashboard</h1>
-                <button id="student-logout-btn" class="btn btn-outline-primary">Logout</button>
-            </header>
-            <hr style="opacity:100;">
-
-
-            <div class="dashboard-content">
-                <div id="quiz-link-container" class="card quiz-card">
-                    <div class="mb-3">
-                        <input type="text" class="form-control" id="quiz-link-input"
-                            placeholder="Paste your quiz link here">
-                    </div>
-                    <button id="join-quiz-btn" class="btn btn-primary w-100">🚀 Join Quiz</button>
-                </div>
-            </div>
-            <!-- Inside the student dashboard section -->
-            <div class="dashboard-actions mb-4">
-                <button id="student-create-quiz-btn" class="btn btn-primary">Create New Quiz</button>
-            </div>
-            <ul class="nav nav-tabs quiz-tabs mb-3" id="studentTabs" role="tablist">
+            <ul class="nav nav-tabs dashboard-tabs mb-4" id="teacherTabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="quizzes-taken-tab" data-bs-toggle="tab"
-                        data-bs-target="#student-quizzes-taken" type="button">Quizzes You've Taken</button>
+                    <button class="nav-link active" id="teacher-quizzes-tab" data-bs-toggle="tab"
+                        data-bs-target="#teacher-quizzes" type="button" role="tab">Your Quizzes</button>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="teacher-taken-tab" data-bs-toggle="tab" data-bs-target="#teacher-taken"
+                        type="button" role="tab">Quizzes Taken</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="your-quizzes-tab" data-bs-toggle="tab"
-                        data-bs-target="#student-your-quizzes" type="button">Your Quizzes</button>
+                    <button class="nav-link" id="teacher-followers-tab" data-bs-toggle="tab"
+                        data-bs-target="#teacher-followers" type="button" role="tab">Your Students</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="your-teachers-tab" data-bs-toggle="tab"
-                        data-bs-target="#student-your-teachers" type="button">Your Teachers</button>
+                    <button class="nav-link" id="teacher-join-tab" data-bs-toggle="tab" data-bs-target="#teacher-join"
+                        type="button" role="tab">Join Quiz</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="available-teachers-tab" data-bs-toggle="tab"
-                        data-bs-target="#student-available-teachers" type="button">Available Teachers</button>
+                    <button class="nav-link" id="ai-tools-tab" data-bs-toggle="tab" data-bs-target="#ai-tools"
+                        type="button" role="tab">
+                        <span class="d-inline-flex align-items-center">
+                            <span class="ai-logo me-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="#4285F4" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M12 2v4"></path>
+                                    <path d="m16.24 7.76 2.83-2.83"></path>
+                                    <path d="M18 12h4"></path>
+                                    <path d="m16.24 16.24 2.83 2.83"></path>
+                                    <path d="M12 18v4"></path>
+                                    <path d="m7.76 16.24-2.83 2.83"></path>
+                                    <path d="M6 12h-4"></path>
+                                    <path d="m7.76 7.76-2.83-2.83"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </span>
+                            Generate with AI
+                        </span>
+                    </button>
                 </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="teacher-profile-tab" data-bs-toggle="tab"
+                        data-bs-target="#teacher-profile" type="button" role="tab">Profile</button>
+                </li>
+
             </ul>
 
             <div class="tab-content">
-                <div class="tab-pane fade show active" id="student-quizzes-taken" role="tabpanel">
-                    <div id="student-quiz-list" class="row g-4">
-                        <!-- Quizzes student has taken will be loaded here -->
+                <div class="tab-pane fade show active" id="teacher-quizzes" role="tabpanel">
+                    <div class="dashboard-actions mb-4">
+                        <button id="create-quiz-btn" class="btn btn-primary btn-with-shortcut"
+                            data-shortcut="Ctrl+Alt+N">Create New Quiz</button>
+                    </div>
+                    <div id="quiz-list-container">
+                        <div id="quiz-list" class="row g-4">
+                            <!-- Quizzes will be loaded here -->
+                        </div>
                     </div>
                 </div>
 
-                <div class="tab-pane fade" id="student-your-quizzes" role="tabpanel">
-                    <div id="student-created-quiz-list" class="row g-4">
-                        <!-- Quizzes student has created will be loaded here -->
+                <div class="tab-pane fade" id="teacher-taken" role="tabpanel">
+                    <div id="teacher-taken-quizzes" class="row g-4">
+                        <!-- Quizzes taken by teacher will be loaded here -->
                     </div>
                 </div>
 
-                <div class="tab-pane fade" id="student-your-teachers" role="tabpanel">
-                    <div id="student-followed-teachers" class="row g-4">
-                        <!-- Teachers student is following will be loaded here -->
+                <div class="tab-pane fade" id="teacher-followers" role="tabpanel">
+                    <div id="teacher-followers-list" class="row g-4">
+                        <!-- Followers will be loaded here -->
                     </div>
                 </div>
 
-                <div class="tab-pane fade" id="student-available-teachers" role="tabpanel">
-                    <div id="student-available-teachers-list" class="row g-4">
-                        <!-- Available teachers will be loaded here -->
+                <div class="tab-pane fade" id="teacher-join" role="tabpanel">
+                    <div id="quiz-link-container" class="card mb-4 p-3">
+                        <div class="mb-3">
+                            <label for="teacher-quiz-link-input" class="form-label">Enter Quiz Link</label>
+                            <input type="text" class="form-control" id="teacher-quiz-link-input"
+                                placeholder="Paste quiz link here">
+                        </div>
+                        <button id="teacher-join-quiz-btn" class="btn btn-primary">Join Quiz</button>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="ai-tools" role="tabpanel">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">AI Quiz Generator</h5>
+                            <p class="card-text">Generate quizzes automatically from topics or text.</p>
+
+                            <div class="mb-3">
+                                <label for="ai-topic-input" class="form-label">Enter a topic or paste text</label>
+                                <textarea class="form-control" id="ai-topic-input" rows="3"
+                                    placeholder="E.g., 'Python programming basics' or paste your text here"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="ai-question-count" class="form-label">Number of questions</label>
+                                <select class="form-select" id="ai-question-count">
+                                    <option value="5">5</option>
+                                    <option value="10" selected>10</option>
+                                    <option value="15">15</option>
+                                    <option value="20">20</option>
+                                </select>
+                            </div>
+
+                            <button id="generate-quiz-btn" class="btn btn-primary">Generate Quiz</button>
+                            <div id="ai-generation-status" class="mt-2 small text-muted"></div>
+                        </div>
+                    </div>
+
+                    <div id="ai-generated-quiz-container" class="hidden">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5>Generated Quiz</h5>
+                            <button id="use-generated-quiz-btn" class="btn btn-success">Use This Quiz</button>
+                        </div>
+                        <div id="ai-generated-quiz-preview" class="card p-3"></div>
+                    </div>
+                </div>
+                <!-- Add this inside the teacher-dashboard div, after the dashboard-header -->
+                <div class="tab-content">
+                    <div class="tab-pane fade" id="teacher-profile" role="tabpanel">
+                        <!-- Main Profile Card -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="card-title mb-0">Teacher Profile</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="text-center mb-3">
+
+                                            <h4 id="teacher-profile-name">Loading...</h4>
+                                            <p class="text-muted" id="teacher-profile-email">Loading...</p>
+                                        </div>
+
+                                        <ul class="list-group list-group-flush">
+                                            <li
+                                                class="list-group-item d-flex justify-content-between align-items-center">
+                                                <span>Login Method</span>
+                                                <span class="badge bg-info" id="teacher-login-method">Email</span>
+                                            </li>
+                                            <li
+                                                class="list-group-item d-flex justify-content-between align-items-center">
+                                                <span>Join Date</span>
+                                                <span id="teacher-join-date">Loading...</span>
+                                            </li>
+                                            <li
+                                                class="list-group-item d-flex justify-content-between align-items-center">
+                                                <span>Last Login</span>
+                                                <span id="teacher-last-login">Loading...</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Statistics Section -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="card-title mb-0">Teaching Statistics</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="d-flex align-items-center mb-4">
+                                            <div class="bg-primary bg-opacity-10 p-3 rounded me-3">
+                                                <i class="fas fa-clipboard-list text-primary fs-2"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="mb-0" id="teacher-quiz-created">0</h5>
+                                                <p class="text-muted mb-0">Quizzes Created</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="d-flex align-items-center mb-4">
+                                            <div class="bg-success bg-opacity-10 p-3 rounded me-3">
+                                                <i class="fas fa-check-circle text-success fs-2"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="mb-0" id="teacher-quiz-attempted">0</h5>
+                                                <p class="text-muted mb-0">Quizzes Attempted</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Students Leaderboard Section -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="card-title mb-0">Top Students</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Rank</th>
+                                                <th>Student</th>
+                                                <th>Quizzes Taken</th>
+                                                <th>Average Score</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="students-leaderboard">
+                                            <tr>
+                                                <td colspan="4" class="text-center">Loading students data...</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1225,6 +1985,8 @@
                         <textarea class="form-control" id="quiz-description" rows="3"
                             placeholder="Enter quiz description"></textarea>
                     </div>
+                    <!-- Add this inside the quiz-creation-modal div, after the description field -->
+
                     <div class="mb-3">
                         <label for="quiz-session-end" class="form-label">Quiz Session End Date/Time</label>
                         <input type="datetime-local" class="form-control" id="quiz-session-end">
@@ -1239,6 +2001,203 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button id="save-quiz-btn" class="btn btn-primary">Save Quiz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Dashboard -->
+    <div id="student-dashboard" class="container mt-4 hidden">
+        <header class="dashboard-header d-flex justify-content-between align-items-center mb-4">
+            <h1>Student Dashboard</h1>
+            <button id="student-logout-btn" class="btn btn-outline-primary btn-with-shortcut"
+                data-shortcut="Ctrl+Esc">Logout</button>
+        </header>
+        <!-- Add this inside the student-dashboard div, after the dashboard-header -->
+
+        <hr style="opacity:100;">
+
+        <ul class="nav nav-tabs dashboard-tabs mb-4" id="studentTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="student-taken-tab" data-bs-toggle="tab"
+                    data-bs-target="#student-taken" type="button" role="tab">Quizzes Taken</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="student-quizzes-tab" data-bs-toggle="tab" data-bs-target="#student-quizzes"
+                    type="button" role="tab">Your Quizzes</button>
+            </li>
+
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="student-teachers-tab" data-bs-toggle="tab"
+                    data-bs-target="#student-teachers" type="button" role="tab">Teachers</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="student-join-tab" data-bs-toggle="tab" data-bs-target="#student-join"
+                    type="button" role="tab">Join Quiz</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="student-profile-tab" data-bs-toggle="tab" data-bs-target="#student-profile"
+                    type="button" role="tab">Profile</button>
+            </li>
+
+
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="student-taken" role="tabpanel">
+                <div id="student-quiz-list-container">
+                    <div id="student-quiz-list" class="row g-4">
+                        <!-- Student quizzes will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="student-quizzes" role="tabpanel">
+                <div class="dashboard-actions mb-4">
+                    <button id="student-create-quiz-btn" class="btn btn-primary btn-with-shortcut"
+                        data-shortcut="Ctrl+Alt+N">Create New Quiz</button>
+                </div>
+                <div id="student-created-quizzes" class="row g-4">
+                    <!-- Quizzes created by student will be loaded here -->
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="student-teachers" role="tabpanel">
+                <div id="available-teachers" class="row g-4">
+                    <!-- Available teachers will be loaded here -->
+                </div>
+                <hr style="opacity:1000;"><br>
+                <h5>followed teachers</h5>
+                <div id="followed-teachers" class="row g-4 mt-4">
+                    <h4>Teachers You Follow</h4>
+                    <!-- Followed teachers will be loaded here -->
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="student-join" role="tabpanel">
+                <div id="quiz-link-container" class="card mb-4 p-3">
+                    <div class="mb-3">
+                        <label for="quiz-link-input" class="form-label">Enter Quiz Link</label>
+                        <input type="text" class="form-control" id="quiz-link-input" placeholder="Paste quiz link here">
+                    </div>
+                    <button id="join-quiz-btn" class="btn btn-primary">Join Quiz</button>
+                </div>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane fade" id="student-profile" role="tabpanel">
+                    <!-- Main Profile Card -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">Profile Information</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="text-center mb-3">
+
+                                        <h4 id="student-profile-name">Loading...</h4>
+                                        <p class="text-muted" id="student-profile-email">Loading...</p>
+                                    </div>
+
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <span>Login Method</span>
+                                            <span class="badge bg-info" id="student-login-method">Email</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <span>Join Date</span>
+                                            <span id="student-join-date">Loading...</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <span>Last Login</span>
+                                            <span id="student-last-login">Loading...</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Statistics Section -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">Quiz Statistics</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-center mb-4">
+                                        <div class="bg-primary bg-opacity-10 p-3 rounded me-3">
+                                            <i class="fas fa-clipboard-list text-primary fs-2"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="mb-0" id="student-quiz-created">0</h5>
+                                            <p class="text-muted mb-0">Quizzes Created</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-center mb-4">
+                                        <div class="bg-success bg-opacity-10 p-3 rounded me-3">
+                                            <i class="fas fa-check-circle text-success fs-2"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="mb-0" id="student-quiz-attempted">0</h5>
+                                            <p class="text-muted mb-0">Quizzes Attempted</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Achievements Section -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">Achievements</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card bg-light mb-4">
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title">Achievement Level</h5>
+                                            <div class="display-4 text-primary mb-2" id="achievement-level">-</div>
+                                            <p class="text-muted" id="achievement-description">Complete quizzes to
+                                                unlock</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card bg-light">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-center mb-3">Quiz Performance</h5>
+                                            <div id="performance-chart-container">
+                                                <canvas id="performance-chart" height="150"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Time Management Section -->
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">Time Management</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="progress mb-3" style="height: 20px;">
+                                <div class="progress-bar bg-success" role="progressbar" id="time-efficiency-bar"
+                                    style="width: 0%">
+                                    <span id="time-efficiency-text">0% Efficiency</span>
+                                </div>
+                            </div>
+                            <p class="text-muted small" id="time-summary">Average completion time: calculating...
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1276,12 +2235,12 @@
         <div class="card">
             <div class="card-body">
                 <h2 class="card-title mb-4">Quiz Results</h2>
-                <div id="results-summary" class="text-center mb-4">
-                    <!-- Share buttons will be added here -->
-
-                </div>
+                <div id="results-summary" class="text-center mb-4"></div>
                 <div id="results-details"></div>
-                <button id="back-to-dashboard-btn" class="btn btn-primary w-100 mt-3">Back to Dashboard</button>
+                <div class="d-flex justify-content-between mt-3">
+                    <button id="back-to-dashboard-btn" class="btn btn-primary">Back to Dashboard</button>
+                    <button id="share-result-btn" class="btn btn-outline-primary">Share Results</button>
+                </div>
             </div>
         </div>
     </div>
@@ -1387,35 +2346,12 @@
         </div>
     </div>
 
-    <!-- Teacher Details Modal -->
-    <div class="modal fade" id="teacherDetailsModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Teacher Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="teacher-details-content">
-                    <!-- Teacher details will be loaded here -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary follow-btn" id="follow-teacher-btn">
-                        <span class="follow-text">Follow</span>
-                        <span class="following-text">Following</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <!-- jsPDF for PDF generation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script>
         // Firebase Configuration and Initialization
         const firebaseConfig = {
@@ -1438,12 +2374,8 @@
         const quizCreationModal = new bootstrap.Modal(document.getElementById('quiz-creation-modal'));
         const viewResultsModal = new bootstrap.Modal(document.getElementById('viewResultsModal'));
         const userDetailsModal = new bootstrap.Modal(document.getElementById('userDetailsModal'));
-        const teacherDetailsModal = new bootstrap.Modal(document.getElementById('teacherDetailsModal'));
-        const teacherTabs = new bootstrap.Tab(document.getElementById('your-quizzes-tab'));
-        const studentTabs = new bootstrap.Tab(document.getElementById('quizzes-taken-tab'));
-
-        // Initialize jsPDF
-        const { jsPDF } = window.jspdf;
+        const teacherTabs = new bootstrap.Tab(document.getElementById('teacher-quizzes-tab'));
+        const studentTabs = new bootstrap.Tab(document.getElementById('student-taken-tab'));
 
         // Toastr configuration
         toastr.options = {
@@ -1490,12 +2422,18 @@
         const studentLogoutBtn = document.getElementById('student-logout-btn');
         const adminLogoutBtn = document.getElementById('admin-logout-btn');
         const createQuizBtn = document.getElementById('create-quiz-btn');
+        const studentCreateQuizBtn = document.getElementById('student-create-quiz-btn');
         const quizList = document.getElementById('quiz-list');
         const quizLinkInput = document.getElementById('quiz-link-input');
+        const teacherQuizLinkInput = document.getElementById('teacher-quiz-link-input');
         const joinQuizBtn = document.getElementById('join-quiz-btn');
-        const studentQuizList = document.getElementById('student-quiz-list');
-        const teacherJoinQuizInput = document.getElementById('teacher-join-quiz-input');
         const teacherJoinQuizBtn = document.getElementById('teacher-join-quiz-btn');
+        const studentQuizList = document.getElementById('student-quiz-list');
+        const studentCreatedQuizzes = document.getElementById('student-created-quizzes');
+        const teacherTakenQuizzes = document.getElementById('teacher-taken-quizzes');
+        const availableTeachers = document.getElementById('available-teachers');
+        const followedTeachers = document.getElementById('followed-teachers');
+        const teacherFollowersList = document.getElementById('teacher-followers-list');
 
         const quizTitle = document.getElementById('quiz-title');
         const quizDescription = document.getElementById('quiz-description');
@@ -1520,9 +2458,8 @@
         const resultsSummary = document.getElementById('results-summary');
         const resultsDetails = document.getElementById('results-details');
         const backToDashboardBtn = document.getElementById('back-to-dashboard-btn');
-        const modalResultsContent = document.getElementById('modal-results-content');
         const shareResultBtn = document.getElementById('share-result-btn');
-        const downloadResultBtn = document.getElementById('download-result-btn');
+        const modalResultsContent = document.getElementById('modal-results-content');
 
         // Admin elements
         const usersList = document.getElementById('users-list');
@@ -1537,23 +2474,6 @@
         const approvedUsersCount = document.getElementById('approved-users-count');
         const rejectedUsersCount = document.getElementById('rejected-users-count');
 
-        // Teacher dashboard elements
-        const teacherQuizzesTakenList = document.getElementById('teacher-quizzes-taken-list');
-        const yourStudentsList = document.getElementById('your-students-list');
-        const availableTeachersList = document.getElementById('available-teachers-list');
-
-        // Student dashboard elements
-        const studentCreatedQuizList = document.getElementById('student-created-quiz-list');
-        const studentFollowedTeachers = document.getElementById('student-followed-teachers');
-        const studentAvailableTeachersList = document.getElementById('student-available-teachers-list');
-        // Add to the Event Listeners section
-        const studentCreateQuizBtn = document.getElementById('student-create-quiz-btn');
-        studentCreateQuizBtn.addEventListener('click', () => quizCreationModal.show());
-
-        // Follow teacher elements
-        const followTeacherBtn = document.getElementById('follow-teacher-btn');
-        const teacherDetailsContent = document.getElementById('teacher-details-content');
-
         // Global Variables
         let currentUser = null;
         let currentUserRole = null;
@@ -1567,10 +2487,7 @@
         let quizStartTime = 0;
         let allUsers = [];
         let currentSelectedUserId = null;
-        let currentSelectedTeacherId = null;
-        let currentQuizResult = null;
-        let followedTeachers = [];
-        let availableTeachers = [];
+        let currentQuizResults = null;
 
         // Set default session end time (24 hours from now)
         const now = new Date();
@@ -1603,6 +2520,7 @@
         studentLogoutBtn.addEventListener('click', logoutUser);
         adminLogoutBtn.addEventListener('click', logoutUser);
         createQuizBtn.addEventListener('click', () => quizCreationModal.show());
+        studentCreateQuizBtn.addEventListener('click', () => quizCreationModal.show());
         addQuestionBtn.addEventListener('click', addQuestion);
         saveQuizBtn.addEventListener('click', saveQuiz);
         joinQuizBtn.addEventListener('click', joinQuiz);
@@ -1611,9 +2529,7 @@
         prevQuestionBtn.addEventListener('click', showPreviousQuestion);
         nextQuestionBtn.addEventListener('click', showNextQuestion);
         backToDashboardBtn.addEventListener('click', backToDashboard);
-        shareResultBtn.addEventListener('click', shareQuizResult);
-        downloadResultBtn.addEventListener('click', downloadQuizResult);
-        followTeacherBtn.addEventListener('click', toggleFollowTeacher);
+        shareResultBtn.addEventListener('click', shareQuizResults);
 
         // Admin event listeners
         userSearch.addEventListener('input', filterUsers);
@@ -1695,15 +2611,14 @@
                         if (currentUserRole === 'teacher') {
                             showTeacherDashboard();
                             loadTeacherQuizzes();
-                            loadTeacherQuizzesTaken();
-                            loadYourStudents();
-                            loadAvailableTeachers();
+                            loadTeacherTakenQuizzes();
+                            loadTeacherFollowers();
                         } else {
                             showStudentDashboard();
                             loadStudentQuizzes();
                             loadStudentCreatedQuizzes();
-                            loadFollowedTeachers();
                             loadAvailableTeachers();
+                            loadFollowedTeachers();
                         }
 
                         authContainer.classList.add('hidden');
@@ -1817,6 +2732,10 @@
                     quizTakingContainer.classList.add('hidden');
                     quizResultsContainer.classList.add('hidden');
 
+                    // Hide navigation
+                    document.getElementById('sidebarNav').classList.add('hidden');
+                    document.getElementById('mobileNav').classList.add('hidden');
+
                     // Reset form fields
                     loginEmail.value = '';
                     loginPassword.value = '';
@@ -1845,6 +2764,11 @@
             adminDashboard.classList.add('hidden');
             quizTakingContainer.classList.add('hidden');
             quizResultsContainer.classList.add('hidden');
+
+            document.getElementById('sidebarNav').classList.remove('hidden');
+            document.getElementById('mobileNav').classList.remove('hidden');
+
+            teacherTabs.show();
         }
 
         function showStudentDashboard() {
@@ -1853,6 +2777,12 @@
             adminDashboard.classList.add('hidden');
             quizTakingContainer.classList.add('hidden');
             quizResultsContainer.classList.add('hidden');
+
+            document.getElementById('sidebarNav').classList.remove('hidden');
+            document.getElementById('mobileNav').classList.remove('hidden');
+
+
+            studentTabs.show();
         }
 
         function showAdminDashboard() {
@@ -1867,67 +2797,87 @@
         function addQuestion() {
             const questionId = Date.now();
             const questionHtml = `
-                <div class="question-card" id="question-${questionId}">
-                    <div class="mb-3">
-                        <label for="question-text-${questionId}" class="form-label">Question</label>
-                        <textarea class="form-control" id="question-text-${questionId}" rows="4" placeholder="Enter question text"></textarea>
-                        <button class="btn btn-sm btn-outline-secondary mt-2 add-code-btn" data-question="${questionId}">
-                            <i class="fas fa-code"></i> Add Code Block
+        <div class="question-card" id="question-${questionId}">
+            <div class="mb-3">
+                <label for="question-text-${questionId}" class="form-label">Question</label>
+                <textarea class="form-control" id="question-text-${questionId}" rows="4" placeholder="Enter question text"></textarea>
+                <button class="btn btn-sm btn-outline-secondary mt-2 add-code-btn" data-question="${questionId}">
+                    <i class="fas fa-code"></i> Add Code Block
+                </button>
+                <div id="code-container-${questionId}" class="hidden mt-3">
+                    <label class="form-label">Code Content</label>
+                    <textarea class="form-control code-content" rows="8" placeholder="Enter code here..." data-question="${questionId}"></textarea>
+                    <div class="d-flex mt-2">
+                        <select class="form-select language-select" style="width: 150px" data-question="${questionId}">
+                            <option value="javascript">JavaScript</option>
+                            <option value="python">Python</option>
+                            <option value="java">Java</option>
+                            <option value="csharp">C#</option>
+                            <option value="cpp">C++</option>
+                            <option value="php">PHP</option>
+                            <option value="ruby">Ruby</option>
+                        </select>
+                        <button class="btn btn-sm btn-outline-danger ms-2 remove-code-btn" data-question="${questionId}">
+                            <i class="fas fa-times"></i> Remove
                         </button>
-                        <div id="code-container-${questionId}" class="hidden mt-3">
-                            <label class="form-label">Code Content</label>
-                            <textarea class="form-control code-content" rows="8" placeholder="Enter code here..." data-question="${questionId}"></textarea>
-                            <div class="d-flex mt-2">
-                                <select class="form-select language-select" style="width: 150px" data-question="${questionId}">
-                                    <option value="javascript">JavaScript</option>
-                                    <option value="python">Python</option>
-                                    <option value="java">Java</option>
-                                    <option value="csharp">C#</option>
-                                    <option value="cpp">C++</option>
-                                    <option value="php">PHP</option>
-                                    <option value="ruby">Ruby</option>
-                                </select>
-                                <button class="btn btn-sm btn-outline-danger ms-2 remove-code-btn" data-question="${questionId}">
-                                    <i class="fas fa-times"></i> Remove
-                                </button>
-                            </div>
-                        </div>
                     </div>
-                    
-                    <div class="mb-3">
-                        <label class="form-label">Options</label>
-                        <div id="options-container-${questionId}">
-                            <div class="option-container">
-                                <input type="radio" name="correct-answer-${questionId}" value="0" checked>
-                                <input type="text" class="form-control" placeholder="Option 1">
-                                <button class="remove-btn remove-option-btn">&times;</button>
-                            </div>
-                            <div class="option-container">
-                                <input type="radio" name="correct-answer-${questionId}" value="1">
-                                <input type="text" class="form-control" placeholder="Option 2">
-                                <button class="remove-btn remove-option-btn">&times;</button>
-                            </div>
-                        </div>
-                        <button class="btn btn-sm btn-outline-primary add-option-btn mt-2" data-question="${questionId}">+ Add Option</button>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="question-explanation-${questionId}" class="form-label">Explanation</label>
-                        <textarea class="form-control" id="question-explanation-${questionId}" rows="2" placeholder="Add explanation for this question"></textarea>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="question-time-${questionId}" class="form-label">Time Limit (seconds)</label>
-                        <input type="number" class="form-control" id="question-time-${questionId}" value="30" min="10">
-                    </div>
-                    
-                    <button class="btn btn-sm btn-outline-danger remove-question-btn" data-question="${questionId}">Remove Question</button>
                 </div>
-            `;
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Options</label>
+                <div id="options-container-${questionId}">
+                    <div class="option-container">
+                        <input type="radio" name="correct-answer-${questionId}" value="0" checked>
+                        <input type="text" class="form-control" placeholder="Option 1">
+                        <button class="remove-btn remove-option-btn">&times;</button>
+                    </div>
+                    <div class="option-container">
+                        <input type="radio" name="correct-answer-${questionId}" value="1">
+                        <input type="text" class="form-control" placeholder="Option 2">
+                        <button class="remove-btn remove-option-btn">&times;</button>
+                    </div>
+                </div>
+                <button class="btn btn-sm btn-outline-primary add-option-btn mt-2" data-question="${questionId}">+ Add Option</button>
+            </div>
+            
+            <div class="mb-3">
+                <label for="question-explanation-${questionId}" class="form-label">Explanation</label>
+                <textarea class="form-control" id="question-explanation-${questionId}" rows="2" placeholder="Add explanation for this question"></textarea>
+            </div>
+            
+            <div class="mb-3">
+                <label for="question-time-${questionId}" class="form-label">Time Limit (seconds)</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" id="question-time-${questionId}" value="30" min="10">
+                    <button class="btn btn-outline-secondary decrease-time" type="button" data-question="${questionId}">-5</button>
+                    <button class="btn btn-outline-secondary increase-time" type="button" data-question="${questionId}">+5</button>
+                </div>
+                <small class="text-muted">Adjust time for this question</small>
+            </div>
+            
+            <button class="btn btn-sm btn-outline-danger remove-question-btn" data-question="${questionId}">Remove Question</button>
+        </div>
+    `;
 
             questionsContainer.insertAdjacentHTML('beforeend', questionHtml);
 
-            // Add event listeners
+            // Add event listeners for time adjustment
+            document.querySelector(`[data-question="${questionId}"].decrease-time`).addEventListener('click', () => {
+                const input = document.getElementById(`question-time-${questionId}`);
+                const currentValue = parseInt(input.value) || 30;
+                input.value = Math.max(10, currentValue - 5);
+                updateTotalTimeDisplay();
+            });
+
+            document.querySelector(`[data-question="${questionId}"].increase-time`).addEventListener('click', () => {
+                const input = document.getElementById(`question-time-${questionId}`);
+                const currentValue = parseInt(input.value) || 30;
+                input.value = currentValue + 5;
+                updateTotalTimeDisplay();
+            });
+
+            // Add other event listeners
             document.querySelector(`[data-question="${questionId}"].add-code-btn`).addEventListener('click', toggleCodeBlock);
             document.querySelector(`[data-question="${questionId}"].remove-code-btn`).addEventListener('click', toggleCodeBlock);
             document.querySelector(`[data-question="${questionId}"].add-option-btn`).addEventListener('click', addOption);
@@ -1938,7 +2888,33 @@
             removeOptionBtns.forEach(btn => {
                 btn.addEventListener('click', removeOption);
             });
+
+            // Update total time display
+            updateTotalTimeDisplay();
+        } function updateTotalTimeDisplay() {
+            let totalTime = 0;
+            document.querySelectorAll('.question-card').forEach(questionCard => {
+                const questionId = questionCard.id.split('-')[1];
+                const timeInput = document.getElementById(`question-time-${questionId}`);
+                totalTime += parseInt(timeInput.value) || 30;
+            });
+
+            const minutes = Math.floor(totalTime / 60);
+            const seconds = totalTime % 60;
+            const totalTimeDisplay = document.getElementById('total-time-display');
+
+            if (totalTimeDisplay) {
+                totalTimeDisplay.textContent = `Total Quiz Time: ${minutes}m ${seconds}s`;
+            } else {
+                // Create it if it doesn't exist
+                const timeDisplay = document.createElement('div');
+                timeDisplay.id = 'total-time-display';
+                timeDisplay.className = 'alert alert-info mb-3';
+                timeDisplay.textContent = `Total Quiz Time: ${minutes}m ${seconds}s`;
+                questionsContainer.insertAdjacentElement('beforebegin', timeDisplay);
+            }
         }
+
 
         function toggleCodeBlock(e) {
             const questionId = e.target.getAttribute('data-question');
@@ -2139,32 +3115,35 @@
                 sessionEnd: sessionEnd,
                 createdAt: firebase.database.ServerValue.TIMESTAMP,
                 createdBy: currentUser.uid,
-                createdByName: currentUser.displayName || currentUser.email,
-                hasCodeBlocks: questions.some(q => q.hasOwnProperty('code')),
-                creatorRole: currentUserRole
+                createdByName: currentUser.displayName || currentUser.email.split('@')[0],
+                hasCodeBlocks: questions.some(q => q.hasOwnProperty('code'))
             };
 
             // Save to Firebase
             quizRef.set(quizData)
                 .then(() => {
-                    const quizRefPath = currentUserRole === 'teacher' ?
-                        `teacherQuizzes/${currentUser.uid}/${quizId}` :
-                        `studentQuizzes/${currentUser.uid}/${quizId}`;
-
-                    return database.ref(quizRefPath).set({
+                    // Save to user's quizzes
+                    return database.ref(`userQuizzes/${currentUser.uid}/${quizId}`).set({
                         title: title,
                         createdAt: firebase.database.ServerValue.TIMESTAMP,
                         attendanceCount: 0,
                         sessionEnd: sessionEnd,
-                        hasCodeBlocks: quizData.hasCodeBlocks
+                        hasCodeBlocks: quizData.hasCodeBlocks,
+                        totalTime: totalTime
                     });
-                    return database.ref(`teacherQuizzes/${currentUser.uid}/${quizId}`).set({
-                        title: title,
-                        createdAt: firebase.database.ServerValue.TIMESTAMP,
-                        attendanceCount: 0,
-                        sessionEnd: sessionEnd,
-                        hasCodeBlocks: quizData.hasCodeBlocks
-                    });
+                })
+                .then(() => {
+                    // If teacher, also save to teacherQuizzes
+                    if (currentUserRole === 'teacher') {
+                        return database.ref(`teacherQuizzes/${currentUser.uid}/${quizId}`).set({
+                            title: title,
+                            createdAt: firebase.database.ServerValue.TIMESTAMP,
+                            attendanceCount: 0,
+                            sessionEnd: sessionEnd,
+                            hasCodeBlocks: quizData.hasCodeBlocks,
+                            totalTime: totalTime
+                        });
+                    }
                 })
                 .then(() => {
                     showToast('success', 'Quiz saved successfully!');
@@ -2174,6 +3153,7 @@
                     quizTitle.value = '';
                     quizDescription.value = '';
                     questionsContainer.innerHTML = '';
+                    document.getElementById('total-time-display')?.remove();
 
                     // Set default session end time (24 hours from now)
                     const now = new Date();
@@ -2181,6 +3161,7 @@
                     const formattedDateTime = now.toISOString().slice(0, 16);
                     quizSessionEnd.value = formattedDateTime;
 
+                    // Reload quizzes
                     if (currentUserRole === 'teacher') {
                         loadTeacherQuizzes();
                     } else {
@@ -2208,26 +3189,32 @@
                     }
 
                     Object.entries(quizzes).forEach(([quizId, quiz]) => {
+                        const totalMinutes = Math.floor(quiz.totalTime / 60);
+                        const totalSeconds = quiz.totalTime % 60;
+                        const timeString = totalMinutes > 0 ?
+                            `${totalMinutes}m ${totalSeconds}s` :
+                            `${totalSeconds}s`;
+
                         const quizElement = document.createElement('div');
                         quizElement.className = 'col-md-6 col-lg-4';
                         quizElement.innerHTML = `
-                            <div class="quiz-card card h-100">
-                                <div class="card-body">
-                                    <h5 class="card-title">${quiz.title}</h5>
-                                    <p class="card-text text-muted small">Created on ${new Date(quiz.createdAt).toLocaleDateString()}</p>
-                                    <p class="card-text text-muted small">Session ends: ${new Date(quiz.sessionEnd).toLocaleString()}</p>
-                                    <div class="d-flex justify-content-between small text-muted mb-2">
-                                        <span>ID: ${quizId.substring(0, 6)}...</span>
-                                        <span>Attendees: ${quiz.attendanceCount || 0}</span>
-                                    </div>
-                                    <div class="d-grid gap-2">
-                                        <button class="btn btn-sm btn-outline-primary view-details-btn" data-quizid="${quizId}">View Details</button>
-                                        <button class="btn btn-sm btn-outline-success share-quiz-btn" data-quizid="${quizId}">Share</button>
-                                        <button class="btn btn-sm btn-outline-info view-attendance-btn" data-quizid="${quizId}">View Results</button>
-                                    </div>
-                                </div>
+                    <div class="quiz-card card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">${quiz.title}</h5>
+                            <p class="card-text text-muted small">Created on ${new Date(quiz.createdAt).toLocaleDateString()}</p>
+                            <p class="card-text text-muted small">Session ends: ${new Date(quiz.sessionEnd).toLocaleString()}</p>
+                            <p class="card-text text-muted small">Total time: ${timeString}</p>
+                            <div class="d-flex justify-content-between small text-muted mb-2">
+                                <span>ID: ${quizId.substring(0, 6)}...</span>
                             </div>
-                        `;
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-sm btn-outline-primary view-details-btn" data-quizid="${quizId}">View Details</button>
+                                <button class="btn btn-sm btn-outline-success share-quiz-btn" data-quizid="${quizId}">Share</button>
+                                <button class="btn btn-sm btn-outline-info view-attendance-btn" data-quizid="${quizId}">View Results</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
 
                         quizList.appendChild(quizElement);
 
@@ -2241,14 +3228,14 @@
                 });
         }
 
-        function loadTeacherQuizzesTaken() {
+        function loadTeacherTakenQuizzes() {
             database.ref(`studentResults/${currentUser.uid}`).once('value')
                 .then((snapshot) => {
                     const results = snapshot.val();
-                    teacherQuizzesTakenList.innerHTML = '';
+                    teacherTakenQuizzes.innerHTML = '';
 
                     if (!results) {
-                        teacherQuizzesTakenList.innerHTML = '<div class="col-12"><div class="alert alert-info">You haven\'t taken any quizzes yet.</div></div>';
+                        teacherTakenQuizzes.innerHTML = '<div class="col-12"><div class="alert alert-info">You haven\'t taken any quizzes yet.</div></div>';
                         return;
                     }
 
@@ -2276,6 +3263,14 @@
                         const timeTaken = result.timeTaken ?
                             `${Math.floor(result.timeTaken / 60)}m ${result.timeTaken % 60}s` : 'N/A';
 
+                        // Calculate total time
+                        const totalTime = quiz.totalTime || quiz.questions.reduce((sum, q) => sum + (q.timeLimit || 30), 0);
+                        const totalMinutes = Math.floor(totalTime / 60);
+                        const totalSeconds = totalTime % 60;
+                        const totalTimeString = totalMinutes > 0 ?
+                            `${totalMinutes}m ${totalSeconds}s` :
+                            `${totalSeconds}s`;
+
                         // Format date
                         const takenDate = new Date(result.timestamp);
                         const formattedDate = takenDate.toLocaleDateString('en-US', {
@@ -2287,26 +3282,26 @@
                         });
 
                         quizElement.innerHTML = `
-                            <div class="quiz-card card h-100">
-                                <div class="card-body">
-                                    <h5 class="card-title">${quiz.title}</h5>
-                                    <div class="teacher-info mb-2">
-                                        <small class="text-muted">Created by:</small>
-                                        <div class="teacher-name fw-bold">${quiz.createdByName || 'Unknown Teacher'}</div>
-                                    </div>
-                                    <div class="d-flex justify-content-between small text-muted mb-2">
-                                        <span>Score: ${result.score}/${quiz.questions.length}</span>
-                                        <span>Time: ${timeTaken}</span>
-                                    </div>
-                                    <div class="small text-muted mb-3">Taken on ${formattedDate}</div>
-                                    <div class="d-grid">
-                                        <button class="btn btn-sm btn-outline-primary view-result-btn" data-quizid="${quizId}">View Result</button>
-                                    </div>
-                                </div>
+                    <div class="quiz-card card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">${quiz.title}</h5>
+                            <div class="teacher-info mb-2">
+                                <small class="text-muted">Created by:</small>
+                                <div class="teacher-name fw-bold">${quiz.createdByName || 'Unknown Teacher'}</div>
                             </div>
-                        `;
+                            <div class="d-flex justify-content-between small text-muted mb-2">
+                                <span>Score: ${result.score}/${quiz.questions.length}</span>
+                                <span>Time: ${timeTaken} / ${totalTimeString}</span>
+                            </div>
+                            <div class="small text-muted mb-3">Taken on ${formattedDate}</div>
+                            <div class="d-grid">
+                                <button class="btn btn-sm btn-outline-primary view-result-btn" data-quizid="${quizId}">View Result</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
 
-                        teacherQuizzesTakenList.appendChild(quizElement);
+                        teacherTakenQuizzes.appendChild(quizElement);
                         quizElement.querySelector('.view-result-btn').addEventListener('click', () => showQuizResult(quizId));
                     });
                 })
@@ -2315,316 +3310,63 @@
                 });
         }
 
-        function loadYourStudents() {
-            database.ref(`teacherStudents/${currentUser.uid}`).once('value')
+        function loadTeacherFollowers() {
+            database.ref(`teacherFollowers/${currentUser.uid}`).once('value')
                 .then((snapshot) => {
-                    const studentIds = snapshot.val();
-                    yourStudentsList.innerHTML = '';
+                    const followers = snapshot.val();
+                    teacherFollowersList.innerHTML = '';
 
-                    if (!studentIds) {
-                        yourStudentsList.innerHTML = '<div class="col-12"><div class="alert alert-info">No students are following you yet.</div></div>';
+                    if (!followers) {
+                        teacherFollowersList.innerHTML = '<div class="col-12"><div class="alert alert-info">You don\'t have any followers yet.</div></div>';
                         return;
                     }
 
-                    const studentPromises = Object.keys(studentIds).map(studentId => {
-                        return database.ref(`users/${studentId}`).once('value');
+                    const followerIds = Object.keys(followers);
+                    const followerPromises = followerIds.map(followerId => {
+                        return database.ref(`users/${followerId}`).once('value');
                     });
 
-                    return Promise.all(studentPromises);
+                    return Promise.all(followerPromises);
                 })
-                .then(studentSnapshots => {
-                    studentSnapshots.forEach(snapshot => {
-                        const student = snapshot.val();
-                        const studentElement = document.createElement('div');
-                        studentElement.className = 'col-md-6 col-lg-4';
+                .then(followerSnapshots => {
+                    teacherFollowersList.innerHTML = ''; // Clear previous content
 
-                        studentElement.innerHTML = `
-                            <div class="card teacher-card h-100">
-                                <div class="card-body">
-                                    <h5 class="card-title">${student.name}</h5>
-                                    <p class="card-text text-muted">${student.email}</p>
-                                    <div class="teacher-stats">
-                                        <span><i class="fas fa-graduation-cap"></i> Student</span>
-                                        <span><i class="fas fa-calendar-alt"></i> Joined: ${new Date(student.createdAt).toLocaleDateString()}</span>
+                    followerSnapshots.forEach(followerSnapshot => {
+                        const follower = followerSnapshot.val();
+                        if (!follower) return;
+
+                        const followerElement = document.createElement('div');
+                        followerElement.className = 'col-md-6 col-lg-4';
+
+                        followerElement.innerHTML = `
+                            <div class="student-card card h-100">
+                                <div class="card-body d-flex align-items-center">
+                                    <div class="avatar me-3">${follower.name.charAt(0).toUpperCase()}</div>
+                                    <div>
+                                        <h5 class="card-title mb-1">${follower.name}</h5>
+                                        <p class="card-text text-muted small mb-0">${follower.email}</p>
                                     </div>
                                 </div>
                             </div>
                         `;
 
-                        yourStudentsList.appendChild(studentElement);
+                        teacherFollowersList.appendChild(followerElement);
                     });
                 })
                 .catch((error) => {
-                    showToast('error', 'Error loading your students: ' + error.message);
+                    showToast('error', 'Error loading followers: ' + error.message);
                 });
         }
 
-        function loadAvailableTeachers() {
-            database.ref('users').once('value')
-                .then((snapshot) => {
-                    const users = snapshot.val();
-                    availableTeachersList.innerHTML = '';
-                    studentAvailableTeachersList.innerHTML = '';
-
-                    if (!users) {
-                        availableTeachersList.innerHTML = '<div class="col-12"><div class="alert alert-info">No teachers available.</div></div>';
-                        studentAvailableTeachersList.innerHTML = '<div class="col-12"><div class="alert alert-info">No teachers available.</div></div>';
-                        return;
-                    }
-
-                    availableTeachers = [];
-
-                    Object.keys(users).forEach(uid => {
-                        const user = users[uid];
-                        if (user.role === 'teacher' && user.status === 'approved' && uid !== currentUser.uid) {
-                            availableTeachers.push({
-                                uid: uid,
-                                ...user
-                            });
-                        }
-                    });
-
-                    if (availableTeachers.length === 0) {
-                        availableTeachersList.innerHTML = '<div class="col-12"><div class="alert alert-info">No teachers available.</div></div>';
-                        studentAvailableTeachersList.innerHTML = '<div class="col-12"><div class="alert alert-info">No teachers available.</div></div>';
-                        return;
-                    }
-
-                    // Render for teacher dashboard
-                    availableTeachers.forEach(teacher => {
-                        const teacherElement = document.createElement('div');
-                        teacherElement.className = 'col-md-6 col-lg-4';
-
-                        teacherElement.innerHTML = `
-                            <div class="card teacher-card h-100">
-                                <div class="card-body">
-                                    <h5 class="card-title">${teacher.name}</h5>
-                                    <p class="card-text text-muted">${teacher.email}</p>
-                                    <div class="teacher-stats">
-                                        <span><i class="fas fa-chalkboard-teacher"></i> Teacher</span>
-                                        <span><i class="fas fa-calendar-alt"></i> Joined: ${new Date(teacher.createdAt).toLocaleDateString()}</span>
-                                    </div>
-                                    <button class="btn btn-sm btn-outline-primary mt-3 view-teacher-btn" data-teacherid="${teacher.uid}">
-                                        View Profile
-                                    </button>
-                                </div>
-                            </div>
-                        `;
-
-                        availableTeachersList.appendChild(teacherElement);
-                        teacherElement.querySelector('.view-teacher-btn').addEventListener('click', () => viewTeacherDetails(teacher.uid));
-                    });
-
-                    // Render for student dashboard
-                    availableTeachers.forEach(teacher => {
-                        const teacherElement = document.createElement('div');
-                        teacherElement.className = 'col-md-6 col-lg-4';
-
-                        teacherElement.innerHTML = `
-                            <div class="card teacher-card h-100">
-                                <div class="card-body">
-                                    <h5 class="card-title">${teacher.name}</h5>
-                                    <p class="card-text text-muted">${teacher.email}</p>
-                                    <div class="teacher-stats">
-                                        <span><i class="fas fa-chalkboard-teacher"></i> Teacher</span>
-                                        <span><i class="fas fa-calendar-alt"></i> Joined: ${new Date(teacher.createdAt).toLocaleDateString()}</span>
-                                    </div>
-                                    <button class="btn btn-sm btn-outline-primary mt-3 view-teacher-btn" data-teacherid="${teacher.uid}">
-                                        View Profile
-                                    </button>
-                                </div>
-                            </div>
-                        `;
-
-                        studentAvailableTeachersList.appendChild(teacherElement);
-                        teacherElement.querySelector('.view-teacher-btn').addEventListener('click', () => viewTeacherDetails(teacher.uid));
-                    });
-                })
-                .catch((error) => {
-                    showToast('error', 'Error loading available teachers: ' + error.message);
-                });
-        }
-
-        function viewTeacherDetails(teacherId) {
-            currentSelectedTeacherId = teacherId;
-
-            database.ref(`users/${teacherId}`).once('value')
-                .then((snapshot) => {
-                    const teacher = snapshot.val();
-
-                    // Check if current user is following this teacher
-                    return database.ref(`studentTeachers/${currentUser.uid}/${teacherId}`).once('value')
-                        .then((followSnapshot) => {
-                            const isFollowing = followSnapshot.exists();
-
-                            // Get teacher's quiz count
-                            return database.ref(`teacherQuizzes/${teacherId}`).once('value')
-                                .then((quizzesSnapshot) => {
-                                    const quizzes = quizzesSnapshot.val();
-                                    const quizCount = quizzes ? Object.keys(quizzes).length : 0;
-
-                                    // Get teacher's student count
-                                    return database.ref(`teacherStudents/${teacherId}`).once('value')
-                                        .then((studentsSnapshot) => {
-                                            const students = studentsSnapshot.val();
-                                            const studentCount = students ? Object.keys(students).length : 0;
-
-                                            // Render teacher details
-                                            teacherDetailsContent.innerHTML = `
-                                                <div class="mb-3">
-                                                    <h4>${teacher.name}</h4>
-                                                    <p class="text-muted">${teacher.email}</p>
-                                                </div>
-                                                
-                                                <div class="mb-3">
-                                                    <div class="d-flex justify-content-between mb-2">
-                                                        <span><i class="fas fa-chalkboard-teacher me-2"></i>Teacher</span>
-                                                        <span class="text-muted">Joined: ${new Date(teacher.createdAt).toLocaleDateString()}</span>
-                                                    </div>
-                                                    
-                                                    <div class="d-flex justify-content-between mb-2">
-                                                        <span><i class="fas fa-question-circle me-2"></i>Quizzes Created</span>
-                                                        <span class="text-muted">${quizCount}</span>
-                                                    </div>
-                                                    
-                                                    <div class="d-flex justify-content-between mb-2">
-                                                        <span><i class="fas fa-users me-2"></i>Students</span>
-                                                        <span class="text-muted">${studentCount}</span>
-                                                    </div>
-                                                </div>
-                                            `;
-
-                                            // Update follow button state
-                                            const followBtn = document.getElementById('follow-teacher-btn');
-                                            if (isFollowing) {
-                                                followBtn.classList.add('following');
-                                            } else {
-                                                followBtn.classList.remove('following');
-                                            }
-
-                                            teacherDetailsModal.show();
-                                        });
-                                });
-                        });
-                })
-                .catch((error) => {
-                    showToast('error', 'Error loading teacher details: ' + error.message);
-                });
-        }
-
-        function toggleFollowTeacher() {
-            const teacherId = currentSelectedTeacherId;
-            const followBtn = document.getElementById('follow-teacher-btn');
-
-            if (followBtn.classList.contains('following')) {
-                // Unfollow teacher
-                database.ref(`studentTeachers/${currentUser.uid}/${teacherId}`).remove()
-                    .then(() => {
-                        return database.ref(`teacherStudents/${teacherId}/${currentUser.uid}`).remove();
-                    })
-                    .then(() => {
-                        followBtn.classList.remove('following');
-                        showToast('success', 'You have unfollowed this teacher');
-                        loadFollowedTeachers();
-                    })
-                    .catch((error) => {
-                        showToast('error', 'Error unfollowing teacher: ' + error.message);
-                    });
-            } else {
-                // Follow teacher
-                database.ref(`studentTeachers/${currentUser.uid}/${teacherId}`).set(true)
-                    .then(() => {
-                        return database.ref(`teacherStudents/${teacherId}/${currentUser.uid}`).set(true);
-                    })
-                    .then(() => {
-                        followBtn.classList.add('following');
-                        showToast('success', 'You are now following this teacher');
-                        loadFollowedTeachers();
-                    })
-                    .catch((error) => {
-                        showToast('error', 'Error following teacher: ' + error.message);
-                    });
-            }
-        }
-
-        function loadFollowedTeachers() {
-            if (!studentFollowedTeachers) {
-                console.error('Element studentFollowedTeachers not found in DOM.');
-                return;
-            }
-            if (!currentUser || !currentUser.uid) {
-                console.error('No current user logged in.');
-                return;
-            }
-
-            database.ref(`studentTeachers/${currentUser.uid}`).once('value')
-                .then((snapshot) => {
-                    const teacherIds = snapshot.val();
-                    studentFollowedTeachers.innerHTML = '';
-
-                    if (!teacherIds) {
-                        studentFollowedTeachers.innerHTML = '<div class="col-12"><div class="alert alert-info">You are not following any teachers yet.</div></div>';
-                        return;
-                    }
-
-                    const teacherPromises = Object.keys(teacherIds).map(teacherId => {
-                        return database.ref(`users/${teacherId}`).once('value');
-                    });
-
-                    return Promise.all(teacherPromises);
-                })
-                .then(teacherSnapshots => {
-                    if (!teacherSnapshots) return;
-
-                    const followedTeachers = [];
-
-                    teacherSnapshots.forEach(snapshot => {
-                        const teacher = snapshot.val();
-                        followedTeachers.push(teacher);
-
-                        const teacherElement = document.createElement('div');
-                        teacherElement.className = 'col-md-6 col-lg-4';
-
-                        teacherElement.innerHTML = `
-                    <div class="card teacher-card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">${teacher.name}</h5>
-                            <p class="card-text text-muted">${teacher.email}</p>
-                            <div class="teacher-stats">
-                                <span><i class="fas fa-chalkboard-teacher"></i> Teacher</span>
-                                <span><i class="fas fa-calendar-alt"></i> Joined: ${new Date(teacher.createdAt).toLocaleDateString()}</span>
-                            </div>
-                            <button class="btn btn-sm btn-outline-primary mt-3 view-teacher-btn" data-teacherid="${teacher.uid}">
-                                View Profile
-                            </button>
-                        </div>
-                    </div>
-                `;
-
-                        studentFollowedTeachers.appendChild(teacherElement);
-
-                        // Make sure the button exists before adding event listener
-                        const btn = teacherElement.querySelector('.view-teacher-btn');
-                        if (btn) {
-                            btn.addEventListener('click', () => viewTeacherDetails(teacher.uid));
-                        } else {
-                            console.warn('view-teacher-btn not found for teacher:', teacher.uid);
-                        }
-                    });
-                })
-                .catch((error) => {
-                    showToast('error', 'Error loading followed teachers: ' + error.message);
-                });
-        }
 
         function loadStudentCreatedQuizzes() {
-            database.ref(`studentQuizzes/${currentUser.uid}`).once('value')
+            database.ref(`userQuizzes/${currentUser.uid}`).once('value')
                 .then((snapshot) => {
                     const quizzes = snapshot.val();
-                    studentCreatedQuizList.innerHTML = '';
+                    studentCreatedQuizzes.innerHTML = '';
 
                     if (!quizzes) {
-                        studentCreatedQuizList.innerHTML = '<div class="col-12"><div class="alert alert-info">You haven\'t created any quizzes yet.</div></div>';
+                        studentCreatedQuizzes.innerHTML = '<div class="col-12"><div class="alert alert-info">You haven\'t created any quizzes yet.</div></div>';
                         return;
                     }
 
@@ -2632,25 +3374,25 @@
                         const quizElement = document.createElement('div');
                         quizElement.className = 'col-md-6 col-lg-4';
                         quizElement.innerHTML = `
-                    <div class="quiz-card card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">${quiz.title}</h5>
-                            <p class="card-text text-muted small">Created on ${new Date(quiz.createdAt).toLocaleDateString()}</p>
-                            <p class="card-text text-muted small">Session ends: ${new Date(quiz.sessionEnd).toLocaleString()}</p>
-                            <div class="d-flex justify-content-between small text-muted mb-2">
-                                <span>ID: ${quizId.substring(0, 6)}...</span>
-                                <span>Attendees: ${quiz.attendanceCount || 0}</span>
+                            <div class="quiz-card card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">${quiz.title}</h5>
+                                    <p class="card-text text-muted small">Created on ${new Date(quiz.createdAt).toLocaleDateString()}</p>
+                                    <p class="card-text text-muted small">Session ends: ${new Date(quiz.sessionEnd).toLocaleString()}</p>
+                                    <div class="d-flex justify-content-between small text-muted mb-2">
+                                        <span>ID: ${quizId.substring(0, 6)}...</span>
+                                        <span>Attendees: ${quiz.attendanceCount || 0}</span>
+                                    </div>
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-sm btn-outline-primary view-details-btn" data-quizid="${quizId}">View Details</button>
+                                        <button class="btn btn-sm btn-outline-success share-quiz-btn" data-quizid="${quizId}">Share</button>
+                                        <button class="btn btn-sm btn-outline-info view-attendance-btn" data-quizid="${quizId}">View Results</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="d-grid gap-2">
-                                <button class="btn btn-sm btn-outline-primary view-details-btn" data-quizid="${quizId}">View Details</button>
-                                <button class="btn btn-sm btn-outline-success share-quiz-btn" data-quizid="${quizId}">Share</button>
-                                <button class="btn btn-sm btn-outline-info view-attendance-btn" data-quizid="${quizId}">View Results</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                        `;
 
-                        studentCreatedQuizList.appendChild(quizElement);
+                        studentCreatedQuizzes.appendChild(quizElement);
 
                         quizElement.querySelector('.view-details-btn').addEventListener('click', () => viewQuizDetails(quizId));
                         quizElement.querySelector('.share-quiz-btn').addEventListener('click', () => shareQuiz(quizId));
@@ -2661,6 +3403,298 @@
                     showToast('error', 'Error loading your quizzes: ' + error.message);
                 });
         }
+
+        function loadAvailableTeachers() {
+            database.ref('users').once('value')
+                .then((snapshot) => {
+                    const users = snapshot.val();
+                    availableTeachers.innerHTML = '';
+
+                    if (!users) {
+                        availableTeachers.innerHTML = '<div class="col-12"><div class="alert alert-info">No teachers available.</div></div>';
+                        return;
+                    }
+
+                    // Filter teachers and exclude current user
+                    const teachers = Object.entries(users)
+                        .filter(([uid, user]) =>
+                            user.role === 'teacher' &&
+                            uid !== currentUser.uid &&
+                            user.status === 'approved'
+                        )
+                        .map(([uid, user]) => ({ uid, ...user }));
+
+                    if (teachers.length === 0) {
+                        availableTeachers.innerHTML = '<div class="col-12"><div class="alert alert-info">No teachers available to follow.</div></div>';
+                        return;
+                    }
+
+                    // Check which teachers the student is already following
+                    return database.ref(`studentFollowing/${currentUser.uid}`).once('value')
+                        .then((followingSnapshot) => {
+                            const following = followingSnapshot.val() || {};
+
+                            // Get each teacher's quiz count and latest quiz
+                            const teacherPromises = teachers.map(teacher => {
+                                return database.ref(`userQuizzes/${teacher.uid}`).once('value')
+                                    .then(quizzesSnapshot => {
+                                        const quizzes = quizzesSnapshot.val() || {};
+                                        const quizCount = Object.keys(quizzes).length;
+                                        let latestQuiz = null;
+
+                                        if (quizCount > 0) {
+                                            const sortedQuizzes = Object.entries(quizzes)
+                                                .sort((a, b) => b[1].createdAt - a[1].createdAt);
+                                            latestQuiz = sortedQuizzes[0][1]; // Get most recent quiz
+                                        }
+
+                                        return {
+                                            ...teacher,
+                                            quizCount,
+                                            latestQuiz
+                                        };
+                                    });
+                            });
+
+                            return Promise.all(teacherPromises)
+                                .then(teachersWithQuizzes => {
+                                    availableTeachers.innerHTML = ''; // Clear previous content
+
+                                    teachersWithQuizzes.forEach(teacher => {
+                                        const isFollowing = following[teacher.uid] !== undefined;
+                                        const teacherElement = document.createElement('div');
+                                        teacherElement.className = 'col-md-6 col-lg-4';
+
+                                        // Latest quiz info if available
+                                        let latestQuizHtml = '';
+                                        if (teacher.latestQuiz) {
+                                            const quizEndDate = new Date(teacher.latestQuiz.sessionEnd);
+                                            const now = new Date();
+                                            const isActive = now < quizEndDate;
+
+
+                                        }
+
+                                        teacherElement.innerHTML = `
+                                            <div class="teacher-card card h-100">
+                                                <div class="card-body">
+                                                    <div class="d-flex align-items-center mb-3">
+                                                        <div class="avatar me-3">${teacher.name.charAt(0).toUpperCase()}</div>
+                                                        <div>
+                                                            <h5 class="card-title mb-1">${teacher.name}</h5>
+                                                            <p class="card-text text-muted small">${teacher.email}</p>
+                                                            <span class="badge bg-info">Quizzes: ${teacher.quizCount}</span>
+                                                        </div>
+                                                    </div>
+                                                    ${latestQuizHtml}
+                                                    <button class="btn ${isFollowing ? 'btn-outline-danger' : 'btn-outline-primary'} follow-btn w-100 mt-2" 
+                                                        data-teacherid="${teacher.uid}" data-following="${isFollowing}">
+                                                        ${isFollowing ? 'Unfollow' : 'Follow'}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        `;
+
+                                        availableTeachers.appendChild(teacherElement);
+
+                                        // Add event listener to the specific follow button
+                                        teacherElement.querySelector('.follow-btn').addEventListener('click', (e) => {
+                                            toggleFollowTeacher(e, teacher.uid);
+                                        });
+
+                                        // Add event listener for join quiz button if it exists
+                                        const joinBtn = teacherElement.querySelector('.join-teacher-quiz-btn');
+                                        if (joinBtn) {
+                                            joinBtn.addEventListener('click', (e) => {
+                                                const quizId = e.target.getAttribute('data-quizid');
+                                                joinTeacherQuiz(quizId);
+                                            });
+                                        }
+                                    });
+                                });
+                        });
+                })
+                .catch((error) => {
+                    showToast('error', 'Error loading teachers: ' + error.message);
+                });
+        }
+
+        function toggleFollowTeacher(e, teacherId = null) {
+            const button = e.target;
+            const teacherIdToUse = teacherId || button.getAttribute('data-teacherid');
+            const isFollowing = button.getAttribute('data-following') === 'true';
+
+            if (isFollowing) {
+                // Unfollow teacher
+                Promise.all([
+                    database.ref(`studentFollowing/${currentUser.uid}/${teacherIdToUse}`).remove(),
+                    database.ref(`teacherFollowers/${teacherIdToUse}/${currentUser.uid}`).remove()
+                ])
+                    .then(() => {
+                        showToast('success', 'Teacher unfollowed successfully');
+                        loadAvailableTeachers();
+                        loadFollowedTeachers();
+                    })
+                    .catch(error => {
+                        showToast('error', 'Error unfollowing teacher: ' + error.message);
+                    });
+            } else {
+                // Follow teacher
+                const followData = {
+                    timestamp: firebase.database.ServerValue.TIMESTAMP
+                };
+
+                Promise.all([
+                    database.ref(`studentFollowing/${currentUser.uid}/${teacherIdToUse}`).set(followData),
+                    database.ref(`teacherFollowers/${teacherIdToUse}/${currentUser.uid}`).set(followData)
+                ])
+                    .then(() => {
+                        showToast('success', 'Teacher followed successfully');
+                        loadAvailableTeachers();
+                        loadFollowedTeachers();
+                    })
+                    .catch(error => {
+                        showToast('error', 'Error following teacher: ' + error.message);
+                    });
+            }
+        }
+
+
+        // New function to join teacher's quiz
+        function joinTeacherQuiz(quizId) {
+            database.ref(`quizzes/${quizId}`).once('value')
+                .then((snapshot) => {
+                    const quiz = snapshot.val();
+
+                    if (!quiz) {
+                        showToast('error', 'Quiz not found.');
+                        return;
+                    }
+
+                    // Check if quiz session has ended
+                    const now = new Date();
+                    const sessionEnd = new Date(quiz.sessionEnd);
+
+                    if (now > sessionEnd) {
+                        showToast('error', 'This quiz session has expired. You can no longer take this quiz.');
+                        return;
+                    }
+
+                    return database.ref(`studentResults/${currentUser.uid}/${quizId}`).once('value')
+                        .then((resultSnapshot) => {
+                            if (resultSnapshot.exists()) {
+                                showToast('info', 'You\'ve already taken this quiz. Showing your results...');
+                                showQuizResult(quizId);
+                                return;
+                            }
+
+                            startQuiz(quizId, quiz);
+                        });
+                })
+                .catch((error) => {
+                    showToast('error', 'Error joining quiz: ' + error.message);
+                });
+        }
+
+        // Fixed loadFollowedTeachers function
+        function loadFollowedTeachers() {
+            database.ref(`studentFollowing/${currentUser.uid}`).once('value')
+                .then((snapshot) => {
+                    const following = snapshot.val();
+                    followedTeachers.innerHTML = '';
+
+                    if (!following) {
+                        followedTeachers.innerHTML = '<div class="col-12"><div class="alert alert-info">You\'re not following any teachers yet.</div></div>';
+                        return;
+                    }
+
+                    const teacherIds = Object.keys(following);
+                    const teacherPromises = teacherIds.map(teacherId => {
+                        return Promise.all([
+                            database.ref(`users/${teacherId}`).once('value'),
+                            database.ref(`userQuizzes/${teacherId}`).once('value')
+                        ]);
+                    });
+
+                    return Promise.all(teacherPromises);
+                })
+                .then(results => {
+                    followedTeachers.innerHTML = ''; // Clear previous content
+
+                    results.forEach(([teacherSnapshot, quizzesSnapshot]) => {
+                        const teacher = teacherSnapshot.val();
+                        if (!teacher) return;
+
+                        const quizzes = quizzesSnapshot.val() || {};
+                        const quizCount = Object.keys(quizzes).length;
+                        let latestQuiz = null;
+
+                        if (quizCount > 0) {
+                            const sortedQuizzes = Object.entries(quizzes)
+                                .sort((a, b) => b[1].createdAt - a[1].createdAt);
+                            latestQuiz = sortedQuizzes[0][1];
+                        }
+
+                        const teacherElement = document.createElement('div');
+                        teacherElement.className = 'col-md-6 col-lg-4';
+
+                        // Latest quiz info
+                        let latestQuizHtml = '';
+                        if (latestQuiz) {
+                            const quizEndDate = new Date(latestQuiz.sessionEnd);
+                            const now = new Date();
+                            const isActive = now < quizEndDate;
+
+                            latestQuizHtml = `
+                        <div class="mt-3 p-2 border rounded">
+                            <small class="text-muted">Latest Quiz:</small>
+                            <h6 class="mb-1">${latestQuiz.title}</h6>
+                            <p class="small mb-1">${new Date(latestQuiz.createdAt).toLocaleDateString()}</p>
+                            ${isActive ? `
+                            <button class="btn btn-sm btn-outline-primary w-100 join-teacher-quiz-btn" 
+                                data-quizid="${Object.keys(quizzes).find(key => quizzes[key].title === latestQuiz.title)}">
+                                Join Quiz
+                            </button>
+                            ` : `
+                            <span class="badge bg-secondary">Expired</span>
+                            `}
+                        </div>
+                    `;
+                        }
+
+                        teacherElement.innerHTML = `
+                    <div class="teacher-card card h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="avatar me-3">${teacher.name.charAt(0).toUpperCase()}</div>
+                                <div>
+                                    <h5 class="card-title mb-1">${teacher.name}</h5>
+                                    <p class="card-text text-muted small">${teacher.email}</p>
+                                    <span class="badge bg-info">Quizzes: ${quizCount}</span>
+                                </div>
+                            </div>
+                            ${latestQuizHtml}
+                        </div>
+                    </div>
+                `;
+
+                        followedTeachers.appendChild(teacherElement);
+
+                        // ✅ Only attach event if quiz join button exists
+                        const joinBtn = teacherElement.querySelector('.join-teacher-quiz-btn');
+                        if (joinBtn) {
+                            joinBtn.addEventListener('click', (e) => {
+                                const quizId = e.target.getAttribute('data-quizid');
+                                joinTeacherQuiz(quizId);
+                            });
+                        }
+                    });
+                })
+                .catch((error) => {
+                    showToast('error', 'Error loading followed teachers: ' + error.message);
+                });
+        }
+
         function viewQuizDetails(quizId) {
             database.ref(`quizzes/${quizId}`).once('value')
                 .then((snapshot) => {
@@ -2751,11 +3785,32 @@
                     showToast('success', 'Quiz link copied to clipboard!');
                 })
                 .catch(() => {
-                    prompt('Copy this link to share with your students:', quizLink);
+                    prompt('Copy this link to share with others:', quizLink);
                 });
         }
 
+        function shareQuizResults() {
+            if (!currentQuizResults) return;
 
+            const resultText = `I scored ${currentQuizResults.score}/${currentQuizResults.totalQuestions} (${Math.round((currentQuizResults.score / currentQuizResults.totalQuestions) * 100)}%) on the quiz "${currentQuizResults.title}"!`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Quiz Results',
+                    text: resultText,
+                    url: window.location.href
+                }).catch(() => {
+                    // Fallback if share fails
+                    navigator.clipboard.writeText(resultText)
+                        .then(() => showToast('success', 'Results copied to clipboard!'))
+                        .catch(() => prompt('Copy your results:', resultText));
+                });
+            } else {
+                navigator.clipboard.writeText(resultText)
+                    .then(() => showToast('success', 'Results copied to clipboard!'))
+                    .catch(() => prompt('Copy your results:', resultText));
+            }
+        }
 
         function viewAttendance(quizId) {
             // Get quiz details to know total questions
@@ -2965,7 +4020,7 @@
         }
 
         function joinQuizAsTeacher() {
-            const quizLink = teacherJoinQuizInput.value.trim();
+            const quizLink = teacherQuizLinkInput.value.trim();
 
             if (!quizLink) {
                 showToast('error', 'Please enter a quiz link');
@@ -3027,12 +4082,25 @@
             quizQuestions = quiz.questions;
             quizStartTime = Date.now();
 
-            studentDashboard.classList.add('hidden');
-            teacherDashboard.classList.add('hidden');
+            // Calculate total time (sum of all question times)
+            const totalTime = quiz.totalTime || quiz.questions.reduce((sum, q) => sum + (q.timeLimit || 30), 0);
+            timeLeft = totalTime;
+
+            if (currentUserRole === 'teacher') {
+                teacherDashboard.classList.add('hidden');
+            } else {
+                studentDashboard.classList.add('hidden');
+            }
             quizTakingContainer.classList.remove('hidden');
 
             quizTakingTitle.textContent = quiz.title;
             quizDescriptionDisplay.textContent = quiz.description || '';
+
+            // Display total time
+            const totalMinutes = Math.floor(totalTime / 60);
+            const totalSeconds = totalTime % 60;
+            const totalTimeString = `${totalMinutes}:${totalSeconds.toString().padStart(2, '0')}`;
+            timeDisplay.textContent = totalTimeString;
 
             questionIndicator.innerHTML = '';
             quiz.questions.forEach((_, index) => {
@@ -3043,13 +4111,43 @@
                 questionIndicator.appendChild(dot);
             });
 
-            questionProgress.style.width = '0%';
+            // Start the overall quiz timer
+            startQuizTimer();
 
             showQuestion(currentQuestionIndex);
         }
+        function startQuizTimer() {
+            // Clear any existing timer
+            if (quizTimerInterval) clearInterval(quizTimerInterval);
 
+            quizTimerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+
+                if (timeLeft <= 0) {
+                    clearInterval(quizTimerInterval);
+                    submitQuiz();
+                }
+            }, 1000);
+        }
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timeDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+            // Visual warning when time is running low
+            if (timeLeft <= 30) {
+                timeDisplay.classList.add('text-danger');
+                timeDisplay.classList.remove('text-warning');
+            } else if (timeLeft <= 60) {
+                timeDisplay.classList.add('text-warning');
+                timeDisplay.classList.remove('text-danger');
+            } else {
+                timeDisplay.classList.remove('text-danger', 'text-warning');
+            }
+        }
         function showQuestion(index) {
-            clearAllTimers();
+            currentQuestionIndex = index;
 
             const dots = document.querySelectorAll('.question-dot');
             dots.forEach((dot, i) => {
@@ -3073,47 +4171,31 @@
             if (question.code) {
                 const escapedCode = question.code.replace(/</g, '&lt;').replace(/>/g, '&gt;');
                 codeHtml = `
-                    <div class="code-display code-${question.language || 'javascript'}">
-                        <pre><code>${escapedCode}</code></pre>
-                    </div>
-                `;
+            <div class="code-display code-${question.language || 'javascript'}">
+                <pre><code>${escapedCode}</code></pre>
+            </div>
+        `;
             }
 
             let optionsHtml = '';
             question.options.forEach((option, optionIndex) => {
                 optionsHtml += `
-                    <div class="option-item">
-                        <input type="radio" id="q${index}-o${optionIndex}" name="q${index}" value="${optionIndex}"
-                            ${userAnswers[index] === optionIndex ? 'checked' : ''}>
-                        <label for="q${index}-o${optionIndex}">${option.text}</label>
-                    </div>
-                `;
+            <div class="option-item">
+                <input type="radio" id="q${index}-o${optionIndex}" name="q${index}" value="${optionIndex}"
+                    ${userAnswers[index] === optionIndex ? 'checked' : ''}>
+                <label for="q${index}-o${optionIndex}">${option.text}</label>
+            </div>
+        `;
             });
 
             questionElement.innerHTML = `
-                <div class="question-text fs-5 mb-3">${index + 1}. ${question.text}</div>
-                ${codeHtml}
-                <div class="options-container">${optionsHtml}</div>
-            `;
+        <div class="question-text fs-5 mb-3">${index + 1}. ${question.text}</div>
+        ${codeHtml}
+        <div class="options-container">${optionsHtml}</div>
+    `;
             quizQuestionsContainer.appendChild(questionElement);
 
-            // Set up timer and event listeners
-            let timeLeftForQuestion = question.timeLimit;
-            updateQuestionTimer(timeLeftForQuestion);
-
-            questionTimers[index] = setInterval(() => {
-                timeLeftForQuestion--;
-                updateQuestionTimer(timeLeftForQuestion);
-
-                if (timeLeftForQuestion <= 0) {
-                    clearInterval(questionTimers[index]);
-                    if (userAnswers[index] === undefined) {
-                        userAnswers[index] = null;
-                    }
-                    showNextQuestion();
-                }
-            }, 1000);
-
+            // Save answer when selected
             questionElement.querySelectorAll('input[type="radio"]').forEach(radio => {
                 radio.addEventListener('change', (e) => {
                     userAnswers[index] = parseInt(e.target.value);
@@ -3121,16 +4203,25 @@
                 });
             });
 
+            // Update navigation buttons
             prevQuestionBtn.disabled = index === 0;
             nextQuestionBtn.textContent = index === quizQuestions.length - 1 ? 'Finish' : 'Next';
         }
-
         function updateQuestionTimer(seconds) {
             const minutes = Math.floor(seconds / 60);
             const remainingSeconds = seconds % 60;
             timeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
 
-            quizTimer.style.backgroundColor = seconds <= 10 ? '#ff6b6b' : '#4a6bff';
+            // Change color when time is running low
+            if (seconds <= 10) {
+                timeDisplay.classList.add('text-danger');
+                timeDisplay.classList.remove('text-warning');
+            } else if (seconds <= 30) {
+                timeDisplay.classList.add('text-warning');
+                timeDisplay.classList.remove('text-danger');
+            } else {
+                timeDisplay.classList.remove('text-danger', 'text-warning');
+            }
         }
 
         function clearAllTimers() {
@@ -3141,9 +4232,6 @@
         }
 
         function showNextQuestion() {
-            const currentRadio = document.querySelector(`input[name="q${currentQuestionIndex}"]:checked`);
-            userAnswers[currentQuestionIndex] = currentRadio ? parseInt(currentRadio.value) : null;
-
             if (currentQuestionIndex < quizQuestions.length - 1) {
                 currentQuestionIndex++;
                 showQuestion(currentQuestionIndex);
@@ -3198,7 +4286,17 @@
                         score: score,
                         totalQuestions: quiz.questions.length,
                         timestamp: firebase.database.ServerValue.TIMESTAMP,
-                        timeTaken: timeTaken
+                        timeTaken: timeTaken,
+                        answers: userAnswers  // Save the raw answer data
+                    };
+
+                    // Store results for later sharing
+                    currentQuizResults = {
+                        title: quiz.title,
+                        score: score,
+                        totalQuestions: quiz.questions.length,
+                        timeTaken: timeTaken,
+                        totalTime: quiz.totalTime
                     };
 
                     return database.ref(`studentResults/${currentUser.uid}/${currentQuizId}`).set(resultData)
@@ -3206,19 +4304,11 @@
                             return database.ref(`quizzes/${currentQuizId}/attendance/${currentUser.uid}`)
                                 .set(firebase.database.ServerValue.TIMESTAMP)
                                 .then(() => {
-                                    return database.ref(`teacherQuizzes/${quiz.createdBy}/${currentQuizId}/attendanceCount`)
+                                    return database.ref(`userQuizzes/${quiz.createdBy}/${currentQuizId}/attendanceCount`)
                                         .transaction((currentCount) => (currentCount || 0) + 1);
                                 });
                         })
                         .then(() => {
-                            // Store current quiz result for sharing/downloading
-                            currentQuizResult = {
-                                title: quiz.title,
-                                score: score,
-                                totalQuestions: quiz.questions.length,
-                                results: results
-                            };
-
                             showResults(quiz, results, score);
                         });
                 })
@@ -3226,7 +4316,6 @@
                     showToast('error', 'Error submitting quiz: ' + error.message);
                 });
         }
-
         function showResults(quiz, results, score) {
             quizTakingContainer.classList.add('hidden');
             quizResultsContainer.classList.remove('hidden');
@@ -3239,7 +4328,6 @@
                 <p class="text-muted mb-3">Created by: ${quiz.createdByName}</p>
                 <div class="score-display ${resultClass}">${score} / ${quiz.questions.length}</div>
                 <p class="fs-5 ${resultClass}">${percentage}% Correct</p>
-               
             `;
 
             resultsDetails.innerHTML = '';
@@ -3275,6 +4363,9 @@
                         return;
                     }
 
+                    // Get the user's answers from the result data
+                    const userAnswers = result.answers || {};
+
                     const percentage = Math.round((result.score / quiz.questions.length) * 100);
                     const resultClass = percentage >= 50 ? 'text-success' : 'text-danger';
 
@@ -3283,65 +4374,66 @@
                         `${Math.floor(result.timeTaken / 60)}m ${result.timeTaken % 60}s` : 'N/A';
 
                     modalResultsContent.innerHTML = `
-                        <div class="modal-header">
-                            <h5 class="modal-title">${quiz.title}</h5>
+                <div class="modal-header">
+                    <h5 class="modal-title">${quiz.title}</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <div class="teacher-info mb-3">
+                            <small class="text-muted">Created by:</small>
+                            <div class="teacher-name fs-5">${quiz.createdByName || 'Unknown Teacher'}</div>
                         </div>
-                        <div class="modal-body">
-                            <div class="text-center mb-4">
-                                <div class="teacher-info mb-3">
-                                    <small class="text-muted">Created by:</small>
-                                    <div class="teacher-name fs-5">${quiz.createdByName || 'Unknown Teacher'}</div>
-                                </div>
-                                <div class="score-display ${resultClass}">${result.score} / ${quiz.questions.length}</div>
-                                <p class="fs-5 ${resultClass}">${percentage}% Correct</p>
-                                <p class="text-muted">Time taken: ${timeTaken}</p>
-                            </div>
-                            
-                            <div class="accordion" id="resultsAccordion">
-                                ${quiz.questions.map((question, index) => {
+                        <div class="score-display ${resultClass}">${result.score} / ${quiz.questions.length}</div>
+                        <p class="fs-5 ${resultClass}">${percentage}% Correct</p>
+                        <p class="text-muted">Time taken: ${timeTaken}</p>
+                    </div>
+                    
+                    <div class="accordion" id="resultsAccordion">
+                        ${quiz.questions.map((question, index) => {
                         const correctAnswerIndex = question.options.findIndex(option => option.isCorrect);
                         const userAnswer = userAnswers[index];
                         const isCorrect = userAnswer === correctAnswerIndex;
 
                         return `
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="heading${index}">
-                                                <button class="accordion-button ${isCorrect ? '' : 'collapsed'}" type="button" data-bs-toggle="collapse" 
-                                                    data-bs-target="#collapse${index}" aria-expanded="${isCorrect ? 'true' : 'false'}" 
-                                                    aria-controls="collapse${index}">
-                                                    Question ${index + 1}: ${question.text}
-                                                    <span class="ms-2 badge bg-${isCorrect ? 'success' : 'danger'}">
-                                                        ${isCorrect ? 'Correct' : 'Incorrect'}
-                                                    </span>
-                                                </button>
-                                            </h2>
-                                            <div id="collapse${index}" class="accordion-collapse collapse ${isCorrect ? 'show' : ''}" 
-                                                aria-labelledby="heading${index}" data-bs-parent="#resultsAccordion">
-                                                <div class="accordion-body">
-                                                    <p><strong>Your answer:</strong> 
-                                                        <span class="${isCorrect ? 'correct-answer' : 'wrong-answer'}">
-                                                            ${userAnswer !== undefined && userAnswer !== null ? question.options[userAnswer].text : 'Not answered'}
-                                                        </span>
-                                                    </p>
-                                                    <p><strong>Correct answer:</strong> 
-                                                        <span class="correct-answer">${question.options[correctAnswerIndex].text}</span>
-                                                    </p>
-                                                    ${question.explanation ? `
-                                                    <div class="explanation mt-3 p-3 bg-light rounded">
-                                                        <strong>Explanation:</strong> ${question.explanation}
-                                                    </div>
-                                                    ` : ''}
-                                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="heading${index}">
+                                        <button class="accordion-button ${isCorrect ? '' : 'collapsed'}" type="button" data-bs-toggle="collapse" 
+                                            data-bs-target="#collapse${index}" aria-expanded="${isCorrect ? 'true' : 'false'}" 
+                                            aria-controls="collapse${index}">
+                                            Question ${index + 1}: ${question.text}
+                                            <span class="ms-2 badge bg-${isCorrect ? 'success' : 'danger'}">
+                                                ${isCorrect ? 'Correct' : 'Incorrect'}
+                                            </span>
+                                        </button>
+                                    </h2>
+                                    <div id="collapse${index}" class="accordion-collapse collapse ${isCorrect ? 'show' : ''}" 
+                                        aria-labelledby="heading${index}" data-bs-parent="#resultsAccordion">
+                                        <div class="accordion-body">
+                                            <p><strong>Your answer:</strong> 
+                                                <span class="${isCorrect ? 'correct-answer' : 'wrong-answer'}">
+                                                    ${userAnswer !== undefined && userAnswer !== null ?
+                                question.options[userAnswer].text : 'Not answered'}
+                                                </span>
+                                            </p>
+                                            <p><strong>Correct answer:</strong> 
+                                                <span class="correct-answer">${question.options[correctAnswerIndex].text}</span>
+                                            </p>
+                                            ${question.explanation ? `
+                                            <div class="explanation mt-3 p-3 bg-light rounded">
+                                                <strong>Explanation:</strong> ${question.explanation}
                                             </div>
+                                            ` : ''}
                                         </div>
-                                    `;
+                                    </div>
+                                </div>
+                            `;
                     }).join('')}
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    `;
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            `;
 
                     viewResultsModal.show();
                 })
@@ -3349,7 +4441,6 @@
                     showToast('error', 'Error loading quiz results: ' + error.message);
                 });
         }
-
         function backToDashboard() {
             quizResultsContainer.classList.add('hidden');
 
@@ -3524,9 +4615,6 @@
                 .catch((error) => {
                     showToast('error', 'Error removing user data: ' + error.message);
                 });
-
-            // ⚠️ Deleting from Auth requires Admin SDK (on backend/server)
-            // You can instead flag the account and delete from a cloud function if needed.
         }
 
         function filterUsers() {
@@ -3559,6 +4647,670 @@
             rejectedUsersCount.textContent = allUsers.filter(u => u.status === 'rejected').length;
         }
 
+        function populateQuestions(questions) {
+            // Clear existing questions
+            questionsContainer.innerHTML = '';
+
+            // Add each question to the form
+            questions.forEach((question, index) => {
+                addQuestion(); // Add a new question card
+
+                // Get the last added question (which will be this one)
+                const questionCards = document.querySelectorAll('.question-card');
+                const questionCard = questionCards[questionCards.length - 1];
+                const questionId = questionCard.id.split('-')[1];
+
+                // Set question text
+                document.getElementById(`question-text-${questionId}`).value = question.text;
+
+                // Set options
+                const optionsContainer = document.getElementById(`options-container-${questionId}`);
+                optionsContainer.innerHTML = ''; // Clear default options
+
+                question.options.forEach((option, optionIndex) => {
+                    // Add option button click will add one option, then we'll modify it
+                    if (optionIndex > 0) {
+                        document.querySelector(`[data-question="${questionId}"].add-option-btn`).click();
+                    }
+
+                    const optionInputs = optionsContainer.querySelectorAll('input[type="text"]');
+                    optionInputs[optionIndex].value = option.text;
+
+                    if (option.isCorrect) {
+                        const radioInputs = optionsContainer.querySelectorAll('input[type="radio"]');
+                        radioInputs[optionIndex].checked = true;
+                    }
+                });
+
+                // Set explanation if available
+                if (question.explanation) {
+                    document.getElementById(`question-explanation-${questionId}`).value = question.explanation;
+                }
+
+                // Set default time (30 seconds)
+                document.getElementById(`question-time-${questionId}`).value = 30;
+            });
+
+            updateTotalTimeDisplay();
+        }
+
+        // Helper function to dynamically load scripts
+        function loadScript(src) {
+            return new Promise((resolve, reject) => {
+                if (document.querySelector(`script[src="${src}"]`)) {
+                    resolve();
+                    return;
+                }
+
+                const script = document.createElement('script');
+                script.src = src;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        }
+        // Add this to the script section
+        document.getElementById('generate-quiz-btn').addEventListener('click', generateQuizWithAI);
+        document.getElementById('use-generated-quiz-btn').addEventListener('click', useGeneratedQuiz);
+
+        async function generateQuizWithAI() {
+            const topic = document.getElementById('ai-topic-input').value.trim();
+            const questionCount = document.getElementById('ai-question-count').value;
+
+            if (!topic) {
+                showToast('error', 'Please enter a topic or paste some text');
+                return;
+            }
+
+            const statusElement = document.getElementById('ai-generation-status');
+            statusElement.textContent = 'Generating quiz...';
+
+            try {
+                const apiKey = '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'; // Replace with your actual API key
+                const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: 'mistralai/mistral-7b-instruct', // or any other suitable model
+                        messages: [{
+                            role: 'user',
+                            content: `Generate a quiz with ${questionCount} multiple-choice questions about: ${topic}.
+                    
+                    For each question, provide:
+                    - The question text
+                    - 4 possible answers (one correct, three incorrect)
+                    - A brief explanation of the correct answer
+                    
+                    Format the response as JSON with this structure:
+                    {
+                        "title": "Quiz Title",
+                        "description": "Brief description of the quiz",
+                        "questions": [
+                            {
+                                "text": "Question text",
+                                "options": [
+                                    {"text": "Option 1", "isCorrect": true},
+                                    {"text": "Option 2", "isCorrect": false},
+                                    {"text": "Option 3", "isCorrect": false},
+                                    {"text": "Option 4", "isCorrect": false}
+                                ],
+                                "explanation": "Explanation of correct answer"
+                            }
+                        ]
+                    }`
+                        }],
+                        temperature: 0.5,
+                        max_tokens: 3000
+                    })
+                });
+
+                const data = await response.json();
+                const content = data.choices[0]?.message?.content;
+
+                try {
+                    const quizData = JSON.parse(content);
+
+                    // Store the generated quiz temporarily
+                    window.generatedQuiz = quizData;
+
+                    // Show preview
+                    const previewElement = document.getElementById('ai-generated-quiz-preview');
+                    previewElement.innerHTML = `
+                <h5>${quizData.title}</h5>
+                <p>${quizData.description}</p>
+                <hr>
+                <ol>
+                    ${quizData.questions.map(q => `
+                        <li class="mb-3">
+                            <strong>${q.text}</strong>
+                            <ul>
+                                ${q.options.map(o => `
+                                    <li class="${o.isCorrect ? 'text-success fw-bold' : ''}">
+                                        ${o.text} ${o.isCorrect ? '(Correct)' : ''}
+                                    </li>
+                                `).join('')}
+                            </ul>
+                            <div class="small text-muted">Explanation: ${q.explanation}</div>
+                        </li>
+                    `).join('')}
+                </ol>
+            `;
+
+                    document.getElementById('ai-generated-quiz-container').classList.remove('hidden');
+                    statusElement.textContent = 'Quiz generated successfully!';
+                } catch (e) {
+                    console.error('Failed to parse response:', content);
+                    statusElement.textContent = 'Error: Failed to generate quiz';
+                    showToast('error', 'Failed to parse the generated quiz');
+                }
+            } catch (error) {
+                console.error('API error:', error);
+                statusElement.textContent = 'Error: Failed to connect to AI service';
+                showToast('error', 'Failed to generate quiz: ' + error.message);
+            }
+        }
+
+        function useGeneratedQuiz() {
+            if (!window.generatedQuiz) {
+                showToast('error', 'No generated quiz found');
+                return;
+            }
+
+            // Set basic quiz info
+            quizTitle.value = window.generatedQuiz.title || 'Generated Quiz';
+            quizDescription.value = window.generatedQuiz.description || '';
+
+            // Clear existing questions
+            questionsContainer.innerHTML = '';
+
+            // Add each question
+            window.generatedQuiz.questions.forEach((question, qIndex) => {
+                // Add new question card
+                addQuestion();
+
+                // Get the newly added question card
+                const questionCards = document.querySelectorAll('.question-card');
+                const currentQuestionCard = questionCards[questionCards.length - 1];
+                const questionId = currentQuestionCard.id.split('-')[1];
+
+                // Set question text
+                const questionTextArea = document.getElementById(`question-text-${questionId}`);
+                if (questionTextArea) {
+                    questionTextArea.value = question.text || `Question ${qIndex + 1}`;
+                }
+
+                // Set options - THIS IS THE CRUCIAL FIX
+                const optionsContainer = document.getElementById(`options-container-${questionId}`);
+                if (optionsContainer) {
+                    // Clear default options
+                    optionsContainer.innerHTML = '';
+
+                    // Create all options at once
+                    question.options.forEach((option, oIndex) => {
+                        const optionId = `option-${questionId}-${oIndex}`;
+
+                        // Create option container
+                        const optionDiv = document.createElement('div');
+                        optionDiv.className = 'option-container';
+
+                        // Create radio input
+                        const radioInput = document.createElement('input');
+                        radioInput.type = 'radio';
+                        radioInput.name = `correct-answer-${questionId}`;
+                        radioInput.value = oIndex;
+                        radioInput.checked = option.isCorrect;
+
+                        // Create text input
+                        const textInput = document.createElement('input');
+                        textInput.type = 'text';
+                        textInput.className = 'form-control';
+                        textInput.value = option.text || `Option ${oIndex + 1}`;
+                        textInput.placeholder = `Option ${oIndex + 1}`;
+
+                        // Create remove button
+                        const removeBtn = document.createElement('button');
+                        removeBtn.className = 'remove-btn remove-option-btn';
+                        removeBtn.innerHTML = '&times;';
+                        removeBtn.addEventListener('click', removeOption);
+
+                        // Append elements
+                        optionDiv.appendChild(radioInput);
+                        optionDiv.appendChild(textInput);
+                        optionDiv.appendChild(removeBtn);
+                        optionsContainer.appendChild(optionDiv);
+                    });
+                }
+
+                // Set explanation
+                const explanationTextarea = document.getElementById(`question-explanation-${questionId}`);
+                if (explanationTextarea && question.explanation) {
+                    explanationTextarea.value = question.explanation;
+                }
+
+                // Set time limit
+                const timeInput = document.getElementById(`question-time-${questionId}`);
+                if (timeInput) {
+                    timeInput.value = question.timeLimit || 30;
+                }
+            });
+
+            updateTotalTimeDisplay();
+            quizCreationModal.show();
+            showToast('success', 'Quiz imported successfully!');
+        }
+        function setUseQuizLoading(isLoading) {
+            const btn = document.getElementById('use-generated-quiz-btn');
+            btn.disabled = isLoading;
+            btn.innerHTML = isLoading ?
+                '<span class="spinner-border spinner-border-sm"></span> Importing...' :
+                'Use This Quiz';
+        }
+        // Load teacher profile data
+        function loadTeacherProfile() {
+            if (!currentUser) return;
+
+            // Basic profile info
+            database.ref('users/' + currentUser.uid).once('value').then(snapshot => {
+                const userData = snapshot.val();
+                if (userData) {
+                    document.getElementById('teacher-profile-name').textContent = userData.name || 'Teacher';
+                    document.getElementById('teacher-profile-email').textContent = currentUser.email;
+                    document.getElementById('teacher-login-method').textContent = currentUser.providerData?.[0]?.providerId?.replace('.com', '') || 'Email';
+                    document.getElementById('teacher-join-date').textContent = userData.createdAt ?
+                        new Date(userData.createdAt).toLocaleDateString() : 'Unknown';
+                    document.getElementById('teacher-last-login').textContent = new Date().toLocaleString();
+                }
+            });
+
+            // Quiz statistics
+            database.ref(`teacherQuizzes/${currentUser.uid}`).once('value').then(snapshot => {
+                const quizzes = snapshot.val() || {};
+                document.getElementById('teacher-quiz-created').textContent = Object.keys(quizzes).length;
+            });
+
+            database.ref(`studentResults/${currentUser.uid}`).once('value').then(snapshot => {
+                const results = snapshot.val() || {};
+                document.getElementById('teacher-quiz-attempted').textContent = Object.keys(results).length;
+            });
+
+            // Students leaderboard
+            loadStudentsLeaderboard();
+        }
+
+        // Load students leaderboard
+        function loadStudentsLeaderboard() {
+            database.ref(`teacherFollowers/${currentUser.uid}`).once('value').then(snapshot => {
+                const followers = snapshot.val();
+                if (!followers) {
+                    document.getElementById('students-leaderboard').innerHTML = `
+                <tr>
+                    <td colspan="4" class="text-center">No students yet</td>
+                </tr>
+            `;
+                    return;
+                }
+
+                const followerIds = Object.keys(followers);
+                const promises = followerIds.map(uid => {
+                    return Promise.all([
+                        database.ref(`users/${uid}`).once('value'),
+                        database.ref(`studentResults/${uid}`).once('value')
+                    ]);
+                });
+
+                Promise.all(promises).then(results => {
+                    const studentsData = results.map(([userSnapshot, resultsSnapshot]) => {
+                        const user = userSnapshot.val();
+                        const results = resultsSnapshot.val() || {};
+
+                        // Calculate average score
+                        let totalScore = 0;
+                        let totalQuizzes = 0;
+
+                        Object.values(results).forEach(result => {
+                            totalScore += (result.score / result.totalQuestions) * 100;
+                            totalQuizzes++;
+                        });
+
+                        const avgScore = totalQuizzes > 0 ? Math.round(totalScore / totalQuizzes) : 0;
+
+                        return {
+                            name: user.name,
+                            email: user.email,
+                            quizzesTaken: totalQuizzes,
+                            avgScore: avgScore
+                        };
+                    });
+
+                    // Sort by average score (descending)
+                    studentsData.sort((a, b) => b.avgScore - a.avgScore);
+
+                    // Update leaderboard
+                    const leaderboardHTML = studentsData.map((student, index) => `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${student.name} <small class="text-muted">${student.email}</small></td>
+                    <td>${student.quizzesTaken}</td>
+                    <td>
+                        <div class="progress" style="height: 20px;">
+                            <div class="progress-bar" role="progressbar" 
+                                style="width: ${student.avgScore}%;" 
+                                aria-valuenow="${student.avgScore}" 
+                                aria-valuemin="0" 
+                                aria-valuemax="100">
+                                ${student.avgScore}%
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+
+                    document.getElementById('students-leaderboard').innerHTML = leaderboardHTML;
+                });
+            });
+        }
+
+        // Load student profile data
+        function loadStudentProfile() {
+            if (!currentUser) return;
+
+            // Basic profile info
+            database.ref('users/' + currentUser.uid).once('value').then(snapshot => {
+                const userData = snapshot.val();
+                if (userData) {
+                    document.getElementById('student-profile-name').textContent = userData.name || 'Student';
+                    document.getElementById('student-profile-email').textContent = currentUser.email;
+                    document.getElementById('student-login-method').textContent = currentUser.providerData?.[0]?.providerId?.replace('.com', '') || 'Email';
+                    document.getElementById('student-join-date').textContent = userData.createdAt ?
+                        new Date(userData.createdAt).toLocaleDateString() : 'Unknown';
+                    document.getElementById('student-last-login').textContent = new Date().toLocaleString();
+                }
+            });
+
+            // Quiz statistics
+            database.ref(`userQuizzes/${currentUser.uid}`).once('value').then(snapshot => {
+                const quizzes = snapshot.val() || {};
+                document.getElementById('student-quiz-created').textContent = Object.keys(quizzes).length;
+            });
+
+            database.ref(`studentResults/${currentUser.uid}`).once('value').then(snapshot => {
+                const results = snapshot.val() || {};
+                document.getElementById('student-quiz-attempted').textContent = Object.keys(results).length;
+
+                // Calculate achievement level
+                calculateAchievementLevel(results);
+
+                // Calculate time efficiency
+                calculateTimeEfficiency(results);
+            });
+        }
+
+        // Calculate student achievement level
+        function calculateAchievementLevel(results) {
+            const quizCount = Object.keys(results).length;
+            let totalScore = 0;
+            let totalQuestions = 0;
+
+            Object.values(results).forEach(result => {
+                totalScore += result.score;
+                totalQuestions += result.totalQuestions;
+            });
+
+            const avgScore = quizCount > 0 ? totalScore / totalQuestions : 0;
+
+            let level = '';
+            let description = '';
+
+            if (quizCount === 0) {
+                level = 'Newbie';
+                description = 'Take your first quiz to get started!';
+            } else if (quizCount < 10 && avgScore >= 0.5) {
+                level = 'Learner';
+                description = 'Keep practicing to improve!';
+            } else if (quizCount < 20 && avgScore >= 0.6) {
+                level = 'Training';
+                description = 'You\'re making good progress!';
+            } else if (quizCount < 30 && avgScore >= 0.7) {
+                level = 'Beginner';
+                description = 'You\'re getting the hang of this!';
+            } else if (quizCount < 50 && avgScore >= 0.8) {
+                level = 'Expert';
+                description = 'Impressive knowledge!';
+            } else if (quizCount < 70 && avgScore >= 0.85) {
+                level = 'Samurai';
+                description = 'Master of quizzes!';
+            } else if (quizCount >= 70 && avgScore >= 0.9) {
+                level = 'Master';
+                description = 'Quiz champion!';
+            } else {
+                level = 'Practitioner';
+                description = 'Keep working on your accuracy';
+            }
+
+            document.getElementById('achievement-level').textContent = level;
+            document.getElementById('achievement-description').textContent = description;
+
+            // Initialize performance chart
+            initializePerformanceChart(results);
+        }
+
+        // Calculate time efficiency
+        function calculateTimeEfficiency(results) {
+            // Check if there are no results
+            if (!results || Object.keys(results).length === 0) {
+                document.getElementById('time-efficiency-bar').style.width = '0%';
+                document.getElementById('time-efficiency-text').textContent = '0% Efficiency';
+                document.getElementById('time-summary').textContent = 'No quiz data available';
+                return;
+            }
+
+            let totalTimeTaken = 0;
+            let totalTimeAllocated = 0;
+            let quizCount = 0;
+            const quizIds = Object.keys(results);
+
+            // Use Promise.all to wait for all quiz data to load
+            const quizPromises = quizIds.map(quizId => {
+                return database.ref(`quizzes/${quizId}`).once('value').then(quizSnapshot => {
+                    const quiz = quizSnapshot.val();
+                    if (quiz) {
+                        totalTimeTaken += results[quizId].timeTaken || 0;
+                        totalTimeAllocated += quiz.totalTime || 0;
+                        quizCount++;
+                    }
+                    return { quizId, quiz };
+                });
+            });
+
+            Promise.all(quizPromises).then(() => {
+                if (quizCount === 0) {
+                    document.getElementById('time-efficiency-bar').style.width = '0%';
+                    document.getElementById('time-efficiency-text').textContent = '0% Efficiency';
+                    document.getElementById('time-summary').textContent = 'No valid quiz data found';
+                    return;
+                }
+
+                // Calculate efficiency (percentage of time saved compared to allocated time)
+                // Ensure we don't divide by zero and cap at 100%
+                let efficiency = 0;
+                if (totalTimeAllocated > 0) {
+                    efficiency = Math.round(((totalTimeAllocated - totalTimeTaken) / totalTimeAllocated) * 100);
+                    efficiency = Math.max(0, Math.min(100, efficiency)); // Ensure between 0-100
+                }
+
+                document.getElementById('time-efficiency-bar').style.width = `${efficiency}%`;
+                document.getElementById('time-efficiency-text').textContent = `${efficiency}% Efficiency`;
+
+                const avgTimeTaken = Math.round(totalTimeTaken / quizCount);
+                const minutes = Math.floor(avgTimeTaken / 60);
+                const seconds = avgTimeTaken % 60;
+
+                // More accurate description
+                let timeComparison = "same as";
+                if (efficiency > 55) {
+                    timeComparison = "much faster than";
+                } else if (efficiency > 20) {
+                    timeComparison = "faster than";
+                } else if (efficiency < -20) {
+                    timeComparison = "much slower than";
+                } else if (efficiency < 0) {
+                    timeComparison = "slower than";
+                }
+
+                document.getElementById('time-summary').textContent =
+                    `Average completion time: ${minutes}m ${seconds}s (${timeComparison} average)`;
+            }).catch(error => {
+                console.error("Error calculating time efficiency:", error);
+                document.getElementById('time-efficiency-bar').style.width = '0%';
+                document.getElementById('time-efficiency-text').textContent = 'Error';
+                document.getElementById('time-summary').textContent = 'Could not calculate time efficiency';
+            });
+        }
+
+        function initializePerformanceChart(results) {
+            const container = document.getElementById('performance-chart-container') ||
+                document.getElementById('performance-chart');
+            if (!container) {
+                console.error('Chart container not found');
+                return;
+            }
+
+            // Clear and prepare canvas
+            container.innerHTML = '<canvas id="performance-chart" height="150"></canvas>';
+            const ctx = container.querySelector('canvas').getContext('2d');
+
+            // Check for empty results
+            if (!results || Object.keys(results).length === 0) {
+                displayNoDataMessage(container);
+                return;
+            }
+
+            // Calculate statistics
+            let correct = 0;
+            let totalQuestions = 0;
+            let totalAnswered = 0;
+
+            // Get all quiz data
+            Promise.all(
+                Object.keys(results).map(quizId =>
+                    database.ref(`quizzes/${quizId}`).once('value')
+                )
+            ).then(quizSnapshots => {
+                quizSnapshots.forEach((snapshot, index) => {
+                    const quiz = snapshot.val();
+                    if (quiz && quiz.questions) {
+                        const quizLength = quiz.questions.length;
+                        totalQuestions += quizLength;
+                        correct += results[Object.keys(results)[index]].score || 0;
+
+                        // NEW: Calculate answered questions from user answers
+                        const userAnswers = results[Object.keys(results)[index]].answers || {};
+                        const answeredCount = Object.keys(userAnswers).filter(k => userAnswers[k] !== null).length;
+                        totalAnswered += answeredCount;
+                    }
+                });
+
+                const wrong = totalAnswered - correct;
+                const unanswered = totalQuestions - totalAnswered;
+
+                // Create the chart only if we have data
+                if (totalQuestions > 0) {
+                    createChart(ctx, correct, wrong, unanswered, totalQuestions);
+                } else {
+                    displayNoDataMessage(container);
+                }
+
+            }).catch(error => {
+                console.error('Error loading quiz data:', error);
+                displayErrorMessage(container);
+            });
+
+            function createChart(ctx, correct, wrong, unanswered, total) {
+                // Destroy previous chart if exists
+                if (window.performanceChart) {
+                    window.performanceChart.destroy();
+                }
+
+                window.performanceChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: [
+                            `Correct (${correct})`,
+                            `Wrong (${wrong})`,
+                            `Unanswered (${unanswered})`
+                        ],
+                        datasets: [{
+                            data: [correct, wrong, unanswered],
+                            backgroundColor: [
+                                '#4bc0c0',  // Correct - teal
+                                '#ff6384',  // Wrong - red
+                                '#cccccc'   // Unanswered - gray
+                            ],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    usePointStyle: true,
+                                    padding: 20
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function (context) {
+                                        const label = context.label || '';
+                                        const value = context.raw || 0;
+                                        const percentage = Math.round((value / total) * 100);
+                                        return `${label}: ${percentage}%`;
+                                    }
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: `Total Questions: ${total}`,
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        cutout: '65%'
+                    }
+                });
+            }
+
+            function displayNoDataMessage(container) {
+                container.innerHTML = `
+      <div class="text-center p-4">
+        <div class="text-muted mb-3">
+          <i class="fas fa-chart-pie fa-3x"></i>
+        </div>
+        <h5>No quiz data</h5>
+        <p class="text-muted small">Complete quizzes to see your performance</p>
+      </div>
+    `;
+            }
+
+            function displayErrorMessage(container) {
+                container.innerHTML = `
+      <div class="text-center p-4">
+        <div class="text-danger mb-3">
+          <i class="fas fa-exclamation-triangle fa-3x"></i>
+        </div>
+        <h5>Data Error</h5>
+        <p class="text-muted small">Couldn't load performance data</p>
+      </div>
+    `;
+            }
+        }
+
         // Initialize the app
         auth.onAuthStateChanged((user) => {
             if (user) {
@@ -3589,15 +5341,18 @@
                         if (currentUserRole === 'teacher') {
                             showTeacherDashboard();
                             loadTeacherQuizzes();
-                            loadTeacherQuizzesTaken();
-                            loadYourStudents();
-                            loadAvailableTeachers();
+                            loadTeacherTakenQuizzes();
+                            loadTeacherFollowers();
+                            loadTeacherProfile(); // Add this line
+
                         } else {
                             showStudentDashboard();
                             loadStudentQuizzes();
                             loadStudentCreatedQuizzes();
-                            loadFollowedTeachers();
                             loadAvailableTeachers();
+                            loadFollowedTeachers();
+                            loadStudentProfile(); // Add this line
+
 
                             const urlParams = new URLSearchParams(window.location.search);
                             const quizId = urlParams.get('quiz');
@@ -3664,8 +5419,192 @@
             const loginTab = new bootstrap.Tab(document.getElementById('login-tab'));
             loginTab.show();
         });
-    </script>
+        // Keyboard Shortcuts
+        document.addEventListener('keydown', function (e) {
+            // Ctrl+Alt+N - Create new quiz
+            if (e.ctrlKey && e.altKey && e.key === 'n') {
+                e.preventDefault();
+                if (currentUserRole === 'teacher' && !teacherDashboard.classList.contains('hidden')) {
+                    quizCreationModal.show();
+                } else if (currentUserRole === 'student' && !studentDashboard.classList.contains('hidden')) {
+                    quizCreationModal.show();
+                }
+            }
 
+            // Enter key - Submit forms
+            if (e.key === 'Enter') {
+                // Login form
+                if (!loginForm.classList.contains('hidden') &&
+                    (document.activeElement === loginEmail || document.activeElement === loginPassword)) {
+                    e.preventDefault();
+                    loginBtn.click();
+                }
+
+                // Register form
+                if (!registerForm.classList.contains('hidden') &&
+                    (document.activeElement === registerName || document.activeElement === registerEmail ||
+                        document.activeElement === registerPassword || document.activeElement === registerRole)) {
+                    e.preventDefault();
+                    registerBtn.click();
+                }
+
+                // Quiz submission
+                if (!quizTakingContainer.classList.contains('hidden')) {
+                    e.preventDefault();
+                    if (currentQuestionIndex === quizQuestions.length - 1) {
+                        submitQuizBtn.click();
+                    } else {
+                        nextQuestionBtn.click();
+                    }
+                }
+
+                // Join quiz forms
+                if ((!studentDashboard.classList.contains('hidden') && document.activeElement === quizLinkInput)) {
+                    e.preventDefault();
+                    joinQuizBtn.click();
+                }
+                if ((!teacherDashboard.classList.contains('hidden') && document.activeElement === teacherQuizLinkInput)) {
+                    e.preventDefault();
+                    teacherJoinQuizBtn.click();
+                }
+            }
+
+            // Ctrl+Escape - Logout
+            if (e.ctrlKey && e.key === 'Escape') {
+                e.preventDefault();
+                if (currentUser) {
+                    logoutUser();
+                }
+            }
+        });
+    </script>
+    <script>
+        // Navigation System
+        document.addEventListener('DOMContentLoaded', function () {
+            const sidebarNav = document.getElementById('sidebarNav');
+            const toggleCollapse = document.getElementById('toggleCollapse');
+            const collapseIcon = document.getElementById('collapseIcon');
+            const teacherNavMenu = document.getElementById('teacherNavMenu');
+            const studentNavMenu = document.getElementById('studentNavMenu');
+            const teacherMobileNav = document.getElementById('teacherMobileNav');
+            const studentMobileNav = document.getElementById('studentMobileNav');
+            const mobileNav = document.getElementById('mobileNav');
+
+            // Check localStorage for collapsed state
+            const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            if (isCollapsed) {
+                sidebarNav.classList.add('collapsed');
+                collapseIcon.classList.remove('fa-chevron-left');
+                collapseIcon.classList.add('fa-chevron-right');
+            }
+
+            // Toggle sidebar collapse
+            toggleCollapse.addEventListener('click', function () {
+                sidebarNav.classList.toggle('collapsed');
+                const isNowCollapsed = sidebarNav.classList.contains('collapsed');
+
+                // Update icon
+                if (isNowCollapsed) {
+                    collapseIcon.classList.remove('fa-chevron-left');
+                    collapseIcon.classList.add('fa-chevron-right');
+                } else {
+                    collapseIcon.classList.remove('fa-chevron-right');
+                    collapseIcon.classList.add('fa-chevron-left');
+                }
+
+                // Save state to localStorage
+                localStorage.setItem('sidebarCollapsed', isNowCollapsed);
+            });
+
+            // Navigation tab switching
+            function setupNavItems(navItems) {
+                navItems.forEach(item => {
+                    item.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const tabId = this.getAttribute('data-tab');
+                        const tabGroup = this.getAttribute('data-tab-group');
+
+                        // Set active state
+                        document.querySelectorAll(`.nav-item[data-tab-group="${tabGroup}"]`).forEach(navItem => {
+                            navItem.classList.remove('active');
+                        });
+                        document.querySelectorAll(`.mobile-nav-item[data-tab-group="${tabGroup}"]`).forEach(navItem => {
+                            navItem.classList.remove('active');
+                        });
+
+                        this.classList.add('active');
+                        document.querySelector(`.mobile-nav-item[data-tab="${tabId}"]`).classList.add('active');
+
+                        // Show the corresponding tab
+                        if (tabGroup === 'teacher') {
+                            const tab = new bootstrap.Tab(document.getElementById(`${tabId}-tab`));
+                            tab.show();
+                        } else if (tabGroup === 'student') {
+                            const tab = new bootstrap.Tab(document.getElementById(`${tabId}-tab`));
+                            tab.show();
+                        }
+                    });
+                });
+            }
+
+            // Setup teacher nav items
+            const teacherNavItems = document.querySelectorAll('#teacherNavMenu .nav-item, #teacherMobileNav .mobile-nav-item');
+            setupNavItems(teacherNavItems);
+
+            // Setup student nav items
+            const studentNavItems = document.querySelectorAll('#studentNavMenu .nav-item, #studentMobileNav .mobile-nav-item');
+            setupNavItems(studentNavItems);
+
+            // Switch between teacher and student navigation
+            function setNavigationForRole(role) {
+                if (role === 'teacher') {
+                    teacherNavMenu.style.display = 'block';
+                    studentNavMenu.style.display = 'none';
+                    teacherMobileNav.style.display = 'flex';
+                    studentMobileNav.style.display = 'none';
+
+                    // Set first tab as active
+                    document.querySelector('#teacherNavMenu .nav-item').classList.add('active');
+                    document.querySelector('#teacherMobileNav .mobile-nav-item').classList.add('active');
+                } else if (role === 'student') {
+                    teacherNavMenu.style.display = 'none';
+                    studentNavMenu.style.display = 'block';
+                    teacherMobileNav.style.display = 'none';
+                    studentMobileNav.style.display = 'flex';
+
+                    // Set first tab as active
+                    document.querySelector('#studentNavMenu .nav-item').classList.add('active');
+                    document.querySelector('#studentMobileNav .mobile-nav-item').classList.add('active');
+                }
+            }
+
+            // Listen for auth state changes to set the correct navigation
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    database.ref('users/' + user.uid).once('value').then((snapshot) => {
+                        const userData = snapshot.val();
+                        if (userData) {
+                            setNavigationForRole(userData.role);
+                        }
+                    });
+                }
+            });
+
+            // Responsive behavior - check screen size on load and resize
+            function checkScreenSize() {
+                if (window.innerWidth <= 992) {
+                    sidebarNav.style.display = 'none';
+                    mobileNav.style.display = 'block';
+                } else {
+                    sidebarNav.style.display = 'block';
+                    mobileNav.style.display = 'none';
+                }
+            }
+
+            window.addEventListener('resize', checkScreenSize);
+            checkScreenSize();
+        });
+    </script>
     <!-- Attendance Modal -->
     <div class="modal fade" id="attendanceModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -3687,6 +5626,8 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </body>
 
 </html>
